@@ -11,8 +11,8 @@ export default function AdminLogin() {
           <h1 className="text-2xl font-black text-white">Admin Secure Access</h1>
           <p className="text-slate-400 mt-2 text-sm">Shikshya Path Portal</p>
         </div>
-        
-        <form className="p-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
+
+        <form className="p-8 space-y-6">
           <div>
             <label className="block text-sm font-semibold text-slate-700 mb-2">Admin Email</label>
             <input 
@@ -42,7 +42,7 @@ export default function AdminLogin() {
           </div>
           
           <button 
-            type="submit" 
+            type="button" 
             className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white font-bold px-8 py-4 rounded-xl hover:scale-105 transition-transform shadow-xl shadow-blue-600/20 text-lg mt-4"
           >
             Login to Dashboard <LogIn size={20} />
