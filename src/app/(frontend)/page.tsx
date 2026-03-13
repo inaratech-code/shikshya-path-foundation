@@ -192,14 +192,43 @@ export default function Home() {
             
             <motion.div className="grid md:grid-cols-3 gap-8" {...staggerChildrenConfig}>
               {[
-                { name: "Australia", desc: "Post-study work rights & world-class lifestyle.", span: "col-span-1" },
-                { name: "United Kingdom", desc: "A world-class education with historic prestige and a diverse environment.", span: "col-span-1 md:col-span-2" },
-                { name: "Canada", desc: "Affordable education, multicultural society, and excellent permanent residency opportunities.", span: "col-span-1 md:col-span-2" },
-                { name: "USA", desc: "Incomparable STEM programs and generous scholarships.", span: "col-span-1" }
+                {
+                  name: "Australia",
+                  desc: "Post-study work rights & world-class lifestyle.",
+                  span: "col-span-1",
+                  image: "https://images.pexels.com/photos/1682456/pexels-photo-1682456.jpeg?auto=compress&cs=tinysrgb&w=1200",
+                },
+                {
+                  name: "United Kingdom",
+                  desc: "A world-class education with historic prestige and a diverse environment.",
+                  span: "col-span-1 md:col-span-2",
+                  image: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1200",
+                },
+                {
+                  name: "Canada",
+                  desc: "Affordable education, multicultural society, and excellent permanent residency opportunities.",
+                  span: "col-span-1 md:col-span-2",
+                  image: "https://images.pexels.com/photos/2449452/pexels-photo-2449452.jpeg?auto=compress&cs=tinysrgb&w=1200",
+                },
+                {
+                  name: "USA",
+                  desc: "Incomparable STEM programs and generous scholarships.",
+                  span: "col-span-1",
+                  image: "https://images.pexels.com/photos/4198023/pexels-photo-4198023.jpeg?auto=compress&cs=tinysrgb&w=1200",
+                },
               ].map((dest, idx) => (
-                <motion.div key={idx} className={`group relative rounded-[2rem] overflow-hidden bg-white shadow-lg cursor-pointer transform transition-all duration-300 h-[28rem] ${dest.span}`} variants={childFadeConfig}>
+                <motion.div
+                  key={idx}
+                  className={`group relative rounded-[2rem] overflow-hidden bg-white shadow-lg cursor-pointer transform transition-all duration-300 h-[28rem] ${dest.span}`}
+                  variants={childFadeConfig}
+                >
                   <div className="absolute inset-0 bg-slate-200">
-                     <img src={`/api/placeholder/${dest.span.includes('col-span-2') ? '800' : '600'}/800`} alt={dest.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-50" />
+                    <img
+                      src={dest.image}
+                      alt={dest.name}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60"
+                      loading="lazy"
+                    />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-10">
                     <h3 className="text-4xl font-bold text-white mb-3">{dest.name}</h3>
@@ -338,13 +367,33 @@ export default function Home() {
 
             <motion.div className="grid md:grid-cols-3 gap-8" {...staggerChildrenConfig}>
               {[
-                { title: "Changes to Australia Student Visa Rules in 2024", date: "March 10, 2024" },
-                { title: "How to write a winning SOP for Canadian Universities", date: "March 5, 2024" },
-                { title: "Top 10 Affordable Universities in the UK", date: "Feb 28, 2024" }
+                {
+                  title: "Changes to Australia Student Visa Rules in 2024",
+                  date: "March 10, 2024",
+                  image:
+                    "https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=800",
+                },
+                {
+                  title: "How to write a winning SOP for Canadian Universities",
+                  date: "March 5, 2024",
+                  image:
+                    "https://images.pexels.com/photos/374820/pexels-photo-374820.jpeg?auto=compress&cs=tinysrgb&w=800",
+                },
+                {
+                  title: "Top 10 Affordable Universities in the UK",
+                  date: "Feb 28, 2024",
+                  image:
+                    "https://images.pexels.com/photos/2777898/pexels-photo-2777898.jpeg?auto=compress&cs=tinysrgb&w=800",
+                },
               ].map((blog, idx) => (
                 <motion.div key={idx} variants={childFadeConfig} className="group cursor-pointer">
                   <div className="w-full aspect-video bg-slate-200 rounded-3xl overflow-hidden mb-6">
-                    <img src={`/api/placeholder/600/400`} alt="Blog thumbnail" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-50" />
+                    <img
+                      src={blog.image}
+                      alt={blog.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-70"
+                      loading="lazy"
+                    />
                   </div>
                   <div className="flex items-center gap-2 text-sm text-[var(--color-primary)] font-semibold mb-3">
                     <Calendar size={14} /> {blog.date}
