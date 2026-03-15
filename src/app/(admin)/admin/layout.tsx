@@ -9,9 +9,9 @@ export default function AdminSidebarLayout({
 }) {
   return (
     <AdminViewportGuard>
-      <div className="bg-slate-50 min-h-screen pt-4">
+      <div className="bg-slate-50 min-h-screen pt-4 flex min-w-0">
         {/* Sidebar */}
-        <aside className="w-full md:w-64 bg-slate-900 text-white flex flex-col md:fixed md:left-0 md:top-0 md:bottom-0 shadow-2xl z-50">
+        <aside className="w-full md:w-64 shrink-0 bg-slate-900 text-white flex flex-col md:fixed md:left-0 md:top-0 md:bottom-0 shadow-2xl z-50">
           <div className="p-6 border-b border-slate-800">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center font-bold">S</div>
@@ -47,18 +47,18 @@ export default function AdminSidebarLayout({
           </div>
         </aside>
 
-        {/* Main Content Area */}
-        <main className="w-full md:ml-64 min-h-screen bg-slate-50 text-slate-900">
+        {/* Main Content Area — ml-64 on desktop so content starts to the right of fixed sidebar */}
+        <main className="flex-1 min-w-0 min-h-screen bg-slate-50 text-slate-900 overflow-x-hidden md:ml-64">
           {/* Simple Topbar for Admin */}
-          <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-end px-8 sticky top-0 z-40">
+          <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-end px-4 sm:px-6 lg:px-8 sticky top-0 z-40 shrink-0">
             <div className="flex items-center gap-3">
               <div className="text-sm font-medium text-slate-600">Admin User</div>
               <div className="w-9 h-9 bg-slate-200 rounded-full"></div>
             </div>
           </header>
 
-          {/* Dynamic Page Content */}
-          <div className="p-8">
+          {/* Dynamic Page Content — constrained to viewport so nothing is cut off */}
+          <div className="p-4 sm:p-6 lg:p-8 min-w-0 max-w-full overflow-x-hidden">
             {children}
           </div>
         </main>

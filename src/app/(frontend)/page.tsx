@@ -74,46 +74,48 @@ export default function Home() {
               </div>
             </motion.div>
             
-            <motion.div 
-              className="relative w-full aspect-square md:aspect-[4/3] rounded-[2rem] overflow-hidden shadow-2xl bg-white border border-gray-100 flex items-center justify-center"
+            <motion.div
+              className="relative w-full aspect-square md:aspect-[4/3] rounded-[2rem] shadow-2xl border border-gray-100 overflow-visible"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
-              {/* Replace with actual high quality image */}
-              <div className="w-full h-full bg-slate-100 flex flex-col items-center justify-center gap-4 text-slate-400">
-                <GraduationCap size={64} className="opacity-20" />
-                <span className="font-semibold text-xl">High Quality Hero Image Here</span>
+              {/* Image area — overflow-hidden only here so rounded corners clip image */}
+              <div className="absolute inset-0 rounded-[2rem] overflow-hidden bg-white flex items-center justify-center">
+                <div className="w-full h-full bg-slate-100 flex flex-col items-center justify-center gap-4 text-slate-400">
+                  <GraduationCap size={64} className="opacity-20" />
+                  <span className="font-semibold text-xl">High Quality Hero Image Here</span>
+                </div>
               </div>
 
-              {/* Floating Element 1 */}
-              <motion.div 
+              {/* Floating Element 1 — 98% Visa Success */}
+              <motion.div
                 className="absolute bottom-10 left-[-30px] md:left-[-40px] glass p-4 rounded-2xl shadow-2xl flex items-center gap-4 z-20"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.8, duration: 0.6 }}
               >
-                <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
                   <Award size={24} />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="text-xl font-black text-slate-900 leading-none">98%</div>
                   <div className="text-sm font-semibold text-slate-500 mt-1">Visa Success</div>
                 </div>
               </motion.div>
 
-              {/* Floating Element 2 */}
-              <motion.div 
-                className="absolute top-10 right-[-20px] md:right-[-30px] glass p-4 rounded-2xl shadow-2xl flex items-center gap-3 z-20"
+              {/* Floating Element 2 — Free Assessment (no clipping) */}
+              <motion.div
+                className="absolute top-10 right-[-20px] md:right-[-30px] glass px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 z-20 min-w-[max-content]"
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 1, duration: 0.6 }}
               >
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
                   <CheckCircle2 size={20} />
                 </div>
                 <div>
-                  <div className="text-sm font-black text-slate-900 leading-none">Free Assessment</div>
+                  <div className="text-sm font-black text-slate-900 leading-none whitespace-nowrap">Free Assessment</div>
                   <div className="text-xs font-medium text-slate-500 mt-1">Available today</div>
                 </div>
               </motion.div>
