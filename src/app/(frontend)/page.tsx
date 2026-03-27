@@ -1,437 +1,439 @@
 'use client';
 
-import { ArrowRight, Globe2, BookOpen, GraduationCap, Users, Award, MapPin, Compass, CheckCircle2, Star, Calendar } from 'lucide-react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import {
+  ArrowRight,
+  BookOpen,
+  CheckCircle2,
+  GraduationCap,
+  Globe2,
+  ShieldCheck,
+  Files,
+  Sparkles,
+  School,
+} from 'lucide-react';
+import SectionHeading from '@/components/SectionHeading';
+import { useApplyNow } from '@/components/ApplyNowContext';
 
-// Simple fade-up animation configuration
-const fadeUpConfig = {
-  initial: { opacity: 0, y: 30 },
+const fadeUp = {
+  initial: { opacity: 0, y: 18 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-50px" },
-  transition: { duration: 0.6, ease: "easeOut" as const }
+  viewport: { once: true, margin: '-40px' },
+  transition: { duration: 0.55, ease: 'easeOut' as const },
 };
 
-const staggerChildrenConfig = {
-  initial: { opacity: 0 },
-  whileInView: { opacity: 1 },
-  viewport: { once: true, margin: "-50px" },
-  transition: { staggerChildren: 0.15 }
-};
+const countries = [
+  {
+    name: 'Australia',
+    slug: 'australia',
+    flagImg: 'https://flagcdn.com/w320/au.png',
+  },
+  { name: 'USA', slug: 'usa', flagImg: 'https://flagcdn.com/w320/us.png' },
+  { name: 'Canada', slug: 'canada', flagImg: 'https://flagcdn.com/w320/ca.png' },
+  { name: 'UK', slug: 'uk', flagImg: 'https://flagcdn.com/w320/gb.png' },
+  {
+    name: 'New Zealand',
+    slug: 'new-zealand',
+    flagImg: 'https://flagcdn.com/w320/nz.png',
+  },
+];
 
-const childFadeConfig = {
-  initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
-};
+const services = [
+  {
+    title: 'Abroad Studies',
+    description:
+      'Course selection, university shortlist, SOP support, and end‑to‑end application guidance tailored to your profile.',
+    image:
+      'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  },
+  {
+    title: 'Test Preparation',
+    description:
+      'IELTS/PTE preparation plans, mock tests, and strategies to help you hit your target score confidently.',
+    image:
+      'https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  },
+  {
+    title: 'Documentation Guide',
+    description:
+      'We help you prepare and verify the right documents to avoid delays—clear checklists and expert review.',
+    image:
+      'https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  },
+  {
+    title: 'University / College Guide',
+    description:
+      'Compare campuses, scholarships, intakes, and post‑study outcomes to choose the right fit—fast and transparent.',
+    image:
+      'https://images.pexels.com/photos/7972526/pexels-photo-7972526.jpeg?auto=compress&cs=tinysrgb&w=1200',
+  },
+];
+
+const universityCategories = [
+  { title: 'Popular Universities USA', country: 'USA', flag: '🇺🇸' },
+  { title: 'Popular Universities UK', country: 'UK', flag: '🇬🇧' },
+  { title: 'Popular Universities Canada', country: 'Canada', flag: '🇨🇦' },
+  { title: 'Popular Universities Australia', country: 'Australia', flag: '🇦🇺' },
+  { title: 'Popular Universities New Zealand', country: 'New Zealand', flag: '🇳🇿' },
+];
+
+function PrimaryButton({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="inline-flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-semibold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl hover:scale-[1.02] transition-transform shadow-xl shadow-[var(--color-primary)]/20 text-base sm:text-lg w-full sm:w-auto"
+    >
+      {children}
+    </button>
+  );
+}
+
+function SecondaryButton({ children, href }: { children: React.ReactNode; href: string }) {
+  return (
+    <Link
+      href={href}
+      className="inline-flex items-center justify-center gap-2 bg-white text-slate-700 border-2 border-slate-200 font-semibold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl hover:bg-slate-50 transition-colors text-base sm:text-lg w-full sm:w-auto"
+    >
+      {children}
+    </Link>
+  );
+}
 
 export default function Home() {
+  const applyNow = useApplyNow();
+
   return (
-    <div className="min-h-screen">
+    <main className="pt-20">
+      {/* HERO */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50/50 via-white to-white pt-16 sm:pt-20 pb-16 sm:pb-20">
+        <div className="absolute top-0 right-0 -mr-48 -mt-48 w-[40rem] h-[40rem] rounded-full bg-blue-100/40 blur-3xl opacity-60" />
+        <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 rounded-full bg-indigo-100/40 blur-3xl" />
 
-
-      <main className="pt-20">
-        {/* --- HERO SECTION --- */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-blue-50/50 via-white to-white pt-24 pb-32">
-          {/* Subtle Background Elements */}
-          <div className="absolute top-0 right-0 -mr-48 -mt-48 w-[40rem] h-[40rem] rounded-full bg-blue-100/40 blur-3xl opacity-60" />
-          <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 rounded-full bg-indigo-100/40 blur-3xl" />
-          
-          <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
-            <motion.div 
-              className="flex flex-col items-start gap-6"
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 text-[var(--color-primary-dark)] rounded-full text-sm font-semibold mb-2 shadow-sm">
-                <Globe2 size={16} className="text-[var(--color-primary)]" /> 
-                Guiding Nepalese Students Globally
-              </div>
-              <h1 className="text-5xl md:text-7xl font-black leading-[1.1] text-slate-900 tracking-tight">
-                Your Trusted <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-500">Partner</span> for Studying Abroad
-              </h1>
-              <p className="text-lg text-slate-600 leading-relaxed max-w-lg mt-2">
-                We simplify your journey from Nepal to world-class universities in Australia, Canada, UK, USA, and Europe with expert, personalized guidance.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 mt-6 w-full sm:w-auto">
-                <Link href="/contact" className="flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-semibold px-8 py-4 rounded-xl hover:scale-105 transition-transform shadow-xl shadow-[var(--color-primary)]/20 text-lg w-full sm:w-auto">
-                  Start Your Journey <ArrowRight size={20} />
-                </Link>
-                <Link href="/destinations" className="flex items-center justify-center gap-2 bg-white text-slate-700 border-2 border-slate-200 font-semibold px-8 py-4 rounded-xl hover:bg-slate-50 transition-colors text-lg w-full sm:w-auto group">
-                  Explore Destinations <Compass size={20} className="group-hover:rotate-45 transition-transform" />
-                </Link>
-              </div>
-              
-              <div className="mt-8 flex items-center gap-4 text-sm font-medium text-slate-500">
-                <div className="flex -space-x-3">
-                  <div className="w-10 h-10 rounded-full border-2 border-white bg-blue-100 flex items-center justify-center text-xs font-bold text-blue-800">UoM</div>
-                  <div className="w-10 h-10 rounded-full border-2 border-white bg-red-100 flex items-center justify-center text-xs font-bold text-red-800">NYU</div>
-                  <div className="w-10 h-10 rounded-full border-2 border-white bg-green-100 flex items-center justify-center text-xs font-bold text-green-800">UBC</div>
-                </div>
-                Trusted by Top Global Universities
-              </div>
-            </motion.div>
-            
-            <motion.div
-              className="relative w-full aspect-square md:aspect-[4/3] rounded-[2rem] shadow-2xl border border-gray-100 overflow-visible"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            >
-              {/* Image area — overflow-hidden only here so rounded corners clip image */}
-              <div className="absolute inset-0 rounded-[2rem] overflow-hidden bg-white flex items-center justify-center">
-                <div className="w-full h-full bg-slate-100 flex flex-col items-center justify-center gap-4 text-slate-400">
-                  <GraduationCap size={64} className="opacity-20" />
-                  <span className="font-semibold text-xl">High Quality Hero Image Here</span>
-                </div>
-              </div>
-
-              {/* Floating Element 1 — 98% Visa Success */}
-              <motion.div
-                className="absolute bottom-10 left-[-30px] md:left-[-40px] glass p-4 rounded-2xl shadow-2xl flex items-center gap-4 z-20"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.6 }}
-              >
-                <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
-                  <Award size={24} />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-xl font-black text-slate-900 leading-none">98%</div>
-                  <div className="text-sm font-semibold text-slate-500 mt-1">Visa Success</div>
-                </div>
-              </motion.div>
-
-              {/* Floating Element 2 — Free Assessment (no clipping) */}
-              <motion.div
-                className="absolute top-10 right-[-20px] md:right-[-30px] glass px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 z-20 min-w-[max-content]"
-                initial={{ y: -20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 1, duration: 0.6 }}
-              >
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
-                  <CheckCircle2 size={20} />
-                </div>
-                <div>
-                  <div className="text-sm font-black text-slate-900 leading-none whitespace-nowrap">Free Assessment</div>
-                  <div className="text-xs font-medium text-slate-500 mt-1">Available today</div>
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* --- STATISTICS BAR --- */}
-        <section className="bg-white border-b border-slate-100 relative z-20 -mt-10 md:-mt-16 mx-4">
-          <motion.div 
-            className="max-w-6xl mx-auto rounded-3xl shadow-xl shadow-slate-200/50 bg-white p-8 grid grid-cols-2 md:grid-cols-4 gap-8"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center relative z-10">
+          <motion.div
+            className="flex flex-col items-start gap-5"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            {[
-              { icon: <Users size={32} />, stat: "5000+", label: "Students Placed" },
-              { icon: <GraduationCap size={32} />, stat: "300+", label: "Universities Partnered" },
-              { icon: <Globe2 size={32} />, stat: "20+", label: "Global Destinations" },
-              { icon: <Award size={32} />, stat: "10+", label: "Years Experience" }
-            ].map((item, idx) => (
-              <div key={idx} className="text-center flex flex-col items-center gap-2 group">
-                <div className="text-[var(--color-primary-light)] mb-2 group-hover:scale-110 transition-transform duration-300 group-hover:text-[var(--color-primary)]">
-                  {item.icon}
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 text-[var(--color-primary-dark)] rounded-full text-sm font-semibold shadow-sm">
+              <Globe2 size={16} className="text-[var(--color-primary)]" />
+              Your pathway to studying abroad
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-black leading-tight text-slate-900 tracking-tight">
+              Welcome to{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-500">
+                Shikshya Path
+              </span>
+            </h1>
+
+            <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl">
+              A modern study abroad consultancy helping students choose the right destination, prepare documents, and
+              succeed with confidence.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+              <PrimaryButton onClick={() => applyNow.open({ intent: 'apply', source: 'home-hero' })}>
+                Apply Now <ArrowRight size={18} />
+              </PrimaryButton>
+              <SecondaryButton href="/contact">Free Consultation</SecondaryButton>
+            </div>
+
+            <div className="flex items-center gap-3 text-sm font-semibold text-slate-500">
+              <div className="px-3 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm">
+                1000+ students guided
+              </div>
+              <div className="hidden sm:block text-slate-400">•</div>
+              <div className="hidden sm:block">Fast, transparent process</div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="relative w-full aspect-[4/3] rounded-[2rem] shadow-2xl border border-gray-100 overflow-visible"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
+          >
+            <div className="absolute inset-0 rounded-[2rem] overflow-hidden bg-white">
+              <img
+                src="https://images.pexels.com/photos/5212695/pexels-photo-5212695.jpeg?auto=compress&cs=tinysrgb&w=1400"
+                alt="Students planning study abroad"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/35 via-transparent to-transparent" />
+            </div>
+
+            <div className="absolute bottom-6 left-6 glass px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+                <ShieldCheck size={18} />
+              </div>
+              <div>
+                <div className="text-sm font-black text-slate-900 leading-none">Trusted Guidance</div>
+                <div className="text-xs font-medium text-slate-500 mt-1">From counseling to visa</div>
+              </div>
+            </div>
+
+            <div className="absolute top-6 right-6 glass px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 min-w-[max-content]">
+              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                <CheckCircle2 size={18} />
+              </div>
+              <div>
+                <div className="text-sm font-black text-slate-900 leading-none whitespace-nowrap">Free Assessment</div>
+                <div className="text-xs font-medium text-slate-500 mt-1">Available today</div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* STUDY ABROAD */}
+      <section className="py-16 md:py-20 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+            <SectionHeading
+              align="left"
+              eyebrow="Study Abroad"
+              title="Choose your destination"
+              description="Tap a country to explore requirements, costs, intakes, and how we help you apply—right from one page."
+            />
+            <Link
+              href="/destinations"
+              className="inline-flex items-center justify-center gap-2 text-[var(--color-primary)] font-bold hover:gap-3 transition-all w-full md:w-auto"
+            >
+              View all destinations <ArrowRight size={18} />
+            </Link>
+          </div>
+
+          <div className="flex gap-4 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {countries.map((c) => (
+              <Link
+                key={c.slug}
+                href="/destinations"
+                className="group relative overflow-hidden min-w-[220px] sm:min-w-[240px] border border-slate-200 rounded-2xl hover:-translate-y-1 hover:shadow-xl transition-all"
+              >
+                {/* Full flag background */}
+                <img
+                  src={c.flagImg}
+                  alt=""
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 w-full h-full object-cover select-none"
+                  loading="lazy"
+                />
+                {/* Readability overlay */}
+                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-white via-white/70 to-white/25" />
+                <div className="absolute inset-0 pointer-events-none bg-white/20" />
+
+                <div className="relative p-5">
+                  <div className="font-black text-slate-900 text-xl">{c.name}</div>
+                  <div className="mt-1 text-sm text-slate-700">Requirements, cost, intakes</div>
+
+                  <div className="mt-4 inline-flex items-center gap-2 text-[var(--color-primary)] font-bold">
+                    Explore <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
-                <h3 className="text-3xl lg:text-4xl font-black text-slate-900">{item.stat}</h3>
-                <p className="text-slate-500 font-semibold text-sm uppercase tracking-wider">{item.label}</p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TEST PREPARATION */}
+      <section className="py-16 md:py-20 bg-slate-50 border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <SectionHeading
+            eyebrow="Test Preparation"
+            title="IELTS & PTE support"
+            description="Choose a test to see details, who it’s for, and how to prepare effectively."
+          />
+
+          <div className="mt-10 grid md:grid-cols-2 gap-6">
+            {[
+              {
+                title: 'IELTS',
+                desc: 'Strategies, mock tests, and score planning.',
+                href: '/test-preparation/ielts',
+                icon: <BookOpen size={20} />,
+              },
+              {
+                title: 'PTE',
+                desc: 'Smart practice and test-day readiness.',
+                href: '/test-preparation/pte',
+                icon: <Sparkles size={20} />,
+              },
+            ].map((t) => (
+              <Link
+                key={t.title}
+                href={t.href}
+                className="group bg-white rounded-[2rem] border border-slate-200 p-7 hover:shadow-2xl hover:-translate-y-1 transition-all"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[var(--color-primary)] flex items-center justify-center mb-5 border border-blue-100 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors">
+                  {t.icon}
+                </div>
+                <div className="text-2xl font-black text-slate-900">{t.title}</div>
+                <p className="text-slate-600 mt-2">{t.desc}</p>
+                <div className="mt-5 inline-flex items-center gap-2 text-[var(--color-primary)] font-bold">
+                  Learn More <ArrowRight size={16} />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* OUR SERVICES (STACKED ALTERNATING) */}
+      <section className="py-16 md:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <SectionHeading
+            eyebrow="Our Services"
+            title="Everything you need, in one place"
+            description="Clean, step-by-step support designed to keep your application moving fast."
+          />
+
+          <div className="mt-12 space-y-8">
+            {services.map((s, idx) => {
+              const reverse = idx % 2 === 1;
+              return (
+                <div
+                  key={s.title}
+                  className={`grid lg:grid-cols-2 gap-6 lg:gap-10 items-center bg-slate-50 border border-slate-200 rounded-[2rem] overflow-hidden`}
+                >
+                  <div className={`${reverse ? 'lg:order-2' : ''} h-full`}>
+                    <img
+                      src={s.image}
+                      alt={s.title}
+                      className="w-full h-64 sm:h-72 lg:h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className={`${reverse ? 'lg:order-1' : ''} p-7 sm:p-10`}>
+                    <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{s.title}</h3>
+                    <p className="text-slate-600 mt-3 leading-relaxed">{s.description}</p>
+                    <div className="mt-6">
+                      <Link
+                        href="/services"
+                        className="inline-flex items-center gap-2 text-white font-bold bg-[var(--color-primary)] px-5 py-3 rounded-xl hover:opacity-90 transition"
+                      >
+                        Learn More <ArrowRight size={18} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* WHY CHOOSE US / FEATURES */}
+      <section className="py-16 md:py-20 bg-slate-900 text-white relative overflow-hidden">
+        <div className="absolute right-0 top-1/4 w-96 h-96 bg-[var(--color-primary)]/20 blur-[100px] rounded-full" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+          <SectionHeading
+            eyebrow="Why Choose Us"
+            title="Free support that saves time"
+            description="Clear process, fewer mistakes, and fast turnaround—built for conversion."
+          />
+
+          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { title: 'Free Counselling', icon: <Globe2 size={18} /> },
+              { title: 'Free Documentation', icon: <Files size={18} /> },
+              { title: 'Free Processing', icon: <ShieldCheck size={18} /> },
+              { title: 'Test Preparation', icon: <BookOpen size={18} /> },
+            ].map((f) => (
+              <div
+                key={f.title}
+                className="bg-white/5 border border-white/10 hover:bg-white/10 transition-all rounded-2xl p-6"
+              >
+                <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center mb-4">
+                  {f.icon}
+                </div>
+                <div className="font-black text-lg">{f.title}</div>
+                <div className="text-slate-300 text-sm mt-2">
+                  Practical guidance designed to remove friction.
+                </div>
               </div>
             ))}
-          </motion.div>
-        </section>
-
-        {/* --- FEATURED UNIVERSITIES MARQUEE --- */}
-        <section className="py-20 bg-white overflow-hidden border-b border-slate-100">
-          <div className="max-w-7xl mx-auto px-6 mb-10 text-center">
-            <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">Proudly Partnered With Leading Universities</p>
           </div>
-          <div className="relative flex overflow-hidden">
-            {/* Gradient Fades for Marquee */}
-            <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-white to-transparent z-10" />
-            <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-white to-transparent z-10" />
-            
-            <div className="flex w-[200%] animate-marquee">
-              {/* First Set */}
-              <div className="flex w-1/2 justify-around items-center opacity-60 grayscale hover:grayscale-0 transition-all">
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">University of Sydney</span>
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">Toronto Met</span>
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">Harvard</span>
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">Oxford</span>
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">MIT</span>
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">UBC</span>
-              </div>
-              {/* Second Set (Duplicate for smooth loop) */}
-              <div className="flex w-1/2 justify-around items-center opacity-60 grayscale hover:grayscale-0 transition-all">
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">University of Sydney</span>
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">Toronto Met</span>
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">Harvard</span>
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">Oxford</span>
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">MIT</span>
-                 <span className="font-heading font-black pr-12 text-2xl text-slate-400">UBC</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        </div>
+      </section>
 
-        {/* --- STUDY DESTINATIONS --- */}
-        <section id="destinations" className="py-28 bg-slate-50 relative">
-          <div className="max-w-7xl mx-auto px-6">
-            <motion.div className="text-center mb-16" {...fadeUpConfig}>
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">Top Study Destinations</h2>
-              <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-                Explore endless opportunities in the world's most welcoming countries for international students. We have you covered globally.
-              </p>
-            </motion.div>
-            
-            <motion.div className="grid md:grid-cols-3 gap-8" {...staggerChildrenConfig}>
-              {[
-                {
-                  name: "Australia",
-                  desc: "Post-study work rights & world-class lifestyle.",
-                  span: "col-span-1",
-                  image: "https://images.pexels.com/photos/1682456/pexels-photo-1682456.jpeg?auto=compress&cs=tinysrgb&w=1200",
-                },
-                {
-                  name: "United Kingdom",
-                  desc: "A world-class education with historic prestige and a diverse environment.",
-                  span: "col-span-1 md:col-span-2",
-                  image: "https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1200",
-                },
-                {
-                  name: "Canada",
-                  desc: "Affordable education, multicultural society, and excellent permanent residency opportunities.",
-                  span: "col-span-1 md:col-span-2",
-                  image: "https://images.pexels.com/photos/2449452/pexels-photo-2449452.jpeg?auto=compress&cs=tinysrgb&w=1200",
-                },
-                {
-                  name: "USA",
-                  desc: "Incomparable STEM programs and generous scholarships.",
-                  span: "col-span-1",
-                  image: "https://images.pexels.com/photos/4198023/pexels-photo-4198023.jpeg?auto=compress&cs=tinysrgb&w=1200",
-                },
-              ].map((dest, idx) => (
-                <motion.div
-                  key={idx}
-                  className={`group relative rounded-[2rem] overflow-hidden bg-white shadow-lg cursor-pointer transform transition-all duration-300 h-[28rem] ${dest.span}`}
-                  variants={childFadeConfig}
-                >
-                  <div className="absolute inset-0 bg-slate-200">
-                    <img
-                      src={dest.image}
-                      alt={dest.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60"
-                      loading="lazy"
-                    />
+      {/* UNIVERSITIES SECTION */}
+      <section className="py-16 md:py-20 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <SectionHeading
+              align="left"
+              eyebrow="Universities"
+              title="Explore popular categories"
+              description="Browse curated lists by country—great starting points for shortlisting."
+            />
+            <Link
+              href="/universities"
+              className="inline-flex items-center gap-2 text-[var(--color-primary)] font-bold hover:gap-3 transition-all w-full md:w-auto"
+            >
+              View universities <ArrowRight size={18} />
+            </Link>
+          </div>
+
+          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {universityCategories.map((u) => (
+              <Link
+                key={u.title}
+                href="/universities"
+                className="group bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 transition-all"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="text-lg font-black text-slate-900 group-hover:text-[var(--color-primary)] transition-colors">
+                      {u.title}
+                    </div>
+                    <div className="text-sm text-slate-600 mt-1 inline-flex items-center gap-2">
+                      <span aria-hidden="true">{u.flag}</span>
+                      <span>Curated shortlist</span>
+                    </div>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent flex flex-col justify-end p-10">
-                    <h3 className="text-4xl font-bold text-white mb-3">{dest.name}</h3>
-                    <p className="text-slate-200 mb-6 text-lg max-w-md">{dest.desc}</p>
-                    <Link href={`/destinations/${dest.name.toLowerCase()}`} className="inline-flex w-fit items-center gap-2 text-white font-semibold transition-all hover:text-[var(--color-brand-accent)]">
-                      Explore Programs <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
-                    </Link>
+                  <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700">
+                    <School size={18} />
                   </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* --- OFFERS / SCHOLARSHIPS SECTION --- */}
-        <section id="offers" className="py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-6">
-            <motion.div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6" {...fadeUpConfig}>
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-sm font-bold mb-4">
-                  <Star size={16} fill="currentColor" /> Limited Time Offers
                 </div>
-                <h2 className="text-4xl md:text-5xl font-black text-slate-900">Exclusive Scholarships</h2>
-              </div>
-              <Link href="/offers" className="text-[var(--color-primary)] font-bold flex items-center gap-2 hover:gap-3 transition-all">
-                View All Offers <ArrowRight size={20} />
               </Link>
-            </motion.div>
-
-            <motion.div className="grid md:grid-cols-3 gap-8" {...staggerChildrenConfig}>
-              {[
-                { title: "100% Application Fee Waiver", region: "UK Universities", badge: "Expiring Soon", color: "bg-red-500" },
-                { title: "$10,000 Merit Scholarship", region: "USA IT Programs", badge: "High Value", color: "bg-green-500" },
-                { title: "Free IELTS Preparation", region: "All Branches", badge: "Exclusive", color: "bg-blue-500" }
-              ].map((offer, idx) => (
-                <motion.div key={idx} variants={childFadeConfig} className="bg-slate-50 border border-slate-100 rounded-[2rem] p-8 hover:shadow-2xl hover:-translate-y-2 transition-all relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-transparent to-black/5 rounded-bl-[100px] z-0" />
-                  <div className="relative z-10">
-                    <span className={`inline-block px-3 py-1 ${offer.color} text-white text-xs font-bold rounded-full mb-4`}>{offer.badge}</span>
-                    <p className="text-slate-500 font-semibold mb-2">{offer.region}</p>
-                    <h3 className="text-2xl font-black text-slate-900 mb-6 leading-tight group-hover:text-[var(--color-primary)] transition-colors">{offer.title}</h3>
-                    <button className="font-semibold text-[var(--color-primary)] flex items-center gap-2">
-                      Claim Offer <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* --- SERVICES SECTION --- */}
-        <section id="services" className="py-28 bg-slate-900 text-white relative overflow-hidden">
-           {/* Decor */}
-           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-           <div className="absolute right-0 top-1/4 w-96 h-96 bg-[var(--color-primary)]/20 blur-[100px] rounded-full" />
-           
-          <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-16 relative z-10">
-            <motion.div className="lg:col-span-1 flex flex-col justify-center" {...fadeUpConfig}>
-              <h2 className="text-4xl md:text-5xl font-black mb-6">Our Services</h2>
-              <p className="text-slate-400 text-lg mb-8 leading-relaxed">
-                From finding the right course to settling into your new country, we provide end-to-end support for a seamless transition. Your success is our mission.
-              </p>
-              <Link href="/services" className="flex items-center gap-2 text-white font-bold text-lg group bg-white/10 hover:bg-white/20 w-fit px-6 py-3 rounded-xl transition-all border border-white/10">
-                View All Services <span className="group-hover:translate-x-2 transition-transform"><ArrowRight /></span>
-              </Link>
-            </motion.div>
-            
-            <motion.div className="lg:col-span-2 grid sm:grid-cols-2 gap-6" {...staggerChildrenConfig}>
-              {[
-                { title: "Career Counseling", desc: "Expert advice tailored to your goals.", icon: <Compass size={28} /> },
-                { title: "University Selection", desc: "Find the perfect fit for your profile.", icon: <BookOpen size={28} /> },
-                { title: "Application Assistance", desc: "Crafting winning applications & SOPs.", icon: <Award size={28} /> },
-                { title: "Visa Guidance", desc: "Mock interviews & documentation support.", icon: <MapPin size={28} /> },
-              ].map((service, idx) => (
-                <motion.div key={idx} variants={childFadeConfig} className="bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 hover:shadow-2xl transition-all p-8 rounded-[2rem] group backdrop-blur-sm">
-                  <div className="w-16 h-16 rounded-2xl bg-[var(--color-primary)]/20 text-blue-400 flex items-center justify-center mb-6 border border-blue-500/20 group-hover:scale-110 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-all">
-                    {service.icon}
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3">{service.title}</h3>
-                  <p className="text-slate-400">{service.desc}</p>
-                </motion.div>
-              ))}
-            </motion.div>
+      {/* FINAL CTA */}
+      <section className="py-16 md:py-20 bg-[var(--color-text-main)] overflow-hidden relative text-white text-center rounded-[3rem] mx-3 sm:mx-4 md:mx-10 mb-10 shadow-2xl">
+        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-text-main)] opacity-30" />
+
+        <motion.div className="max-w-3xl mx-auto px-6 relative" {...fadeUp}>
+          <div className="w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <GraduationCap size={30} className="text-white" />
           </div>
-        </section>
-
-        {/* --- STUDENT TESTIMONIALS --- */}
-        <section className="py-28 bg-slate-50">
-          <div className="max-w-7xl mx-auto px-6">
-            <motion.div className="text-center mb-16" {...fadeUpConfig}>
-              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6">Success Stories</h2>
-              <p className="text-slate-600 max-w-2xl mx-auto text-lg">
-                Hear from our students who have successfully placed in top universities globally.
-              </p>
-            </motion.div>
-
-            <motion.div className="grid md:grid-cols-3 gap-8" {...staggerChildrenConfig}>
-              {[
-                { name: "Aarushi M.", uni: "University of Sydney", country: "Australia", text: "The visa process was incredibly smooth. Shikshya Path guided me at every step from SOP drafting to interview prep." },
-                { name: "Roshan P.", uni: "Toronto Met University", country: "Canada", text: "I was confused about my options, but the counseling team helped me select a course that fits my career goals perfectly." },
-                { name: "Sneha K.", uni: "Aston University", country: "UK", text: "Got an unconditional offer and a 20% scholarship thanks to their application assistance! Highly recommended." },
-              ].map((testimonial, idx) => (
-                <motion.div key={idx} variants={childFadeConfig} className="bg-white p-8 rounded-[2rem] shadow-sm border border-slate-100 hover:shadow-xl transition-all">
-                  <div className="flex gap-1 text-amber-500 mb-6">
-                    {[1,2,3,4,5].map(star => <Star key={star} size={18} fill="currentColor" />)}
-                  </div>
-                  <p className="text-slate-700 leading-relaxed mb-8 italic">"{testimonial.text}"</p>
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-[var(--color-primary)] font-bold text-lg">
-                      {testimonial.name.charAt(0)}
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-slate-900">{testimonial.name}</h4>
-                      <p className="text-sm text-slate-500">{testimonial.uni}, {testimonial.country}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
+          <h2 className="text-3xl md:text-5xl font-black mb-4 tracking-tight">
+            Begin your path to a successful future
+          </h2>
+          <p className="text-slate-200 text-base md:text-lg mb-8 max-w-xl mx-auto font-medium">
+            Tell us your destination and program preference—our team will guide you with the next best step.
+          </p>
+          <div className="flex justify-center">
+            <PrimaryButton onClick={() => applyNow.open({ intent: 'enroll', source: 'home-final-cta' })}>
+              Enroll Now <ArrowRight size={18} />
+            </PrimaryButton>
           </div>
-        </section>
-
-        {/* --- LATEST NEWS / BLOGS --- */}
-        <section className="py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-6">
-            <motion.div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6" {...fadeUpConfig}>
-              <div>
-                <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">Latest Insights</h2>
-                <p className="text-slate-600 text-lg">Updates, guides, and tips for studying abroad.</p>
-              </div>
-              <Link href="/blogs" className="text-[var(--color-primary)] font-bold flex items-center gap-2 hover:gap-3 transition-all">
-                Read All Articles <ArrowRight size={20} />
-              </Link>
-            </motion.div>
-
-            <motion.div className="grid md:grid-cols-3 gap-8" {...staggerChildrenConfig}>
-              {[
-                {
-                  title: "Changes to Australia Student Visa Rules in 2024",
-                  date: "March 10, 2024",
-                  image:
-                    "https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=800",
-                },
-                {
-                  title: "How to write a winning SOP for Canadian Universities",
-                  date: "March 5, 2024",
-                  image:
-                    "https://images.pexels.com/photos/374820/pexels-photo-374820.jpeg?auto=compress&cs=tinysrgb&w=800",
-                },
-                {
-                  title: "Top 10 Affordable Universities in the UK",
-                  date: "Feb 28, 2024",
-                  image:
-                    "https://images.pexels.com/photos/2777898/pexels-photo-2777898.jpeg?auto=compress&cs=tinysrgb&w=800",
-                },
-              ].map((blog, idx) => (
-                <motion.div key={idx} variants={childFadeConfig} className="group cursor-pointer">
-                  <div className="w-full aspect-video bg-slate-200 rounded-3xl overflow-hidden mb-6">
-                    <img
-                      src={blog.image}
-                      alt={blog.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-70"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-[var(--color-primary)] font-semibold mb-3">
-                    <Calendar size={14} /> {blog.date}
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-[var(--color-primary)] transition-colors">{blog.title}</h3>
-                  <span className="text-slate-600 font-medium group-hover:text-[var(--color-primary)] transition-colors inline-flex items-center gap-1">Read Article <ArrowRight size={14} className="opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-1 transition-all" /></span>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* --- FINAL CTA --- */}
-        <section className="py-24 bg-[var(--color-text-main)] overflow-hidden relative text-white text-center rounded-[3rem] mx-4 md:mx-10 mb-10 shadow-2xl">
-          <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-text-main)] opacity-30 z-0" />
-          <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-indigo-500/20 blur-[100px] rounded-full" />
-          <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-blue-500/20 blur-[100px] rounded-full" />
-          
-          <motion.div className="max-w-3xl mx-auto px-6 flex flex-col items-center relative z-10" {...fadeUpConfig}>
-            <div className="w-20 h-20 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center mb-8">
-              <Globe2 size={40} className="text-white" />
-            </div>
-            <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">Ready to Shape Your Future?</h2>
-            <p className="text-slate-300 text-xl mb-10 max-w-xl font-medium">
-              Don't leave your dreams to chance. Let our experts guide you to the perfect university abroad.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/contact" className="bg-white text-[var(--color-primary-dark)] font-black px-10 py-5 rounded-2xl hover:scale-105 transition-transform shadow-2xl shadow-blue-900/50 text-xl border border-white">
-                Book Your Free Consultation
-              </Link>
-            </div>
-          </motion.div>
-        </section>
-      </main>
-
-
-    </div>
+        </motion.div>
+      </section>
+    </main>
   );
 }

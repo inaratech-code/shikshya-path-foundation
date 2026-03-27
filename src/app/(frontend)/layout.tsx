@@ -1,6 +1,4 @@
-import SmoothScroll from '@/components/SmoothScroll';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+import FrontendShell from '@/components/FrontendShell';
 
 export default function FrontendLayout({
   children,
@@ -8,12 +6,6 @@ export default function FrontendLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SmoothScroll>
-      <Header />
-      <div className="flex-grow">
-        {children}
-      </div>
-      <Footer />
-    </SmoothScroll>
+    <FrontendShell>{children}</FrontendShell>
   );
 }

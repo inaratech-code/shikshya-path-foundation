@@ -1,17 +1,15 @@
 import InnerPageHero from '@/components/InnerPageHero';
+import DestinationsAccordion from '@/components/DestinationsAccordion';
 
 export default function DestinationsPage() {
   return (
     <main>
       <InnerPageHero 
-        title="Study Destinations" 
-        description="Explore top global destinations for higher education, including Australia, UK, USA, Canada, and Europe." 
+        title="Study Abroad" 
+        description="Compare destinations, see requirements and intakes, and apply—without leaving this page." 
       />
-      <section className="py-24 max-w-7xl mx-auto px-6 text-center">
-        <h2 className="text-3xl font-bold mb-6 text-slate-900">Choose Your Path</h2>
-        <p className="text-lg text-slate-600 leading-relaxed mb-12">
-          Content coming soon. Detailed guides on cost, living, and top universities per country.
-        </p>
+      <section className="py-16 md:py-24 max-w-7xl mx-auto px-6">
+        <DestinationsAccordion />
       </section>
     </main>
   );

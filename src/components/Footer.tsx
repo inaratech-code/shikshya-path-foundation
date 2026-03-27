@@ -27,10 +27,12 @@ export default function Footer() {
         <div className="md:col-span-2">
           <h4 className="text-white font-bold mb-6 text-lg">Quick Links</h4>
           <ul className="space-y-4 font-medium">
-            <li><Link href="/about" className="hover:text-white transition-colors">About Us</Link></li>
+            <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
             <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
-            <li><Link href="/universities" className="hover:text-white transition-colors">Universities</Link></li>
-            <li><Link href="/blogs" className="hover:text-white transition-colors">Blogs & News</Link></li>
+            <li><Link href="/destinations" className="hover:text-white transition-colors">Study Destination</Link></li>
+            <li><Link href="/test-preparation" className="hover:text-white transition-colors">Test Preparation</Link></li>
+            <li><Link href="/gallery" className="hover:text-white transition-colors">Gallery</Link></li>
+            <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
             <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
           </ul>
         </div>
@@ -38,11 +40,11 @@ export default function Footer() {
         <div className="md:col-span-2">
           <h4 className="text-white font-bold mb-6 text-lg">Destinations</h4>
           <ul className="space-y-4 font-medium">
-            <li><Link href="/destinations/australia" className="hover:text-white transition-colors">Australia</Link></li>
-            <li><Link href="/destinations/canada" className="hover:text-white transition-colors">Canada</Link></li>
-            <li><Link href="/destinations/uk" className="hover:text-white transition-colors">United Kingdom</Link></li>
-            <li><Link href="/destinations/usa" className="hover:text-white transition-colors">USA</Link></li>
-            <li><Link href="/destinations/europe" className="hover:text-white transition-colors">Europe</Link></li>
+            <li><Link href="/destinations" className="hover:text-white transition-colors">Australia</Link></li>
+            <li><Link href="/destinations" className="hover:text-white transition-colors">New Zealand</Link></li>
+            <li><Link href="/destinations" className="hover:text-white transition-colors">United Kingdom</Link></li>
+            <li><Link href="/destinations" className="hover:text-white transition-colors">USA</Link></li>
+            <li><Link href="/destinations" className="hover:text-white transition-colors">Canada</Link></li>
           </ul>
         </div>
 
@@ -66,7 +68,18 @@ export default function Footer() {
       </div>
       
       <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-        <p>&copy; {new Date().getFullYear()} Shikshya Path Foundation. All rights reserved.</p>
+        <p>
+          &copy; {new Date().getFullYear()} Shikshya Path Foundation. All rights reserved. Built by{' '}
+          <a
+            href="https://www.inaratech.com.np"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white hover:text-[var(--color-primary)] transition-colors"
+          >
+            Inara Tech
+          </a>
+          .
+        </p>
         <div className="flex gap-6">
           <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
           <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>

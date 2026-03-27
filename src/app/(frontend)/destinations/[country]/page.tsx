@@ -13,12 +13,39 @@ export default async function CountryDestinationPage({
     .replace(/-/g, ' ')
     .replace(/\b\w/g, (char) => char.toUpperCase());
 
+  const countryImages: Record<string, string> = {
+    australia: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    usa: 'https://images.pexels.com/photos/2082103/pexels-photo-2082103.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    canada: 'https://images.pexels.com/photos/2449452/pexels-photo-2449452.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    uk: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1400',
+    'new-zealand': 'https://images.pexels.com/photos/724949/pexels-photo-724949.jpeg?auto=compress&cs=tinysrgb&w=1400',
+  };
+
+  const heroImage =
+    countryImages[countryName.toLowerCase()] ??
+    'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=1400';
+
   return (
     <main>
       <InnerPageHero 
         title={`Study in ${formattedCountry}`} 
         description={`Discover world-class universities, top-tier living standards, and excellent post-study opportunities in ${formattedCountry}.`} 
       />
+      <section className="max-w-7xl mx-auto px-6 pt-10">
+        <div className="relative rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm">
+          <img
+            src={heroImage}
+            alt={`${formattedCountry} skyline`}
+            className="w-full h-64 md:h-80 object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-slate-900/10 to-transparent" />
+          <div className="absolute -bottom-12 -right-10 w-48 h-48 rounded-full bg-white/20 blur-3xl" />
+          <div className="absolute top-5 left-5 px-4 py-2 rounded-full bg-white/85 text-slate-800 text-sm font-semibold border border-slate-200">
+            Country Overview
+          </div>
+        </div>
+      </section>
       <section className="py-24 max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12">
         <div className="md:col-span-2">
           <h2 className="text-3xl font-black text-slate-900 mb-6 w-full">Why Study in {formattedCountry}?</h2>
