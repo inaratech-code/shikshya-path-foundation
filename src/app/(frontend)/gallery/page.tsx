@@ -35,8 +35,8 @@ export default function GalleryPage() {
         description="A glimpse of our counselling, preparation, and student success moments."
       />
 
-      <section className="py-16 md:py-24 max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {galleryItems.map((item) => (
             <div
               key={item.title}
@@ -50,8 +50,8 @@ export default function GalleryPage() {
                   loading="lazy"
                 />
               </div>
-              <div className="p-5">
-                <div className="font-black text-slate-900">{item.title}</div>
+              <div className="p-3 sm:p-5">
+                <div className="font-black text-slate-900 text-sm sm:text-base leading-snug">{item.title}</div>
               </div>
             </div>
           ))}

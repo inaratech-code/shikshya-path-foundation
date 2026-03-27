@@ -1,4 +1,5 @@
 import InnerPageHero from '@/components/InnerPageHero';
+import { getDestinationHeroImage } from '@/data/universityCategories';
 
 export default async function CountryDestinationPage({
   params,
@@ -13,17 +14,7 @@ export default async function CountryDestinationPage({
     .replace(/-/g, ' ')
     .replace(/\b\w/g, (char) => char.toUpperCase());
 
-  const countryImages: Record<string, string> = {
-    australia: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=1400',
-    usa: 'https://images.pexels.com/photos/2082103/pexels-photo-2082103.jpeg?auto=compress&cs=tinysrgb&w=1400',
-    canada: 'https://images.pexels.com/photos/2449452/pexels-photo-2449452.jpeg?auto=compress&cs=tinysrgb&w=1400',
-    uk: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1400',
-    'new-zealand': 'https://images.pexels.com/photos/724949/pexels-photo-724949.jpeg?auto=compress&cs=tinysrgb&w=1400',
-  };
-
-  const heroImage =
-    countryImages[countryName.toLowerCase()] ??
-    'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=1400';
+  const heroImage = getDestinationHeroImage(countryName);
 
   return (
     <main>

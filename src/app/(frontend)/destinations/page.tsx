@@ -8,7 +8,7 @@ export default function DestinationsPage() {
         title="Study Abroad" 
         description="Compare destinations, see requirements and intakes, and apply—without leaving this page." 
       />
-      <section className="py-16 md:py-24 max-w-7xl mx-auto px-6">
+      <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6">
         <DestinationsAccordion />
       </section>
     </main>

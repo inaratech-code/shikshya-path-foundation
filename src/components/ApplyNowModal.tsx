@@ -83,8 +83,8 @@ export default function ApplyNowModal() {
       />
 
       <div className="absolute inset-0 flex items-end sm:items-center justify-center p-3 sm:p-6">
-        <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
-          <div className="p-6 sm:p-8 bg-gradient-to-br from-blue-50 via-white to-white border-b border-slate-100">
+        <div className="relative w-full max-w-2xl max-h-[min(100dvh,720px)] sm:max-h-[90vh] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
+          <div className="p-6 sm:p-8 bg-gradient-to-br from-blue-50 via-white to-white border-b border-slate-100 shrink-0">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-black text-slate-900">{title}</h2>
@@ -101,7 +101,7 @@ export default function ApplyNowModal() {
             </div>
           </div>
 
-          <div className="p-6 sm:p-8">
+          <div className="p-6 sm:p-8 overflow-y-auto min-h-0 flex-1">
             {submitted ? (
               <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-6">
                 <div className="text-emerald-900 font-bold text-lg">Request received</div>
@@ -124,7 +124,7 @@ export default function ApplyNowModal() {
                   setSubmitted(true);
                 }}
               >
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
                     <input
@@ -148,7 +148,7 @@ export default function ApplyNowModal() {
                   </div>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-2">Phone Number</label>
                     <input
@@ -178,7 +178,7 @@ export default function ApplyNowModal() {
                   </div>
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-slate-700 mb-2">Academic Level</label>
                     <select

@@ -11,9 +11,10 @@ import {
   ShieldCheck,
   Files,
   Sparkles,
-  School,
 } from 'lucide-react';
 import SectionHeading from '@/components/SectionHeading';
+import UniversityCategoryCard from '@/components/UniversityCategoryCard';
+import { universityCategoryTiles } from '@/data/universityCategories';
 import { useApplyNow } from '@/components/ApplyNowContext';
 
 const fadeUp = {
@@ -70,14 +71,6 @@ const services = [
   },
 ];
 
-const universityCategories = [
-  { title: 'Popular Universities USA', country: 'USA', flag: '🇺🇸' },
-  { title: 'Popular Universities UK', country: 'UK', flag: '🇬🇧' },
-  { title: 'Popular Universities Canada', country: 'Canada', flag: '🇨🇦' },
-  { title: 'Popular Universities Australia', country: 'Australia', flag: '🇦🇺' },
-  { title: 'Popular Universities New Zealand', country: 'New Zealand', flag: '🇳🇿' },
-];
-
 function PrimaryButton({
   children,
   onClick,
@@ -117,9 +110,9 @@ export default function Home() {
         <div className="absolute top-0 right-0 -mr-48 -mt-48 w-[40rem] h-[40rem] rounded-full bg-blue-100/40 blur-3xl opacity-60" />
         <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 rounded-full bg-indigo-100/40 blur-3xl" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center relative z-10 min-w-0">
           <motion.div
-            className="flex flex-col items-start gap-5"
+            className="flex flex-col items-start gap-5 min-w-0 w-full"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
@@ -158,7 +151,7 @@ export default function Home() {
           </motion.div>
 
           <motion.div
-            className="relative w-full aspect-[4/3] rounded-[2rem] shadow-2xl border border-gray-100 overflow-visible"
+            className="relative w-full min-w-0 aspect-[4/3] rounded-[2rem] shadow-2xl border border-gray-100 overflow-hidden sm:overflow-visible"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
@@ -173,7 +166,7 @@ export default function Home() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/35 via-transparent to-transparent" />
             </div>
 
-            <div className="absolute bottom-6 left-6 glass px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+            <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 glass px-3 py-2.5 sm:px-4 sm:py-3 rounded-2xl shadow-2xl flex items-center gap-3 max-w-[calc(100%-2rem)]">
               <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
                 <ShieldCheck size={18} />
               </div>
@@ -183,13 +176,13 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="absolute top-6 right-6 glass px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 min-w-[max-content]">
-              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+            <div className="absolute top-4 right-4 sm:top-6 sm:right-6 glass px-3 py-2.5 sm:px-4 sm:py-3 rounded-2xl shadow-2xl flex items-center gap-2 sm:gap-3 max-w-[min(100%-2rem,16rem)] sm:max-w-none">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
                 <CheckCircle2 size={18} />
               </div>
-              <div>
-                <div className="text-sm font-black text-slate-900 leading-none whitespace-nowrap">Free Assessment</div>
-                <div className="text-xs font-medium text-slate-500 mt-1">Available today</div>
+              <div className="min-w-0">
+                <div className="text-xs sm:text-sm font-black text-slate-900 leading-tight sm:leading-none sm:whitespace-nowrap">Free Assessment</div>
+                <div className="text-[10px] sm:text-xs font-medium text-slate-500 mt-0.5 sm:mt-1">Available today</div>
               </div>
             </div>
           </motion.div>
@@ -199,7 +192,7 @@ export default function Home() {
       {/* STUDY ABROAD */}
       <section className="py-16 md:py-20 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6 mb-8 sm:mb-10">
             <SectionHeading
               align="left"
               eyebrow="Study Abroad"
@@ -208,41 +201,50 @@ export default function Home() {
             />
             <Link
               href="/destinations"
-              className="inline-flex items-center justify-center gap-2 text-[var(--color-primary)] font-bold hover:gap-3 transition-all w-full md:w-auto"
+              className="inline-flex items-center justify-center sm:justify-end gap-2 text-[var(--color-primary)] font-bold hover:gap-3 transition-all shrink-0 w-full sm:w-auto"
             >
               View all destinations <ArrowRight size={18} />
             </Link>
           </div>
 
-          <div className="flex gap-4 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {countries.map((c) => (
-              <Link
-                key={c.slug}
-                href="/destinations"
-                className="group relative overflow-hidden min-w-[220px] sm:min-w-[240px] border border-slate-200 rounded-2xl hover:-translate-y-1 hover:shadow-xl transition-all"
-              >
-                {/* Full flag background */}
-                <img
-                  src={c.flagImg}
-                  alt=""
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 w-full h-full object-cover select-none"
-                  loading="lazy"
-                />
-                {/* Readability overlay */}
-                <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-white via-white/70 to-white/25" />
-                <div className="absolute inset-0 pointer-events-none bg-white/20" />
+          {/* Single row: compact square tiles; scroll when needed, centered on wide screens */}
+          <div className="-mx-4 px-4 sm:mx-0 sm:px-0 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div
+              role="region"
+              aria-label="Study destinations"
+              className="flex w-max max-w-none mx-auto flex-nowrap gap-4 sm:gap-5 lg:gap-6 snap-x snap-mandatory scroll-smooth"
+            >
+              {countries.map((c) => (
+                <Link
+                  key={c.slug}
+                  href="/destinations"
+                  className="group relative shrink-0 snap-start aspect-square w-[min(44vw,200px)] sm:w-[188px] md:w-[208px] lg:w-[228px] xl:w-[248px] rounded-2xl border border-slate-200 overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all flex flex-col justify-end shadow-sm"
+                >
+                  <img
+                    src={c.flagImg}
+                    alt=""
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 w-full h-full object-cover select-none"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-white via-white/80 to-white/20" />
+                  <div className="absolute inset-0 pointer-events-none bg-white/15" />
 
-                <div className="relative p-5">
-                  <div className="font-black text-slate-900 text-xl">{c.name}</div>
-                  <div className="mt-1 text-sm text-slate-700">Requirements, cost, intakes</div>
-
-                  <div className="mt-4 inline-flex items-center gap-2 text-[var(--color-primary)] font-bold">
-                    Explore <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  <div className="relative p-3.5 sm:p-4 lg:p-5 flex flex-col justify-end min-h-0">
+                    <div className="font-black text-slate-900 text-base sm:text-lg lg:text-xl leading-tight line-clamp-2">
+                      {c.name}
+                    </div>
+                    <p className="mt-1 text-xs sm:text-sm text-slate-600 leading-snug line-clamp-2">
+                      Requirements, costs & intakes
+                    </p>
+                    <div className="mt-2.5 sm:mt-3 inline-flex items-center gap-1.5 text-[var(--color-primary)] font-bold text-sm sm:text-base">
+                      Explore{' '}
+                      <ArrowRight size={18} className="group-hover:translate-x-0.5 transition-transform shrink-0" />
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -256,7 +258,7 @@ export default function Home() {
             description="Choose a test to see details, who it’s for, and how to prepare effectively."
           />
 
-          <div className="mt-10 grid md:grid-cols-2 gap-6">
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-2">
             {[
               {
                 title: 'IELTS',
@@ -274,13 +276,13 @@ export default function Home() {
               <Link
                 key={t.title}
                 href={t.href}
-                className="group bg-white rounded-[2rem] border border-slate-200 p-7 hover:shadow-2xl hover:-translate-y-1 transition-all"
+                className="group bg-white rounded-2xl sm:rounded-[2rem] border border-slate-200 p-4 sm:p-7 hover:shadow-2xl hover:-translate-y-1 transition-all h-full flex flex-col"
               >
-                <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[var(--color-primary)] flex items-center justify-center mb-5 border border-blue-100 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-50 text-[var(--color-primary)] flex items-center justify-center mb-3 sm:mb-5 border border-blue-100 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors shrink-0">
                   {t.icon}
                 </div>
-                <div className="text-2xl font-black text-slate-900">{t.title}</div>
-                <p className="text-slate-600 mt-2">{t.desc}</p>
+                <div className="text-lg sm:text-2xl font-black text-slate-900">{t.title}</div>
+                <p className="text-slate-600 mt-1 sm:mt-2 text-sm sm:text-base flex-1">{t.desc}</p>
                 <div className="mt-5 inline-flex items-center gap-2 text-[var(--color-primary)] font-bold">
                   Learn More <ArrowRight size={16} />
                 </div>
@@ -344,7 +346,7 @@ export default function Home() {
             description="Clear process, fewer mistakes, and fast turnaround—built for conversion."
           />
 
-          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="mt-10 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {[
               { title: 'Free Counselling', icon: <Globe2 size={18} /> },
               { title: 'Free Documentation', icon: <Files size={18} /> },
@@ -353,7 +355,7 @@ export default function Home() {
             ].map((f) => (
               <div
                 key={f.title}
-                className="bg-white/5 border border-white/10 hover:bg-white/10 transition-all rounded-2xl p-6"
+                className="bg-white/5 border border-white/10 hover:bg-white/10 transition-all rounded-xl sm:rounded-2xl p-4 sm:p-6 h-full flex flex-col"
               >
                 <div className="w-11 h-11 rounded-2xl bg-white/10 border border-white/10 flex items-center justify-center mb-4">
                   {f.icon}
@@ -371,7 +373,7 @@ export default function Home() {
       {/* UNIVERSITIES SECTION */}
       <section className="py-16 md:py-20 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6">
             <SectionHeading
               align="left"
               eyebrow="Universities"
@@ -380,33 +382,26 @@ export default function Home() {
             />
             <Link
               href="/universities"
-              className="inline-flex items-center gap-2 text-[var(--color-primary)] font-bold hover:gap-3 transition-all w-full md:w-auto"
+              className="inline-flex items-center justify-center sm:justify-end gap-2 text-[var(--color-primary)] font-bold hover:gap-3 transition-all w-full sm:w-auto shrink-0"
             >
               View universities <ArrowRight size={18} />
             </Link>
           </div>
 
-          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {universityCategories.map((u) => (
+          <div className="mt-10 grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
+            {universityCategoryTiles.map((u) => (
               <Link
                 key={u.title}
                 href="/universities"
-                className="group bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 transition-all"
+                className="group block h-full min-h-[148px] sm:min-h-[168px] hover:-translate-y-1 transition-transform"
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-lg font-black text-slate-900 group-hover:text-[var(--color-primary)] transition-colors">
-                      {u.title}
-                    </div>
-                    <div className="text-sm text-slate-600 mt-1 inline-flex items-center gap-2">
-                      <span aria-hidden="true">{u.flag}</span>
-                      <span>Curated shortlist</span>
-                    </div>
-                  </div>
-                  <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-700">
-                    <School size={18} />
-                  </div>
-                </div>
+                <UniversityCategoryCard
+                  title={u.title}
+                  flagImg={u.flagImg}
+                  bgImage={u.bgImg}
+                  bgImageAlt={u.bgImgAlt}
+                  className="shadow-sm group-hover:shadow-xl"
+                />
               </Link>
             ))}
           </div>
@@ -414,7 +409,7 @@ export default function Home() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="py-16 md:py-20 bg-[var(--color-text-main)] overflow-hidden relative text-white text-center rounded-[3rem] mx-3 sm:mx-4 md:mx-10 mb-10 shadow-2xl">
+      <section className="py-12 sm:py-16 md:py-20 bg-[var(--color-text-main)] overflow-hidden relative text-white text-center rounded-3xl sm:rounded-[3rem] mx-2 sm:mx-4 md:mx-10 mb-6 sm:mb-10 shadow-2xl">
         <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-text-main)] opacity-30" />
 
         <motion.div className="max-w-3xl mx-auto px-6 relative" {...fadeUp}>

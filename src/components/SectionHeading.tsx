@@ -9,8 +9,9 @@ export default function SectionHeading({
   description?: string;
   align?: 'left' | 'center';
 }) {
-  const alignCls = align === 'left' ? 'text-left' : 'text-center';
-  const descAlignCls = align === 'left' ? 'mx-0' : 'mx-auto';
+  const alignCls =
+    align === 'left' ? 'text-center sm:text-left' : 'text-center';
+  const descAlignCls = align === 'left' ? 'mx-auto sm:mx-0' : 'mx-auto';
 
   return (
     <div className={`${alignCls}`}>
