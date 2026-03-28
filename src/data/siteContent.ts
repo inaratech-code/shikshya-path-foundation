@@ -73,6 +73,7 @@ export type StudyDestinationBlock = {
   cost: string;
 };
 
+/** Fallback when Pexels primary fails (university cards use this chain) */
 const H = {
   au: 'https://images.unsplash.com/photo-1523482580672-f109ba8cb886?auto=format&fit=crop&w=1400&q=85',
   uk: 'https://images.unsplash.com/photo-1513635269976-596596e8df88?auto=format&fit=crop&w=1400&q=85',
@@ -82,7 +83,20 @@ const H = {
   eu: 'https://images.unsplash.com/photo-1467261338127-7a468c63a068?auto=format&fit=crop&w=1400&q=85',
   jp: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1400&q=85',
   kr: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=1400&q=85',
-};
+} as const;
+
+/** Country banner + card imagery (Pexels — reliable CDN). heroForPage matches bgImg for accordions. */
+const PX = {
+  au: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  uk: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  nz: 'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  ca: 'https://images.pexels.com/photos/2449452/pexels-photo-2449452.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  us: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=1600&q=82',
+  /** Pexels 161901 was unreliable; use Unsplash (same as H.eu) + Pexels UK as card fallback */
+  eu: 'https://images.unsplash.com/photo-1467261338127-7a468c63a068?auto=format&fit=crop&w=1600&q=82',
+  jp: 'https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  kr: 'https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1600',
+} as const;
 
 export const studyDestinations: StudyDestinationBlock[] = [
   {
@@ -93,9 +107,9 @@ export const studyDestinations: StudyDestinationBlock[] = [
     showOnUniversityTiles: true,
     flagImgAccordion: 'https://flagcdn.com/w320/au.png',
     flagImgTile: 'https://flagcdn.com/w80/au.png',
-    bgImg: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    bgImg: PX.au,
     bgImgAlt: H.au,
-    heroForPage: H.au,
+    heroForPage: PX.au,
     destinationValue: 'australia',
     seoSummary:
       'Study in Australia from Nepal in 2026 — world-class education and post-study work pathways for Nepali students.',
@@ -122,9 +136,9 @@ export const studyDestinations: StudyDestinationBlock[] = [
     showOnUniversityTiles: true,
     flagImgAccordion: 'https://flagcdn.com/w320/gb.png',
     flagImgTile: 'https://flagcdn.com/w80/gb.png',
-    bgImg: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    bgImg: PX.uk,
     bgImgAlt: H.uk,
-    heroForPage: H.uk,
+    heroForPage: PX.uk,
     destinationValue: 'uk',
     seoSummary:
       'Study in the UK from Nepal — globally recognised degrees, CAS, Student visa, and tuition guidance for Nepali students.',
@@ -151,9 +165,9 @@ export const studyDestinations: StudyDestinationBlock[] = [
     showOnUniversityTiles: true,
     flagImgAccordion: 'https://flagcdn.com/w320/nz.png',
     flagImgTile: 'https://flagcdn.com/w80/nz.png',
-    bgImg: 'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    bgImg: PX.nz,
     bgImgAlt: H.nz,
-    heroForPage: H.nz,
+    heroForPage: PX.nz,
     destinationValue: 'new-zealand',
     seoSummary:
       'Study in New Zealand from Nepal — safe campuses, recognised degrees, and student visa guidance for 2026.',
@@ -180,9 +194,9 @@ export const studyDestinations: StudyDestinationBlock[] = [
     showOnUniversityTiles: true,
     flagImgAccordion: 'https://flagcdn.com/w320/ca.png',
     flagImgTile: 'https://flagcdn.com/w80/ca.png',
-    bgImg: 'https://images.pexels.com/photos/2449452/pexels-photo-2449452.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    bgImg: PX.ca,
     bgImgAlt: H.ca,
-    heroForPage: H.ca,
+    heroForPage: PX.ca,
     destinationValue: 'canada',
     seoSummary:
       'Study in Canada from Nepal — DLI admissions, study permit, and costs for Nepali students in 2026.',
@@ -209,9 +223,9 @@ export const studyDestinations: StudyDestinationBlock[] = [
     showOnUniversityTiles: true,
     flagImgAccordion: 'https://flagcdn.com/w320/us.png',
     flagImgTile: 'https://flagcdn.com/w80/us.png',
-    bgImg: 'https://images.pexels.com/photos/2082103/pexels-photo-2082103.jpeg?auto=compress&cs=tinysrgb&w=1200',
+    bgImg: PX.us,
     bgImgAlt: H.us,
-    heroForPage: H.us,
+    heroForPage: PX.us,
     destinationValue: 'usa',
     seoSummary:
       'Study in the USA from Nepal — I-20, F-1 visa, and tuition planning for Nepali students in 2026.',
@@ -238,9 +252,9 @@ export const studyDestinations: StudyDestinationBlock[] = [
     showOnUniversityTiles: false,
     flagImgAccordion: 'https://flagcdn.com/w320/eu.png',
     flagImgTile: 'https://flagcdn.com/w80/eu.png',
-    bgImg: H.eu,
-    bgImgAlt: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    heroForPage: H.eu,
+    bgImg: PX.eu,
+    bgImgAlt: PX.uk,
+    heroForPage: PX.eu,
     destinationValue: 'europe',
     seoSummary:
       'Study in Europe from Nepal — English-taught programs, visas by country, and tuition ranges for Nepali students.',
@@ -267,9 +281,9 @@ export const studyDestinations: StudyDestinationBlock[] = [
     showOnUniversityTiles: false,
     flagImgAccordion: 'https://flagcdn.com/w320/jp.png',
     flagImgTile: 'https://flagcdn.com/w80/jp.png',
-    bgImg: H.jp,
-    bgImgAlt: 'https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    heroForPage: H.jp,
+    bgImg: PX.jp,
+    bgImgAlt: H.jp,
+    heroForPage: PX.jp,
     destinationValue: 'japan',
     seoSummary:
       'Study in Japan from Nepal — student visa, language tests, and tuition for Nepali applicants.',
@@ -296,9 +310,9 @@ export const studyDestinations: StudyDestinationBlock[] = [
     showOnUniversityTiles: false,
     flagImgAccordion: 'https://flagcdn.com/w320/kr.png',
     flagImgTile: 'https://flagcdn.com/w80/kr.png',
-    bgImg: H.kr,
-    bgImgAlt: 'https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    heroForPage: H.kr,
+    bgImg: PX.kr,
+    bgImgAlt: H.kr,
+    heroForPage: PX.kr,
     destinationValue: 'korea',
     seoSummary:
       'Study in South Korea from Nepal — TOPIK/English scores, student visa, and tuition for Nepali students.',

@@ -12,8 +12,9 @@
   --color-text-main: #0F172A;
   --color-text-muted: #64748B;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-heading: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  /* Lexend + Outfit via next/font in layout.tsx — readable body, bold friendly headings */
+  --font-sans: var(--font-lexend), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-heading: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {

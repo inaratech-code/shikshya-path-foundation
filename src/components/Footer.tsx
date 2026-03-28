@@ -139,13 +139,13 @@ export default function Footer() {
       </div>
 
       <div className="max-w-7xl mx-auto mt-12 sm:mt-16 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs sm:text-sm text-center sm:text-left">
-        <p className="max-w-md sm:max-w-none">
+        <p className="max-w-md sm:max-w-none text-slate-400">
           &copy; {new Date().getFullYear()} Shikshya Path Foundation. All rights reserved. Built by{' '}
           <a
             href="https://www.inaratech.com.np"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white hover:text-[var(--color-primary)] transition-colors"
+            className="text-slate-400 hover:text-white transition-colors"
           >
             Inara Tech
           </a>

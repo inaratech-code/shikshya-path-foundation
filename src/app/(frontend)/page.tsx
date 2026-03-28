@@ -12,8 +12,10 @@ import {
   Files,
   Sparkles,
 } from 'lucide-react';
+import HeroBannerLayers from '@/components/HeroBannerLayers';
 import SectionHeading from '@/components/SectionHeading';
 import UniversityCategoryCard from '@/components/UniversityCategoryCard';
+import { heroBannerForSeed } from '@/data/heroBanners';
 import { universityCategoryTiles } from '@/data/universityCategories';
 import { servicesCopy } from '@/data/siteContent';
 import { useApplyNow } from '@/components/ApplyNowContext';
@@ -334,10 +336,14 @@ export default function Home() {
       </section>
 
       {/* WHY CHOOSE US / FEATURES */}
-      <section className="py-16 md:py-20 bg-slate-900 text-white relative overflow-hidden">
-        <div className="absolute right-0 top-1/4 w-96 h-96 bg-[var(--color-primary)]/20 blur-[100px] rounded-full" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
+      <section className="py-16 md:py-20 text-white relative overflow-hidden">
+        <HeroBannerLayers
+          imageSrc={heroBannerForSeed('why-choose-us-home')}
+          overlay="section"
+        />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
           <SectionHeading
+            tone="dark"
             eyebrow="Why Choose Us"
             title="Free support that saves time"
             description="Clear process, fewer mistakes, and fast turnaround—built for conversion."
@@ -406,10 +412,10 @@ export default function Home() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="py-12 sm:py-16 md:py-20 bg-[var(--color-text-main)] overflow-hidden relative text-white text-center rounded-3xl sm:rounded-[3rem] mx-2 sm:mx-4 md:mx-10 mb-6 sm:mb-10 shadow-2xl">
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-text-main)] opacity-30" />
+      <section className="py-12 sm:py-16 md:py-20 overflow-hidden relative text-white text-center rounded-3xl sm:rounded-[3rem] mx-2 sm:mx-4 md:mx-10 mb-6 sm:mb-10 shadow-2xl">
+        <HeroBannerLayers imageSrc={heroBannerForSeed('home-final-cta')} overlay="cta" />
 
-        <motion.div className="max-w-3xl mx-auto px-6 relative" {...fadeUp}>
+        <motion.div className="max-w-3xl mx-auto px-6 relative z-10" {...fadeUp}>
           <div className="w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <GraduationCap size={30} className="text-white" />
           </div>

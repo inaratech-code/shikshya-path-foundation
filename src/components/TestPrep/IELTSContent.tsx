@@ -1,6 +1,8 @@
 'use client';
 
+import HeroBannerLayers from '@/components/HeroBannerLayers';
 import { useApplyNow } from '@/components/ApplyNowContext';
+import { heroBannerForSeed } from '@/data/heroBanners';
 import { ArrowRight } from 'lucide-react';
 
 export default function IELTSContent() {
@@ -79,9 +81,9 @@ export default function IELTSContent() {
         </p>
       </section>
 
-      <section className="py-16 md:py-20 bg-[var(--color-text-main)] text-white text-center mx-3 sm:mx-6 md:mx-10 rounded-[3rem] mb-10 overflow-hidden relative shadow-2xl">
-        <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-text-main)] opacity-30" />
-        <div className="relative max-w-3xl mx-auto px-6">
+      <section className="py-16 md:py-20 text-white text-center mx-3 sm:mx-6 md:mx-10 rounded-[3rem] mb-10 overflow-hidden relative shadow-2xl">
+        <HeroBannerLayers imageSrc={heroBannerForSeed('ielts-enroll-cta')} overlay="cta" />
+        <div className="relative z-10 max-w-3xl mx-auto px-6">
           <h2 className="text-3xl md:text-5xl font-black">Begin your path to a successful future</h2>
           <p className="text-slate-200 mt-4 mb-8 max-w-xl mx-auto">
             Enroll for IELTS preparation and get a study plan plus expert guidance from our team.

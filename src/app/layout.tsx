@@ -1,15 +1,20 @@
 import type { Metadata } from 'next';
-import { Inter, Poppins } from 'next/font/google';
+import { Lexend, Outfit } from 'next/font/google';
 import './globals.css';
-import SmoothScroll from '@/components/SmoothScroll';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const poppins = Poppins({ 
-  weight: ['400', '500', '600', '700', '800', '900'],
-  subsets: ['latin'], 
-  variable: '--font-poppins' 
+/** Lexend: readability-first (designed for longer reading — student-friendly). Outfit: energetic display for titles. */
+const lexend = Lexend({
+  subsets: ['latin'],
+  variable: '--font-lexend',
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
+  display: 'swap',
+  weight: ['500', '600', '700', '800', '900'],
 });
 
 export const metadata: Metadata = {
@@ -62,7 +67,10 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.variable} ${poppins.variable} font-sans antialiased text-slate-800 bg-white flex flex-col min-h-screen`} suppressHydrationWarning>
+      <body
+        className={`${lexend.variable} ${outfit.variable} font-sans antialiased text-slate-800 bg-white flex flex-col min-h-screen`}
+        suppressHydrationWarning
+      >
         {children}
       </body>
     </html>

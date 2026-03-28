@@ -1,15 +1,43 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 import { useApplyNow } from '@/components/ApplyNowContext';
 import { studyDestinations } from '@/data/siteContent';
+
+function AccordionHeroBanner({
+  primarySrc,
+  fallbackSrc,
+}: {
+  primarySrc: string;
+  fallbackSrc: string;
+}) {
+  const [src, setSrc] = useState(primarySrc);
+
+  useEffect(() => {
+    setSrc(primarySrc);
+  }, [primarySrc]);
+
+  return (
+    <img
+      src={src}
+      alt=""
+      className="absolute inset-0 w-full h-full object-cover"
+      loading="lazy"
+      decoding="async"
+      onError={() => {
+        setSrc((current) => (current !== fallbackSrc ? fallbackSrc : current));
+      }}
+    />
+  );
+}
 
 type Country = {
   key: string;
   flagImg: string;
   title: string;
   heroImg: string;
+  heroImgFallback: string;
   seoSummary: string;
   bodyParagraphs: [string, string];
   requirements: string[];
@@ -27,6 +55,7 @@ export default function DestinationsAccordion() {
         flagImg: d.flagImgAccordion,
         title: d.accordionTitle,
         heroImg: d.heroForPage,
+        heroImgFallback: d.bgImgAlt,
         seoSummary: d.seoSummary,
         bodyParagraphs: d.bodyParagraphs,
         requirements: d.requirements,
@@ -87,13 +116,12 @@ export default function DestinationsAccordion() {
           .map((c) => (
             <div key={c.key} className="space-y-8">
               <div className="relative overflow-hidden rounded-2xl border border-slate-200 aspect-[21/9] max-h-52 sm:max-h-60 w-full bg-slate-100">
-                <img
-                  src={c.heroImg}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover"
-                  loading="lazy"
+                <AccordionHeroBanner
+                  key={`${c.key}-banner`}
+                  primarySrc={c.heroImg}
+                  fallbackSrc={c.heroImgFallback}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/35 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/35 via-transparent to-transparent pointer-events-none z-[1]" />
               </div>
 
               <header>
