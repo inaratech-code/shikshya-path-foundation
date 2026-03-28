@@ -12,7 +12,7 @@ const OVERLAY: Record<HeroBannerOverlay, string> = {
 type Props = {
   imageSrc: string;
   overlay?: HeroBannerOverlay;
-  /** Use on above-the-fold heroes for LCP */
+  /** Preload for LCP (inner page heroes, first home hero band). */
   priority?: boolean;
 };
 
@@ -34,6 +34,7 @@ export default function HeroBannerLayers({
           className="object-cover"
           sizes="100vw"
           priority={priority}
+          fetchPriority={priority ? 'high' : 'auto'}
         />
       </div>
       <div className={`absolute inset-0 z-[1] ${OVERLAY[overlay]}`} />

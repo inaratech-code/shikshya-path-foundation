@@ -160,7 +160,9 @@ export default function Home() {
                 src="https://images.pexels.com/photos/5212695/pexels-photo-5212695.jpeg?auto=compress&cs=tinysrgb&w=1400"
                 alt="Students planning study abroad"
                 className="w-full h-full object-cover"
-                loading="lazy"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/35 via-transparent to-transparent" />
             </div>
@@ -216,7 +218,7 @@ export default function Home() {
               {countries.map((c) => (
                 <Link
                   key={c.slug}
-                  href="/destinations"
+                  href={`/destinations?country=${encodeURIComponent(c.slug)}#study-abroad-destinations`}
                   className="group relative shrink-0 snap-start aspect-square w-[min(44vw,200px)] sm:w-[188px] md:w-[208px] lg:w-[228px] xl:w-[248px] rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-primary)]/40 hover:shadow-[0_20px_50px_-12px_rgba(29,78,216,0.25)] flex flex-col justify-end"
                 >
                   <img
@@ -224,7 +226,9 @@ export default function Home() {
                     alt=""
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 w-full h-full object-cover select-none"
-                    loading="lazy"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-white via-white/80 to-white/20" />
                   <div className="absolute inset-0 pointer-events-none bg-white/15" />
@@ -313,7 +317,9 @@ export default function Home() {
                       src={s.image}
                       alt={s.title}
                       className="w-full h-64 sm:h-72 lg:h-full object-cover"
-                      loading="lazy"
+                      loading={idx < 2 ? 'eager' : 'lazy'}
+                      fetchPriority={idx === 0 ? 'high' : undefined}
+                      decoding="async"
                     />
                   </div>
                   <div className={`${reverse ? 'lg:order-1' : ''} p-7 sm:p-10`}>

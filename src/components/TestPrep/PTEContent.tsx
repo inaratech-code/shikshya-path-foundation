@@ -17,7 +17,8 @@ export default function PTEContent() {
               src="https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1200"
               alt="PTE Academic computer-based test preparation"
               className="w-full h-72 md:h-96 object-cover"
-              loading="lazy"
+              loading="eager"
+              decoding="async"
             />
           </div>
           <div>

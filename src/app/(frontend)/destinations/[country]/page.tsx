@@ -28,7 +28,8 @@ export default async function CountryDestinationPage({
             src={heroImage}
             alt={`${formattedCountry} skyline`}
             className="w-full h-64 md:h-80 object-cover"
-            loading="lazy"
+            loading="eager"
+            decoding="async"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-slate-900/10 to-transparent" />
           <div className="absolute -bottom-12 -right-10 w-48 h-48 rounded-full bg-white/20 blur-3xl" />

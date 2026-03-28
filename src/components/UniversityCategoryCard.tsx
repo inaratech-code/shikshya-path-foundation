@@ -42,6 +42,7 @@ export default function UniversityCategoryCard({
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
             loading="eager"
+            fetchPriority="high"
             decoding="async"
             onError={() => {
               if (bgImageAlt && bgSrc === bgImage) {
@@ -84,7 +85,8 @@ export default function UniversityCategoryCard({
               alt=""
               aria-hidden="true"
               className="w-4 h-2.5 sm:w-5 sm:h-3.5 rounded-[3px] border border-slate-200 object-cover shrink-0"
-              loading="lazy"
+              loading="eager"
+              decoding="async"
               referrerPolicy="no-referrer"
               onError={() => setFlagFailed(true)}
             />

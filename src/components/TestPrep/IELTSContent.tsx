@@ -17,7 +17,8 @@ export default function IELTSContent() {
               src="https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=tinysrgb&w=1200"
               alt="IELTS preparation and study materials"
               className="w-full h-72 md:h-96 object-cover"
-              loading="lazy"
+              loading="eager"
+              decoding="async"
             />
           </div>
           <div>

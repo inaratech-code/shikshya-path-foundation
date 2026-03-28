@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 import { useApplyNow } from '@/components/ApplyNowContext';
-import { studyDestinations } from '@/data/siteContent';
+import { normalizeStudySlug, studyDestinations } from '@/data/siteContent';
 
 function AccordionHeroBanner({
   primarySrc,
@@ -23,8 +24,9 @@ function AccordionHeroBanner({
       src={src}
       alt=""
       className="absolute inset-0 w-full h-full object-cover"
-      loading="lazy"
+      loading="eager"
       decoding="async"
+      fetchPriority="high"
       onError={() => {
         setSrc((current) => (current !== fallbackSrc ? fallbackSrc : current));
       }}
@@ -48,6 +50,9 @@ type Country = {
 
 export default function DestinationsAccordion() {
   const applyNow = useApplyNow();
+  const searchParams = useSearchParams();
+  const countryParam = searchParams.get('country');
+
   const items = useMemo<Country[]>(
     () =>
       studyDestinations.map((d) => ({
@@ -67,6 +72,20 @@ export default function DestinationsAccordion() {
   );
 
   const [openKey, setOpenKey] = useState<string>(items[0]?.key ?? '');
+
+  useLayoutEffect(() => {
+    if (!countryParam) return;
+    const slug = normalizeStudySlug(countryParam);
+    const match = studyDestinations.find((d) => d.slug === slug);
+    if (!match) return;
+    setOpenKey(match.key);
+    requestAnimationFrame(() => {
+      document.getElementById('study-abroad-destinations')?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
+    });
+  }, [countryParam]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,320px)_1fr] gap-6 lg:gap-8 items-start min-w-0">
@@ -91,7 +110,8 @@ export default function DestinationsAccordion() {
                   alt=""
                   aria-hidden="true"
                   className="w-8 h-5 sm:w-9 sm:h-6 rounded-md border border-slate-200 object-cover shrink-0 mt-0.5 bg-white"
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
                 />
                 <div className="min-w-0">
                   <div className={`text-sm sm:text-base font-black leading-tight ${active ? 'text-slate-900' : 'text-slate-800'}`}>
@@ -131,7 +151,8 @@ export default function DestinationsAccordion() {
                     alt=""
                     aria-hidden="true"
                     className="w-10 h-7 rounded-md border border-slate-200 object-cover bg-white"
-                    loading="lazy"
+                    loading="eager"
+                    decoding="async"
                   />
                   <span>{c.title}</span>
                 </h2>
