@@ -1,5 +1,12 @@
 import InnerPageHero from '@/components/InnerPageHero';
 import DestinationsAccordion from '@/components/DestinationsAccordion';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Study Abroad Destinations | Australia, UK, USA, Canada & More | Shikshya Path',
+  description:
+    'Guides for studying in Australia, UK, New Zealand, Canada, USA, Europe, Japan, and South Korea from Nepal — requirements, costs, intakes, and visas. Shikshya Path Foundation, Kathmandu.',
+};
 
 export default function DestinationsPage() {
   return (

@@ -3,14 +3,15 @@
 import { useMemo, useState } from 'react';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 import { useApplyNow } from '@/components/ApplyNowContext';
-import { getDestinationHeroImage } from '@/data/universityCategories';
+import { studyDestinations } from '@/data/siteContent';
 
 type Country = {
   key: string;
   flagImg: string;
   title: string;
   heroImg: string;
-  overview: string;
+  seoSummary: string;
+  bodyParagraphs: [string, string];
   requirements: string[];
   intakeInfo: string;
   cost: string;
@@ -20,68 +21,19 @@ type Country = {
 export default function DestinationsAccordion() {
   const applyNow = useApplyNow();
   const items = useMemo<Country[]>(
-    () => [
-      {
-        key: 'australia',
-        flagImg: 'https://flagcdn.com/w320/au.png',
-        title: 'Study in Australia',
-        destinationValue: 'australia',
-        heroImg: getDestinationHeroImage('australia'),
-        overview:
-          'Australia offers globally recognized degrees, strong student support, and post‑study work pathways depending on your program and location.',
-        requirements: ['Valid passport', 'Academic transcripts', 'English proficiency (IELTS/PTE)', 'Financial documents'],
-        intakeInfo: 'Common intakes: Feb (main), Jul (major), Nov (select institutions).',
-        cost: 'Tuition varies by course; we help shortlist budget-friendly options and scholarships.',
-      },
-      {
-        key: 'usa',
-        flagImg: 'https://flagcdn.com/w320/us.png',
-        title: 'Study in USA',
-        destinationValue: 'usa',
-        heroImg: getDestinationHeroImage('usa'),
-        overview:
-          'The USA hosts many of the world’s top-ranked universities, diverse programs, and strong career networks—especially in STEM, business, and healthcare.',
-        requirements: ['Valid passport', 'Academic transcripts', 'English proficiency (TOEFL/IELTS)', 'Financial proof & visa documentation'],
-        intakeInfo: 'Common intakes: Fall (Aug–Sep), Spring (Jan), Summer (May) depending on program.',
-        cost: 'Tuition and living costs vary widely by state; we help you map realistic budgets and scholarship options.',
-      },
-      {
-        key: 'canada',
-        flagImg: 'https://flagcdn.com/w320/ca.png',
-        title: 'Study in Canada',
-        destinationValue: 'canada',
-        heroImg: getDestinationHeroImage('canada'),
-        overview:
-          'Canada combines quality education with post‑study work opportunities and a welcoming environment for international students.',
-        requirements: ['Valid passport', 'Academic transcripts', 'English proficiency', 'GIC (where applicable) & financial proof'],
-        intakeInfo: 'Common intakes: Sep (main), Jan, May—many programs align with these entry points.',
-        cost: 'Costs vary by province; we help compare tuition, living expenses, and funding pathways.',
-      },
-      {
-        key: 'uk',
-        flagImg: 'https://flagcdn.com/w320/gb.png',
-        title: 'Study in UK',
-        destinationValue: 'uk',
-        heroImg: getDestinationHeroImage('uk'),
-        overview:
-          'The UK offers fast degree completion options and world-class universities, with a well-defined student visa process.',
-        requirements: ['Valid passport', 'Academic transcripts', 'English proficiency', 'CAS & financial proof'],
-        intakeInfo: 'Common intakes: Sep (main), Jan, May (select programs).',
-        cost: 'We help you compare tuition + living costs and identify scholarship opportunities.',
-      },
-      {
-        key: 'new-zealand',
-        flagImg: 'https://flagcdn.com/w320/nz.png',
-        title: 'Study in New Zealand',
-        destinationValue: 'new-zealand',
-        heroImg: getDestinationHeroImage('new-zealand'),
-        overview:
-          'New Zealand is known for safe campuses, high quality education, and a balanced lifestyle with strong student welfare.',
-        requirements: ['Valid passport', 'Academic transcripts', 'English proficiency', 'Genuine student documentation'],
-        intakeInfo: 'Common intakes: Feb and Jul; limited Nov intakes depending on program.',
-        cost: 'Costs depend on city and course; we guide you with realistic budget planning.',
-      },
-    ],
+    () =>
+      studyDestinations.map((d) => ({
+        key: d.key,
+        flagImg: d.flagImgAccordion,
+        title: d.accordionTitle,
+        heroImg: d.heroForPage,
+        seoSummary: d.seoSummary,
+        bodyParagraphs: d.bodyParagraphs,
+        requirements: d.requirements,
+        intakeInfo: d.intakeInfo,
+        cost: d.cost,
+        destinationValue: d.destinationValue,
+      })),
     []
   );
 
@@ -89,8 +41,10 @@ export default function DestinationsAccordion() {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,320px)_1fr] gap-6 lg:gap-8 items-start min-w-0">
-      {/* Left list */}
-      <div className="grid grid-cols-2 lg:grid-cols-1 bg-white border border-slate-200 rounded-2xl lg:rounded-[2rem] overflow-hidden shadow-sm">
+      <nav
+        className="grid grid-cols-2 lg:grid-cols-1 bg-white border border-slate-200 rounded-2xl lg:rounded-[2rem] overflow-hidden shadow-sm"
+        aria-label="Choose a study destination"
+      >
         {items.map((c) => {
           const active = openKey === c.key;
           return (
@@ -115,7 +69,7 @@ export default function DestinationsAccordion() {
                     <span className="lg:hidden">{c.title.replace(/^Study in /, '')}</span>
                     <span className="hidden lg:inline">{c.title}</span>
                   </div>
-                  <div className="hidden sm:block text-sm text-slate-500 mt-1">Overview • Requirements • Cost</div>
+                  <div className="hidden sm:block text-sm text-slate-500 mt-1">Guide • Requirements • Costs</div>
                 </div>
               </div>
               <ChevronDown
@@ -125,10 +79,9 @@ export default function DestinationsAccordion() {
             </button>
           );
         })}
-      </div>
+      </nav>
 
-      {/* Right detail */}
-      <div className="bg-white border border-slate-200 rounded-2xl lg:rounded-[2rem] p-5 sm:p-7 lg:p-10 shadow-sm min-h-[280px] sm:min-h-[320px] min-w-0">
+      <article className="bg-white border border-slate-200 rounded-2xl lg:rounded-[2rem] p-5 sm:p-7 lg:p-10 shadow-sm min-h-[280px] sm:min-h-[320px] min-w-0">
         {items
           .filter((x) => x.key === openKey)
           .map((c) => (
@@ -143,7 +96,7 @@ export default function DestinationsAccordion() {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/35 via-transparent to-transparent pointer-events-none" />
               </div>
 
-              <div>
+              <header>
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 flex flex-wrap items-center gap-3">
                   <img
                     src={c.flagImg}
@@ -154,12 +107,17 @@ export default function DestinationsAccordion() {
                   />
                   <span>{c.title}</span>
                 </h2>
-                <p className="text-slate-600 mt-3 leading-relaxed">{c.overview}</p>
+                <p className="text-slate-600 mt-3 leading-relaxed font-medium">{c.seoSummary}</p>
+              </header>
+
+              <div className="max-w-none text-slate-700 leading-relaxed space-y-4 text-[15px] sm:text-base">
+                <p>{c.bodyParagraphs[0]}</p>
+                <p>{c.bodyParagraphs[1]}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4 sm:gap-6">
                 <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                  <div className="font-black text-slate-900 mb-3">Requirements</div>
+                  <h3 className="font-black text-slate-900 mb-3">Key requirements</h3>
                   <ul className="space-y-2 text-slate-700 text-sm">
                     {c.requirements.map((r) => (
                       <li key={r} className="flex gap-2">
@@ -170,10 +128,10 @@ export default function DestinationsAccordion() {
                   </ul>
                 </div>
                 <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                  <div className="font-black text-slate-900 mb-3">Intake Info</div>
+                  <h3 className="font-black text-slate-900 mb-3">Intakes & timing</h3>
                   <p className="text-slate-700 text-sm leading-relaxed">{c.intakeInfo}</p>
-                  <div className="mt-5 font-black text-slate-900">Cost</div>
-                  <p className="text-slate-700 text-sm mt-2 leading-relaxed">{c.cost}</p>
+                  <h3 className="font-black text-slate-900 mt-5 mb-2">Typical costs</h3>
+                  <p className="text-slate-700 text-sm leading-relaxed">{c.cost}</p>
                 </div>
               </div>
 
@@ -191,20 +149,17 @@ export default function DestinationsAccordion() {
                 >
                   Apply Now <ArrowRight size={18} />
                 </button>
-                <div className="text-sm text-slate-500 flex items-center">
+                <p className="text-sm text-slate-500 flex items-center">
                   Want a faster shortlist? Apply and we’ll call you.
-                </div>
+                </p>
               </div>
             </div>
           ))}
 
         {!openKey && (
-          <div className="text-slate-600">
-            Select a country above to view details and apply.
-          </div>
+          <p className="text-slate-600">Select a country above to view our full guide and apply.</p>
         )}
-      </div>
+      </article>
     </div>
   );
 }
-

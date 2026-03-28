@@ -15,6 +15,7 @@ import {
 import SectionHeading from '@/components/SectionHeading';
 import UniversityCategoryCard from '@/components/UniversityCategoryCard';
 import { universityCategoryTiles } from '@/data/universityCategories';
+import { servicesCopy } from '@/data/siteContent';
 import { useApplyNow } from '@/components/ApplyNowContext';
 
 const fadeUp = {
@@ -42,30 +43,26 @@ const countries = [
 
 const services = [
   {
-    title: 'Abroad Studies',
-    description:
-      'Course selection, university shortlist, SOP support, and end‑to‑end application guidance tailored to your profile.',
+    title: servicesCopy.abroadStudies.title,
+    description: servicesCopy.abroadStudies.body,
     image:
       'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=1200',
   },
   {
-    title: 'Test Preparation',
-    description:
-      'IELTS/PTE preparation plans, mock tests, and strategies to help you hit your target score confidently.',
+    title: servicesCopy.testPreparation.title,
+    description: servicesCopy.testPreparation.body,
     image:
       'https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1200',
   },
   {
-    title: 'Documentation Guide',
-    description:
-      'We help you prepare and verify the right documents to avoid delays—clear checklists and expert review.',
+    title: servicesCopy.documentationGuide.title,
+    description: servicesCopy.documentationGuide.body,
     image:
       'https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg?auto=compress&cs=tinysrgb&w=1200',
   },
   {
-    title: 'University / College Guide',
-    description:
-      'Compare campuses, scholarships, intakes, and post‑study outcomes to choose the right fit—fast and transparent.',
+    title: servicesCopy.universityCollegeGuide.title,
+    description: servicesCopy.universityCollegeGuide.body,
     image:
       'https://images.pexels.com/photos/7972526/pexels-photo-7972526.jpeg?auto=compress&cs=tinysrgb&w=1200',
   },
@@ -218,7 +215,7 @@ export default function Home() {
                 <Link
                   key={c.slug}
                   href="/destinations"
-                  className="group relative shrink-0 snap-start aspect-square w-[min(44vw,200px)] sm:w-[188px] md:w-[208px] lg:w-[228px] xl:w-[248px] rounded-2xl border border-slate-200 overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all flex flex-col justify-end shadow-sm"
+                  className="group relative shrink-0 snap-start aspect-square w-[min(44vw,200px)] sm:w-[188px] md:w-[208px] lg:w-[228px] xl:w-[248px] rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-primary)]/40 hover:shadow-[0_20px_50px_-12px_rgba(29,78,216,0.25)] flex flex-col justify-end"
                 >
                   <img
                     src={c.flagImg}

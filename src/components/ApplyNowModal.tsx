@@ -3,15 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { X, Send } from 'lucide-react';
 import { useApplyNow } from '@/components/ApplyNowContext';
-
-const studyDestinations = [
-  { value: '', label: 'Select a destination' },
-  { value: 'australia', label: 'Australia' },
-  { value: 'usa', label: 'USA' },
-  { value: 'canada', label: 'Canada' },
-  { value: 'uk', label: 'UK' },
-  { value: 'new-zealand', label: 'New Zealand' },
-];
+import { applyDestinationSelectOptions } from '@/data/siteContent';
 
 const academicLevels = [
   { value: '', label: 'Select academic level' },
@@ -169,8 +161,8 @@ export default function ApplyNowModal() {
                       onChange={(e) => setForm((p) => ({ ...p, preferredStudyDestination: e.target.value }))}
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
                     >
-                      {studyDestinations.map((d) => (
-                        <option key={d.value} value={d.value}>
+                      {applyDestinationSelectOptions.map((d) => (
+                        <option key={d.label + d.value} value={d.value}>
                           {d.label}
                         </option>
                       ))}

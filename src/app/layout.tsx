@@ -13,8 +13,16 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'Shikshya Path Foundation | Study Abroad Consultancy',
-  description: 'Your Trusted Partner for Studying Abroad. We guide Nepalese students to global success.',
+  title: 'Shikshya Path Foundation | Study Abroad Consultancy Nepal',
+  description:
+    'Shikshya Path Foundation — study abroad consultancy in Kathmandu, Nepal. IELTS & PTE training, university guidance, and visa support for Australia, UK, USA, Canada, New Zealand, Europe, Japan & Korea. Your Dream Our Guidance.',
+  keywords: [
+    'study abroad Nepal',
+    'education consultancy Kathmandu',
+    'IELTS PTE Nepal',
+    'study in Australia UK USA Canada',
+    'Shikshya Path Foundation',
+  ],
 };
 
 export default function RootLayout({
@@ -34,19 +42,21 @@ export default function RootLayout({
               "name": "Shikshya Path Foundation",
               "url": "https://shikshyapath.edu.np",
               "logo": "https://shikshyapath.edu.np/logo.png",
-              "description": "Premium study abroad consultancy in Nepal guiding students to top universities globally.",
+              "description": "Study abroad consultancy in Kathmandu, Nepal — university guidance, IELTS & PTE preparation, documentation and visa support for Nepali students.",
+              "slogan": "Your Dream Our Guidance",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "Putalisadak",
+                "streetAddress": "Ramshah Path, Putalisadak",
                 "addressLocality": "Kathmandu",
                 "addressRegion": "Bagmati",
-                "postalCode": "44600",
                 "addressCountry": "NP"
               },
-              "telephone": "+977-1-4XXXXXX",
+              "email": "shikshyapathofficial@gmail.com",
+              "telephone": "+977-01-4528000",
               "sameAs": [
-                "https://www.facebook.com/shikshyapath",
-                "https://www.instagram.com/shikshyapath"
+                "https://www.facebook.com/share/1CL399G2iT/",
+                "https://www.instagram.com/shikshyapathfoundation",
+                "https://www.tiktok.com/@shikshyapathfoundation"
               ]
             })
           }}
