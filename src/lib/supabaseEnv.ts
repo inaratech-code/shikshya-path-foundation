@@ -12,9 +12,17 @@ export function isSupabaseEnvConfigured(): boolean {
   return true;
 }
 
-/** Server-only: `SUPABASE_SERVICE_ROLE_KEY` is required to read/count `leads`, full `offers`, etc. (bypasses RLS). */
+/**
+ * Server-only: `SUPABASE_SERVICE_ROLE_KEY` + project URL are enough for the service client.
+ * Intentionally does not require `isSupabaseEnvConfigured()` (anon + `.supabase.co` checks), so custom
+ * Supabase URLs or stricter anon validation cannot block admin reads when the service key is set.
+ */
 export function isSupabaseServiceRoleConfigured(): boolean {
-  if (!isSupabaseEnvConfigured()) return false;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
   const k = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
-  return !!k && k.length > 0;
+  if (!url || !k) return false;
+  if (!url.startsWith('http')) return false;
+  const u = url.toLowerCase();
+  if (u.includes('your_project_ref') || u.includes('xxxxxxxx')) return false;
+  return true;
 }

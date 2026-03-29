@@ -71,7 +71,7 @@ export default function AdminDashboard() {
             <div className="text-xs sm:text-sm font-medium text-slate-500 break-words">Total Leads</div>
             {stats && !stats.leadsConfigured ? (
               <p className="text-[11px] text-amber-700 mt-1 leading-snug">
-                Add <code className="font-mono">SUPABASE_SERVICE_ROLE_KEY</code> to count leads.
+                Set <code className="font-mono">SUPABASE_SERVICE_ROLE_KEY</code> in env and restart dev / redeploy.
               </p>
             ) : null}
           </div>
@@ -128,8 +128,8 @@ export default function AdminDashboard() {
                 ) : stats && !stats.leadsConfigured ? (
                   <tr>
                     <td colSpan={4} className="py-12 text-center text-slate-500">
-                      Add <code className="text-xs bg-slate-100 px-1 rounded">SUPABASE_SERVICE_ROLE_KEY</code> to{' '}
-                      <code className="text-xs bg-slate-100 px-1 rounded">.env.local</code> to load recent leads here.
+                      Set <code className="text-xs bg-slate-100 px-1 rounded">SUPABASE_SERVICE_ROLE_KEY</code> in env
+                      (local or Vercel), then restart or redeploy — the server must load it to show leads.
                     </td>
                   </tr>
                 ) : stats && stats.recentLeads.length === 0 ? (

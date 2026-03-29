@@ -316,10 +316,10 @@ export default function LeadsPage() {
 
       {needsServiceRole && (
         <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          Add <code className="font-mono text-amber-900">SUPABASE_SERVICE_ROLE_KEY</code> to{' '}
-          <code className="font-mono text-amber-900">.env.local</code> and restart the dev server. Leads live in
-          Supabase; the admin list requires the service role (anon cannot read <code className="font-mono">leads</code>{' '}
-          by design).
+          The server does not see <code className="font-mono text-amber-900">SUPABASE_SERVICE_ROLE_KEY</code> yet. Add
+          it to <code className="font-mono text-amber-900">.env.local</code> (local) or your host env (e.g. Vercel), then{' '}
+          <strong>restart the dev server</strong> or redeploy. The admin list uses the service role because anon cannot
+          read <code className="font-mono">leads</code> by design.
         </div>
       )}
 
