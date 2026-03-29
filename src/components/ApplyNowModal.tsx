@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { X, Send } from 'lucide-react';
 import { useApplyNow } from '@/components/ApplyNowContext';
 import { applyDestinationSelectOptions } from '@/data/siteContent';
+import { submitLeadPublic } from '@/lib/submitLeadClient';
 
 const academicLevels = [
   { value: '', label: 'Select academic level' },
@@ -17,6 +18,8 @@ const academicLevels = [
 export default function ApplyNowModal() {
   const { state, close } = useApplyNow();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const initial = useMemo(
     () => ({
@@ -35,6 +38,7 @@ export default function ApplyNowModal() {
   useEffect(() => {
     if (state.open) {
       setSubmitted(false);
+      setSubmitError(null);
       setForm(initial);
     }
   }, [state.open, initial]);
@@ -111,8 +115,32 @@ export default function ApplyNowModal() {
             ) : (
               <form
                 className="space-y-5"
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
+                  setSubmitError(null);
+                  const destLabel =
+                    applyDestinationSelectOptions.find((d) => d.value === form.preferredStudyDestination)?.label ??
+                    form.preferredStudyDestination;
+                  const message = [
+                    `Intent: ${state.intent === 'enroll' ? 'Enroll' : 'Apply'}`,
+                    form.academicLevel ? `Academic level: ${form.academicLevel}` : null,
+                    form.preferredProgram ? `Preferred program: ${form.preferredProgram}` : null,
+                  ]
+                    .filter(Boolean)
+                    .join('\n');
+                  setSubmitting(true);
+                  const result = await submitLeadPublic({
+                    full_name: form.fullName.trim(),
+                    email: form.email.trim(),
+                    phone: form.phone.trim(),
+                    destination: destLabel || null,
+                    message,
+                  });
+                  setSubmitting(false);
+                  if (!result.ok) {
+                    setSubmitError(result.error);
+                    return;
+                  }
                   setSubmitted(true);
                 }}
               >
@@ -198,11 +226,22 @@ export default function ApplyNowModal() {
                   </div>
                 </div>
 
+                {submitError ? (
+                  <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+                    {submitError}
+                  </div>
+                ) : null}
+
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-bold px-8 py-4 rounded-xl hover:scale-[1.02] transition-transform shadow-xl shadow-[var(--color-primary)]/20 text-lg"
+                  disabled={submitting}
+                  className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-bold px-8 py-4 rounded-xl hover:scale-[1.02] transition-transform shadow-xl shadow-[var(--color-primary)]/20 text-lg disabled:opacity-60 disabled:pointer-events-none"
                 >
-                  Submit <Send size={20} />
+                  {submitting ? 'Sending…' : (
+                    <>
+                      Submit <Send size={20} />
+                    </>
+                  )}
                 </button>
 
                 <p className="text-xs text-slate-500">

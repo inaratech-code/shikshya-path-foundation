@@ -23,30 +23,31 @@
     not only min-h — tall / vertical logos otherwise overlap the first hero band.
   */
   :root {
-    --header-height: 6.875rem;
+    /* Main PNG logo in header — keep in sync with BrandLogo + Header padding */
+    --header-height: 4rem;
     --hero-inner-pt: calc(var(--header-height) + 1.5rem);
   }
   @media (min-width: 640px) {
     :root {
-      --header-height: 7.25rem;
+      --header-height: 5rem;
       --hero-inner-pt: calc(var(--header-height) + 1.75rem);
     }
   }
   @media (min-width: 768px) {
     :root {
-      --header-height: 7.5rem;
+      --header-height: 6rem;
       --hero-inner-pt: calc(var(--header-height) + 2rem);
     }
   }
   @media (min-width: 1024px) {
     :root {
-      --header-height: 8rem;
+      --header-height: 6.5rem;
       --hero-inner-pt: calc(var(--header-height) + 2rem);
     }
   }
   @media (min-width: 1280px) {
     :root {
-      --header-height: 8.25rem;
+      --header-height: 6.75rem;
       --hero-inner-pt: calc(var(--header-height) + 2.25rem);
     }
   }

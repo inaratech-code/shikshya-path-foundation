@@ -1,8 +1,15 @@
 import Link from 'next/link';
+import Image from 'next/image';
+import type { Metadata } from 'next';
 import { Home, Users, Award, Settings, MessageSquare } from 'lucide-react';
 import AdminViewportGuard from '@/components/AdminViewportGuard';
 import AdminAuthGuard from '@/components/AdminAuthGuard';
 import AdminLogoutButton from '@/components/AdminLogoutButton';
+import { NAVBAR_LOGO_PATH } from '@/data/siteContent';
+
+export const metadata: Metadata = {
+  title: 'Admin',
+};
 
 export default function AdminSidebarLayout({
   children,
@@ -16,10 +23,26 @@ export default function AdminSidebarLayout({
         {/* Sidebar */}
         <aside className="w-full md:w-64 shrink-0 bg-slate-900 text-white flex flex-col md:fixed md:left-0 md:top-0 md:bottom-0 shadow-2xl z-50">
           <div className="p-6 border-b border-slate-800">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center font-bold">S</div>
-              <span className="font-bold text-lg tracking-wide">Admin Panel</span>
-            </div>
+            <Link href="/admin" className="flex items-center gap-3 group min-w-0">
+              <div className="relative h-10 w-10 shrink-0 rounded-full overflow-hidden bg-white ring-1 ring-white/15 shadow-sm flex items-center justify-center p-1">
+                <Image
+                  src={NAVBAR_LOGO_PATH}
+                  alt="Shikshya Logo"
+                  width={40}
+                  height={40}
+                  className="h-full w-full object-contain"
+                  priority
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="font-bold text-[15px] leading-snug text-white tracking-tight truncate">
+                  Shikshya Path Foundation
+                </div>
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 group-hover:text-slate-300">
+                  Admin Panel
+                </span>
+              </div>
+            </Link>
           </div>
           
           <nav className="flex-grow py-6 px-4 space-y-2">

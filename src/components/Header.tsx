@@ -16,13 +16,13 @@ export default function Header() {
     pathname === path ? 'text-[var(--color-primary)]' : '';
 
   return (
-    <header className="fixed top-0 w-full z-50 border-b border-gray-100 bg-white text-start shadow-sm transition-all">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 min-h-[4.5rem] sm:min-h-[5.25rem] md:min-h-[5.75rem] lg:min-h-[6.25rem] py-2 sm:py-2.5 grid grid-cols-[1fr_auto] md:grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-2 sm:gap-x-3 md:gap-x-4 lg:gap-x-6">
+    <header className="fixed top-0 w-full z-50 border-b border-slate-200/50 bg-white/80 backdrop-blur-md text-start shadow-sm transition-all">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 min-h-[3.75rem] sm:min-h-[4.75rem] md:min-h-[5.75rem] lg:min-h-[6.25rem] py-1.5 sm:py-2 grid grid-cols-[1fr_auto] md:grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-2 sm:gap-x-3 md:gap-x-4 lg:gap-x-6">
         <BrandLogo variant="header" />
 
-        {/* Desktop Nav — centered in middle column; compact gaps so logo can stay large */}
+        {/* Desktop Nav — centered in middle column */}
         <nav
-          className="hidden md:flex min-w-0 items-center justify-center gap-2 px-1 lg:gap-3 xl:gap-5 text-[var(--color-text-main)] font-medium text-[13px] leading-tight lg:text-sm xl:text-base whitespace-nowrap"
+          className="hidden md:flex min-w-0 items-center justify-center gap-4 lg:gap-5 xl:gap-7 px-1 text-[var(--color-text-main)] font-bold text-[13px] leading-tight lg:text-sm xl:text-base whitespace-nowrap"
           aria-label="Primary"
         >
           <Link href="/" className={`shrink-0 hover:text-[var(--color-primary)] transition ${isActive('/')}`}>
@@ -64,9 +64,9 @@ export default function Header() {
 
       {/* Mobile Nav Drawer */}
       {open && (
-        <div className="md:hidden border-t border-slate-100 bg-white">
+        <div className="md:hidden border-t border-slate-200/50 bg-white/80 backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
-            <nav className="flex flex-col gap-1 text-[var(--color-text-main)] text-sm">
+            <nav className="flex flex-col gap-2 text-[var(--color-text-main)] text-sm font-bold">
               <Link
                 href="/"
                 className={`flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 ${isActive('/')}`}

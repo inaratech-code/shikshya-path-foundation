@@ -1,11 +1,45 @@
 'use client';
 
+import { useState } from 'react';
 import InnerPageHero from '@/components/InnerPageHero';
 import { Send } from 'lucide-react';
 import { siteContact, applyDestinationSelectOptions, SITE_MOTTO } from '@/data/siteContent';
+import { submitLeadPublic } from '@/lib/submitLeadClient';
 
 export default function ContactPage() {
   const mapQuery = encodeURIComponent('Ramshah Path Putalisadak Kathmandu Nepal');
+
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [destination, setDestination] = useState('');
+  const [message, setMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [done, setDone] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    const full = [firstName.trim(), lastName.trim()].filter(Boolean).join(' ');
+    const destLabel =
+      applyDestinationSelectOptions.find((d) => d.value === destination)?.label ?? destination.trim();
+    setSubmitting(true);
+    const result = await submitLeadPublic({
+      full_name: full || null,
+      email: email.trim(),
+      phone: phone.trim() || null,
+      destination: destLabel || null,
+      message: message.trim() || null,
+    });
+    setSubmitting(false);
+    if (!result.ok) {
+      setError(result.error);
+      return;
+    }
+    setDone(true);
+  }
 
   return (
     <main>
@@ -22,48 +56,107 @@ export default function ContactPage() {
             Fill out the form below with your details and study preferences. Our counselors will get back to you as soon as possible.
           </p>
 
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">First Name</label>
-                <input type="text" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50" placeholder="First name" />
+          {done ? (
+            <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-6">
+              <div className="text-emerald-900 font-bold text-lg">Thank you</div>
+              <p className="text-emerald-800 mt-2">
+                We’ve received your message and will get back to you soon.
+              </p>
+            </div>
+          ) : (
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              {error ? (
+                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</div>
+              ) : null}
+
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">First Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
+                    placeholder="First name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Last Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
+                    placeholder="Last name"
+                  />
+                </div>
               </div>
+
               <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Last Name</label>
-                <input type="text" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50" placeholder="Last name" />
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
+                  placeholder={siteContact.email}
+                />
               </div>
-            </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
-              <input type="email" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50" placeholder={siteContact.email} />
-            </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Phone / WhatsApp</label>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
+                  placeholder={siteContact.mobile}
+                />
+              </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Phone / WhatsApp</label>
-              <input type="tel" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50" placeholder={siteContact.mobile} />
-            </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Preferred Study Destination</label>
+                <select
+                  required
+                  value={destination}
+                  onChange={(e) => setDestination(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
+                >
+                  {applyDestinationSelectOptions.map((o) => (
+                    <option key={o.label + o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Preferred Study Destination</label>
-              <select className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50">
-                {applyDestinationSelectOptions.map((o) => (
-                  <option key={o.label + o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">Message or Questions</label>
+                <textarea
+                  rows={4}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
+                  placeholder="Tell us about your educational background and goals..."
+                />
+              </div>
 
-            <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">Message or Questions</label>
-              <textarea rows={4} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50" placeholder="Tell us about your educational background and goals..." />
-            </div>
-
-            <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-bold px-8 py-4 rounded-xl hover:scale-105 transition-transform shadow-xl shadow-[var(--color-primary)]/20 text-lg">
-              Submit Request <Send size={20} />
-            </button>
-          </form>
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-bold px-8 py-4 rounded-xl hover:scale-105 transition-transform shadow-xl shadow-[var(--color-primary)]/20 text-lg disabled:opacity-60 disabled:pointer-events-none"
+              >
+                {submitting ? 'Sending…' : (
+                  <>
+                    Submit Request <Send size={20} />
+                  </>
+                )}
+              </button>
+            </form>
+          )}
         </div>
 
         <div>

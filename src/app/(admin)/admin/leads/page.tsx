@@ -1,7 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-import { Eye, Trash2 } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import { Eye, Trash2, Loader2, X, Mail, Phone, MapPin, Calendar, FileText } from 'lucide-react';
+import { getClientOffersWriteToken } from '@/lib/offersWriteToken';
+import type { LeadRecord } from '@/types/lead';
+import { parseApplyFormMessage } from '@/components/admin/leadDetailsUtils';
 
 type LeadStatus = 'received' | 'contacted' | 'processed' | 'onboarded';
 
@@ -11,7 +14,7 @@ type LeadRow = {
   email: string;
   phone: string;
   destination: string;
-  messagePreview: string;
+  message: string;
   submittedAt: string;
   status: LeadStatus;
 };
@@ -22,6 +25,31 @@ const STATUS_OPTIONS: { value: LeadStatus; label: string }[] = [
   { value: 'processed', label: 'Processed' },
   { value: 'onboarded', label: 'Onboarded' },
 ];
+
+function parseStatus(s: string): LeadStatus {
+  if (s === 'received' || s === 'contacted' || s === 'processed' || s === 'onboarded') return s;
+  return 'received';
+}
+
+function fromRecord(r: LeadRecord): LeadRow {
+  return {
+    id: r.id,
+    name: r.full_name?.trim() || '—',
+    email: r.email || '—',
+    phone: r.phone?.trim() ?? '',
+    destination: r.destination?.trim() || '—',
+    message: (r.message ?? '').trim() || '',
+    submittedAt: new Date(r.created_at).toLocaleString(),
+    status: parseStatus(r.status),
+  };
+}
+
+function authHeaders(): HeadersInit {
+  return {
+    Authorization: `Bearer ${getClientOffersWriteToken()}`,
+    'Content-Type': 'application/json',
+  };
+}
 
 function LeadStatusSelect({
   value,
@@ -46,112 +74,348 @@ function LeadStatusSelect({
   );
 }
 
-/** One placeholder row so Status / Actions are visible before the API is wired; delete it for an empty table. */
-const INITIAL_PREVIEW_ROW: LeadRow = {
-  id: 'preview',
-  name: '—',
-  email: '—',
-  phone: '',
-  destination: '—',
-  messagePreview: '—',
-  submittedAt: '—',
-  status: 'received',
-};
+function LeadFormDetails({ message }: { message: string }) {
+  const parsed = parseApplyFormMessage(message);
+  const hasParsed = !!(parsed.intent || parsed.academicLevel || parsed.preferredProgram);
+  const hasMessage = message.length > 0;
 
-export default function LeadsPage() {
-  const [leads, setLeads] = useState<LeadRow[]>([INITIAL_PREVIEW_ROW]);
-
-  function setStatus(id: string, status: LeadStatus) {
-    setLeads((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+  if (!hasMessage && !hasParsed) {
+    return <p className="text-sm text-slate-400 italic">No additional details submitted.</p>;
   }
 
-  function removeLead(id: string) {
-    setLeads((prev) => prev.filter((r) => r.id !== id));
+  return (
+    <div className="space-y-3">
+      {hasParsed ? (
+        <div className="flex flex-wrap gap-2">
+          {parsed.intent ? (
+            <span className="inline-flex items-center rounded-lg bg-blue-50 border border-blue-100 px-3 py-1.5 text-sm">
+              <span className="font-semibold text-blue-900 mr-1.5">Intent</span>
+              <span className="text-blue-800">{parsed.intent}</span>
+            </span>
+          ) : null}
+          {parsed.academicLevel ? (
+            <span className="inline-flex items-center rounded-lg bg-violet-50 border border-violet-100 px-3 py-1.5 text-sm">
+              <span className="font-semibold text-violet-900 mr-1.5">Academic level</span>
+              <span className="text-violet-800 capitalize">{parsed.academicLevel}</span>
+            </span>
+          ) : null}
+          {parsed.preferredProgram ? (
+            <span className="inline-flex items-center rounded-lg bg-emerald-50 border border-emerald-100 px-3 py-1.5 text-sm max-w-full">
+              <span className="font-semibold text-emerald-900 mr-1.5 shrink-0">Program</span>
+              <span className="text-emerald-800 break-words">{parsed.preferredProgram}</span>
+            </span>
+          ) : null}
+        </div>
+      ) : null}
+
+      {hasMessage ? (
+        <div>
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-500 mb-2">
+            <FileText size={14} aria-hidden />
+            Full submission text
+          </div>
+          <pre className="whitespace-pre-wrap break-words font-sans text-sm leading-relaxed text-slate-800 bg-slate-50 border border-slate-200 rounded-xl p-4 max-h-[min(70vh,28rem)] overflow-y-auto">
+            {message}
+          </pre>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function LeadDetailModal({
+  lead,
+  onClose,
+}: {
+  lead: LeadRow;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-3 sm:p-6">
+      <button
+        type="button"
+        className="absolute inset-0 bg-slate-900/50 backdrop-blur-[2px]"
+        onClick={onClose}
+        aria-label="Close"
+      />
+      <div
+        className="relative w-full max-w-2xl max-h-[min(92vh,40rem)] overflow-y-auto rounded-2xl bg-white shadow-2xl border border-slate-200"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="lead-detail-title"
+      >
+        <div className="sticky top-0 flex items-center justify-between gap-3 border-b border-slate-100 bg-white px-5 py-4 z-10">
+          <h2 id="lead-detail-title" className="text-lg font-black text-slate-900 truncate pr-2">
+            {lead.name}
+          </h2>
+          <button
+            type="button"
+            onClick={onClose}
+            className="shrink-0 w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 inline-flex items-center justify-center"
+            aria-label="Close"
+          >
+            <X size={20} />
+          </button>
+        </div>
+        <div className="p-5 space-y-6">
+          <div className="grid sm:grid-cols-2 gap-4 text-sm">
+            <div className="flex gap-3 min-w-0">
+              <Mail className="text-blue-600 shrink-0 mt-0.5" size={18} />
+              <div className="min-w-0">
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Email</div>
+                {lead.email !== '—' ? (
+                  <a href={`mailto:${lead.email}`} className="text-blue-700 font-medium hover:underline break-all">
+                    {lead.email}
+                  </a>
+                ) : (
+                  <span className="text-slate-600">—</span>
+                )}
+              </div>
+            </div>
+            <div className="flex gap-3 min-w-0">
+              <Phone className="text-blue-600 shrink-0 mt-0.5" size={18} />
+              <div className="min-w-0">
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Phone</div>
+                {lead.phone ? (
+                  <a href={`tel:${lead.phone.replace(/\s/g, '')}`} className="text-slate-800 font-medium hover:underline">
+                    {lead.phone}
+                  </a>
+                ) : (
+                  <span className="text-slate-400">—</span>
+                )}
+              </div>
+            </div>
+            <div className="flex gap-3 sm:col-span-2 min-w-0">
+              <MapPin className="text-amber-600 shrink-0 mt-0.5" size={18} />
+              <div className="min-w-0">
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Preferred destination</div>
+                {lead.destination !== '—' ? (
+                  <span className="inline-flex mt-1 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-sm font-bold text-amber-900">
+                    {lead.destination}
+                  </span>
+                ) : (
+                  <span className="text-slate-400">—</span>
+                )}
+              </div>
+            </div>
+            <div className="flex gap-3 sm:col-span-2">
+              <Calendar className="text-slate-400 shrink-0 mt-0.5" size={18} />
+              <div>
+                <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Submitted</div>
+                <div className="text-slate-800 font-medium">{lead.submittedAt}</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className="text-xs font-bold uppercase tracking-wide text-slate-500 mb-3">Form details</div>
+            <LeadFormDetails message={lead.message} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function LeadsPage() {
+  const [leads, setLeads] = useState<LeadRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [needsServiceRole, setNeedsServiceRole] = useState(false);
+  const [detailLead, setDetailLead] = useState<LeadRow | null>(null);
+
+  const load = useCallback(async () => {
+    setError(null);
+    try {
+      const res = await fetch('/api/leads', { headers: authHeaders(), cache: 'no-store' });
+      setNeedsServiceRole(res.headers.get('X-Leads-Requires-Service-Role') === '1');
+      if (!res.ok) {
+        const j = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(j.error || (res.status === 401 ? 'Unauthorized — check NEXT_PUBLIC_OFFERS_WRITE_SECRET matches OFFERS_WRITE_SECRET' : 'Failed to load'));
+      }
+      const data = (await res.json()) as unknown;
+      if (!Array.isArray(data)) throw new Error('Invalid response');
+      setLeads((data as LeadRecord[]).map(fromRecord));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Failed to load leads');
+      setLeads([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  async function handleStatusChange(id: string, status: LeadStatus) {
+    setError(null);
+    try {
+      const res = await fetch(`/api/leads/${id}`, {
+        method: 'PATCH',
+        headers: authHeaders(),
+        body: JSON.stringify({ status }),
+      });
+      if (!res.ok) {
+        const j = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(j.error || 'Update failed');
+      }
+      setLeads((prev) => prev.map((r) => (r.id === id ? { ...r, status } : r)));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not update status');
+      await load();
+    }
+  }
+
+  async function removeLead(id: string) {
+    if (!window.confirm('Delete this lead permanently?')) return;
+    setError(null);
+    try {
+      const res = await fetch(`/api/leads/${id}`, { method: 'DELETE', headers: authHeaders() });
+      if (!res.ok) {
+        const j = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(j.error || 'Delete failed');
+      }
+      setDetailLead((d) => (d?.id === id ? null : d));
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not delete');
+    }
   }
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-slate-900">Leads Management</h1>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900">Leads Management</h1>
+          <p className="text-slate-500 text-sm mt-1 max-w-xl">
+            Each card shows the full apply/contact submission. Open the detail view for a larger read of the same
+            information.
+          </p>
+        </div>
         <button
           type="button"
-          className="bg-white border border-slate-200 text-slate-700 font-semibold px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors"
+          className="bg-white border border-slate-200 text-slate-700 font-semibold px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors opacity-60 cursor-not-allowed"
+          disabled
+          title="Coming soon"
         >
           Export as CSV
         </button>
       </div>
 
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse min-w-[960px]">
-            <thead>
-              <tr className="border-b border-slate-200 text-sm text-slate-500 uppercase tracking-wider">
-                <th className="pb-4 font-semibold px-4">Name</th>
-                <th className="pb-4 font-semibold px-4">Contact</th>
-                <th className="pb-4 font-semibold px-4">Destination</th>
-                <th className="pb-4 font-semibold px-4">Message Preview</th>
-                <th className="pb-4 font-semibold px-4">Date Submitted</th>
-                <th className="pb-4 font-semibold px-4">Status</th>
-                <th className="pb-4 font-semibold px-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="text-sm text-slate-700">
-              {leads.length === 0 ? (
-                <tr>
-                  <td colSpan={7} className="py-16 text-center text-slate-500">
-                    No leads yet. Form submissions will appear here when your backend is connected.
-                  </td>
-                </tr>
-              ) : (
-                leads.map((lead) => (
-                  <tr key={lead.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50/80">
-                    <td className="py-4 px-4 font-bold text-slate-900">{lead.name}</td>
-                    <td className="py-4 px-4 text-slate-500">
-                      <div>{lead.email}</div>
-                      {lead.phone ? <div className="text-xs text-slate-400">{lead.phone}</div> : null}
-                    </td>
-                    <td className="py-4 px-4 text-slate-600">
-                      {lead.destination === '—' ? (
-                        '—'
-                      ) : (
-                        <span className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-bold uppercase text-amber-800">
-                          {lead.destination}
-                        </span>
-                      )}
-                    </td>
-                    <td className="max-w-[220px] truncate py-4 px-4 italic text-slate-500">{lead.messagePreview}</td>
-                    <td className="py-4 px-4 text-slate-500">{lead.submittedAt}</td>
-                    <td className="py-4 px-4 align-middle">
-                      <LeadStatusSelect value={lead.status} onChange={(s) => setStatus(lead.id, s)} />
-                    </td>
-                    <td className="py-4 px-4 text-right align-middle">
-                      <div className="inline-flex items-center justify-end gap-1">
-                        <button
-                          type="button"
-                          className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-blue-50 hover:text-blue-600"
-                          aria-label="View lead"
-                          title="View"
-                        >
-                          <Eye size={18} strokeWidth={2} />
-                        </button>
-                        <button
-                          type="button"
-                          className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-red-50 hover:text-red-600"
-                          aria-label="Delete lead"
-                          title="Delete"
-                          onClick={() => removeLead(lead.id)}
-                        >
-                          <Trash2 size={18} strokeWidth={2} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+      {error && (
+        <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</div>
+      )}
+
+      {needsServiceRole && (
+        <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+          Add <code className="font-mono text-amber-900">SUPABASE_SERVICE_ROLE_KEY</code> to{' '}
+          <code className="font-mono text-amber-900">.env.local</code> and restart the dev server. Leads live in
+          Supabase; the admin list requires the service role (anon cannot read <code className="font-mono">leads</code>{' '}
+          by design).
         </div>
+      )}
+
+      <div className="space-y-5">
+        {loading ? (
+          <div className="rounded-2xl border border-slate-200 bg-white py-20 text-center text-slate-500">
+            <Loader2 className="inline-block animate-spin mr-2" size={22} />
+            Loading leads…
+          </div>
+        ) : leads.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-slate-200 bg-white py-16 px-6 text-center text-slate-500">
+            {needsServiceRole
+              ? 'No rows loaded — add the service role key above, then refresh.'
+              : 'No leads yet. Submissions from your site forms will appear here once inserts are wired to Supabase.'}
+          </div>
+        ) : (
+          leads.map((lead) => (
+            <article
+              key={lead.id}
+              className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden"
+            >
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 p-5 sm:p-6 border-b border-slate-100 bg-slate-50/80">
+                <div className="min-w-0">
+                  <h2 className="text-xl font-black text-slate-900 truncate">{lead.name}</h2>
+                  <p className="text-sm text-slate-500 mt-1">
+                    <time dateTime={lead.submittedAt}>{lead.submittedAt}</time>
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center gap-2 sm:justify-end shrink-0">
+                  <LeadStatusSelect value={lead.status} onChange={(s) => handleStatusChange(lead.id, s)} />
+                  <button
+                    type="button"
+                    onClick={() => setDetailLead(lead)}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200"
+                    aria-label="Open full details"
+                    title="Full screen details"
+                  >
+                    <Eye size={18} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => removeLead(lead.id)}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-red-600 hover:bg-red-50"
+                    aria-label="Delete lead"
+                    title="Delete"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-5 sm:p-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
+                <div className="space-y-4 text-sm">
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-wide text-slate-500 mb-1">Email</div>
+                    {lead.email !== '—' ? (
+                      <a href={`mailto:${lead.email}`} className="text-blue-700 font-semibold hover:underline break-all">
+                        {lead.email}
+                      </a>
+                    ) : (
+                      <span className="text-slate-400">—</span>
+                    )}
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-wide text-slate-500 mb-1">Phone</div>
+                    {lead.phone ? (
+                      <a href={`tel:${lead.phone.replace(/\s/g, '')}`} className="text-slate-800 font-medium hover:underline">
+                        {lead.phone}
+                      </a>
+                    ) : (
+                      <span className="text-slate-400">—</span>
+                    )}
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-wide text-slate-500 mb-1">Destination</div>
+                    {lead.destination !== '—' ? (
+                      <span className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-sm font-bold text-amber-900">
+                        {lead.destination}
+                      </span>
+                    ) : (
+                      <span className="text-slate-400">—</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="min-w-0 border-t lg:border-t-0 lg:border-l border-slate-100 pt-6 lg:pt-0 lg:pl-6 lg:ml-0">
+                  <div className="text-xs font-bold uppercase tracking-wide text-slate-500 mb-3">Apply / contact details</div>
+                  <LeadFormDetails message={lead.message} />
+                </div>
+              </div>
+            </article>
+          ))
+        )}
       </div>
+
+      {detailLead ? <LeadDetailModal lead={detailLead} onClose={() => setDetailLead(null)} /> : null}
     </div>
   );
 }

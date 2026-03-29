@@ -11,16 +11,8 @@ export default function AdminViewportGuard({ children }: Props) {
 
   useEffect(() => {
     const checkViewport = () => {
-      const width = window.innerWidth;
-      const ua = window.navigator.userAgent || '';
-      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-
-      // Only allow reasonably large, non-mobile viewports (desktop/laptop)
-      if (width >= 1024 && !isMobileUA) {
-        setIsAllowed(true);
-      } else {
-        setIsAllowed(false);
-      }
+      // md breakpoint — avoids blocking common laptop split windows / tablets (was 1024 + UA)
+      setIsAllowed(window.innerWidth >= 768);
     };
 
     checkViewport();
@@ -28,9 +20,14 @@ export default function AdminViewportGuard({ children }: Props) {
     return () => window.removeEventListener('resize', checkViewport);
   }, []);
 
-  // While we haven't checked yet, render nothing to avoid flicker
+  // Avoid a blank screen while measuring viewport (was confusing as "nothing loads")
   if (isAllowed === null) {
-    return null;
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center text-slate-500 text-sm font-medium gap-2">
+        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-blue-600" />
+        Preparing admin…
+      </div>
+    );
   }
 
   if (!isAllowed) {
@@ -40,12 +37,12 @@ export default function AdminViewportGuard({ children }: Props) {
           <div className="mx-auto mb-6 w-16 h-16 rounded-2xl bg-red-500/10 border border-red-500/40 flex items-center justify-center text-red-400 text-3xl font-bold">
             !
           </div>
-          <h1 className="text-2xl font-bold mb-3">Desktop Only Access</h1>
+          <h1 className="text-2xl font-bold mb-3">Wider screen needed</h1>
           <p className="text-slate-300 mb-4">
-            The Shikshya Path admin panel is only available on desktop or laptop devices for security and usability reasons.
+            The admin layout needs enough horizontal space. Use a larger window or rotate to landscape.
           </p>
           <p className="text-slate-400 text-sm">
-            Please switch to a Windows or desktop computer with a larger screen to manage the admin panel.
+            Widen the window to at least 768px (or rotate your device) to use the admin panel comfortably.
           </p>
         </div>
       </div>

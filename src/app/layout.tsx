@@ -1,7 +1,11 @@
 import type { Metadata } from 'next';
 import { Lexend, Outfit } from 'next/font/google';
 import './globals.css';
-import { getSiteLogoAbsoluteUrl, SITE_LOGO_PATH } from '@/data/siteContent';
+import {
+  getMainSiteLogoAbsoluteUrl,
+  MAIN_SITE_LOGO_PATH,
+  SITE_FAVICON_PATH,
+} from '@/data/siteContent';
 
 /** Lexend: readability-first (designed for longer reading — student-friendly). Outfit: energetic display for titles. */
 const lexend = Lexend({
@@ -22,7 +26,7 @@ const siteOrigin = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://shikshyapath.edu
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
-  title: 'Shikshya Path Foundation | Study Abroad Consultancy Nepal',
+  title: 'Shikshya Path Foundation',
   description:
     'Shikshya Path Foundation — study abroad consultancy in Kathmandu, Nepal. IELTS & PTE training, university guidance, and visa support for Australia, UK, USA, Canada, New Zealand, Europe, Japan & Korea. Your Dream Our Guidance.',
   keywords: [
@@ -33,9 +37,9 @@ export const metadata: Metadata = {
     'Shikshya Path Foundation',
   ],
   icons: {
-    icon: [{ url: SITE_LOGO_PATH, type: 'image/png' }],
-    apple: [{ url: SITE_LOGO_PATH }],
-    shortcut: SITE_LOGO_PATH,
+    icon: [{ url: SITE_FAVICON_PATH, type: 'image/jpeg', sizes: 'any' }],
+    apple: [{ url: SITE_FAVICON_PATH, sizes: '180x180' }],
+    shortcut: SITE_FAVICON_PATH,
   },
   openGraph: {
     type: 'website',
@@ -43,16 +47,16 @@ export const metadata: Metadata = {
     siteName: 'Shikshya Path Foundation',
     images: [
       {
-        url: SITE_LOGO_PATH,
+        url: MAIN_SITE_LOGO_PATH,
         width: 512,
         height: 512,
-        alt: 'Shikshya Path Foundation logo',
+        alt: 'Shikshya Path Foundation Logo',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    images: [SITE_LOGO_PATH],
+    images: [MAIN_SITE_LOGO_PATH],
   },
 };
 
@@ -75,7 +79,7 @@ export default function RootLayout({
               "@type": "EducationalOrganization",
               "name": "Shikshya Path Foundation",
               "url": "https://shikshyapath.edu.np",
-              "logo": getSiteLogoAbsoluteUrl(),
+              "logo": getMainSiteLogoAbsoluteUrl(),
               "description": "Study abroad consultancy in Kathmandu, Nepal — university guidance, IELTS & PTE preparation, documentation and visa support for Nepali students.",
               "slogan": "Your Dream Our Guidance",
               "address": {

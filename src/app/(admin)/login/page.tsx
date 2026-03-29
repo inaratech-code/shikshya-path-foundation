@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { LogIn, AlertCircle } from 'lucide-react';
+import { MAIN_SITE_LOGO_PATH } from '@/data/siteContent';
 import {
   DEMO_ADMIN_ID,
   DEMO_ADMIN_PASSWORD,
@@ -42,11 +44,20 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-slate-100 flex items-center justify-center p-6">
       <div className="bg-white max-w-md w-full rounded-[2rem] shadow-2xl overflow-hidden">
         <div className="bg-slate-900 p-8 text-center">
-          <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white font-black text-3xl mx-auto mb-4 shadow-lg shadow-blue-500/50">
-            S
+          <div className="flex flex-col items-center gap-3 mb-2">
+            <div className="inline-flex rounded-2xl bg-white px-4 py-3 shadow-lg shadow-black/25 ring-2 ring-white/10">
+              <Image
+                src={MAIN_SITE_LOGO_PATH}
+                alt="Shikshya Path Foundation Logo"
+                width={400}
+                height={100}
+                className="h-14 sm:h-16 w-auto max-w-[min(100%,280px)] object-contain object-center"
+                priority
+              />
+            </div>
+            <h1 className="text-center text-2xl font-black text-white">Admin Secure Access</h1>
+            <p className="text-center text-slate-400 text-sm">Shikshya Path Portal</p>
           </div>
-          <h1 className="text-center text-2xl font-black text-white">Admin Secure Access</h1>
-          <p className="text-center text-slate-400 mt-2 text-sm">Shikshya Path Portal</p>
         </div>
 
         <form className="p-8 space-y-6" onSubmit={handleSubmit}>

@@ -4,12 +4,43 @@
 
 export const SITE_MOTTO = 'Your Dream Our Guidance';
 
-/** Add the transparent PNG to `public/images/` — used in navbar, footer, favicon & SEO. */
-export const SITE_LOGO_PATH = '/images/Shikshya_Path_Foundation_cropped-removebg-preview.png' as const;
+/**
+ * Full main logo (icon + “SHIKSHYA PATH / FOUNDATION”) — footer, social previews, SEO, structured data.
+ * `public/images/Shikshya_Path_Foundation_cropped-removebg-preview.png`
+ */
+export const MAIN_SITE_LOGO_PATH = '/images/Shikshya_Path_Foundation_cropped-removebg-preview.png' as const;
 
+/**
+ * Compact mark for admin sidebar (same JPEG as favicon; main PNG is used in the public navbar).
+ * `public/images/SPK.jpeg`
+ */
+export const NAVBAR_LOGO_PATH = '/images/SPK.jpeg' as const;
+
+/** @deprecated Use MAIN_SITE_LOGO_PATH — kept for older imports */
+export const SITE_LOGO_PATH = MAIN_SITE_LOGO_PATH;
+
+/** Browser tab / favicon — `public/images/SPK.jpeg`. */
+export const SITE_FAVICON_PATH = '/images/SPK.jpeg' as const;
+
+function siteOriginBase(): string {
+  return (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://shikshyapath.edu.np').replace(/\/$/, '');
+}
+
+export function getMainSiteLogoAbsoluteUrl(): string {
+  return `${siteOriginBase()}${MAIN_SITE_LOGO_PATH}`;
+}
+
+export function getNavbarLogoAbsoluteUrl(): string {
+  return `${siteOriginBase()}${NAVBAR_LOGO_PATH}`;
+}
+
+/** Organization logo for JSON-LD / SEO — full main logo. */
 export function getSiteLogoAbsoluteUrl(): string {
-  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://shikshyapath.edu.np').replace(/\/$/, '');
-  return `${base}${SITE_LOGO_PATH}`;
+  return getMainSiteLogoAbsoluteUrl();
+}
+
+export function getSiteFaviconAbsoluteUrl(): string {
+  return getNavbarLogoAbsoluteUrl();
 }
 
 export const siteContact = {
