@@ -4,7 +4,7 @@
  */
 export const HERO_BANNER_IMAGES = [
   'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=2400&q=82',
-  'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=2400&q=82',
+  'https://images.pexels.com/photos/5212695/pexels-photo-5212695.jpeg?auto=compress&cs=tinysrgb&w=2400',
   'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=2400&q=82',
   'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2400&q=82',
   'https://images.unsplash.com/photo-1564981797816-1043664bf78d?auto=format&fit=crop&w=2400&q=82',

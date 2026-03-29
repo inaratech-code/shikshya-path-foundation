@@ -27,7 +27,7 @@ export default function InnerPageHero({
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 pt-[var(--hero-inner-pt)]">
         <motion.h1 
-          className="text-3xl sm:text-4xl md:text-6xl font-black mb-4 sm:mb-6 tracking-tight font-heading"
+          className="text-center text-3xl sm:text-4xl md:text-6xl font-black mb-4 sm:mb-6 tracking-tight font-heading"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
@@ -35,7 +35,7 @@ export default function InnerPageHero({
           {title}
         </motion.h1>
         <motion.p 
-          className="text-base sm:text-lg md:text-xl text-slate-300 font-medium max-w-2xl mx-auto leading-relaxed"
+          className="text-justify text-base sm:text-lg md:text-xl text-slate-300 font-medium max-w-2xl mx-auto leading-relaxed"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}

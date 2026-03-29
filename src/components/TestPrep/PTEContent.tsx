@@ -85,8 +85,8 @@ export default function PTEContent() {
       <section className="py-16 md:py-20 text-white text-center mx-3 sm:mx-6 md:mx-10 rounded-[3rem] mb-10 overflow-hidden relative shadow-2xl">
         <HeroBannerLayers imageSrc={heroBannerForSeed('pte-enroll-cta')} overlay="cta" />
         <div className="relative z-10 max-w-3xl mx-auto px-6">
-          <h2 className="text-3xl md:text-5xl font-black">Begin your path to a successful future</h2>
-          <p className="text-slate-200 mt-4 mb-8 max-w-xl mx-auto">
+          <h2 className="text-center text-3xl md:text-5xl font-black">Begin your path to a successful future</h2>
+          <p className="text-justify text-slate-200 mt-4 mb-8 max-w-xl mx-auto">
             Enroll for PTE preparation and get a plan plus guidance from our team.
           </p>
           <button

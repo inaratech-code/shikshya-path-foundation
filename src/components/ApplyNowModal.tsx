@@ -80,7 +80,7 @@ export default function ApplyNowModal() {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-black text-slate-900">{title}</h2>
-                <p className="text-slate-600 mt-2">{subtitle}</p>
+                <p className="text-justify text-slate-600 mt-2">{subtitle}</p>
               </div>
               <button
                 type="button"

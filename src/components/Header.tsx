@@ -16,7 +16,7 @@ export default function Header() {
     pathname === path ? 'text-[var(--color-primary)]' : '';
 
   return (
-    <header className="fixed top-0 w-full z-50 border-b border-gray-100 bg-white shadow-sm transition-all">
+    <header className="fixed top-0 w-full z-50 border-b border-gray-100 bg-white text-start shadow-sm transition-all">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 min-h-[4.5rem] sm:min-h-[5.25rem] md:min-h-[5.75rem] lg:min-h-[6.25rem] py-2 sm:py-2.5 grid grid-cols-[1fr_auto] md:grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-2 sm:gap-x-3 md:gap-x-4 lg:gap-x-6">
         <BrandLogo variant="header" />
 

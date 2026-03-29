@@ -1,6 +1,8 @@
 import Link from 'next/link';
-import { Home, Users, BookOpen, Award, Settings, MessageSquare, LogOut } from 'lucide-react';
+import { Home, Users, Award, Settings, MessageSquare } from 'lucide-react';
 import AdminViewportGuard from '@/components/AdminViewportGuard';
+import AdminAuthGuard from '@/components/AdminAuthGuard';
+import AdminLogoutButton from '@/components/AdminLogoutButton';
 
 export default function AdminSidebarLayout({
   children,
@@ -8,6 +10,7 @@ export default function AdminSidebarLayout({
   children: React.ReactNode;
 }) {
   return (
+    <AdminAuthGuard>
     <AdminViewportGuard>
       <div className="bg-slate-50 min-h-screen pt-4 flex min-w-0">
         {/* Sidebar */}
@@ -26,9 +29,6 @@ export default function AdminSidebarLayout({
             <Link href="/admin/leads" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-colors font-medium">
               <Users size={20} /> Leads
             </Link>
-            <Link href="/admin/blogs" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-colors font-medium">
-              <BookOpen size={20} /> Blogs/News
-            </Link>
             <Link href="/admin/offers" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-colors font-medium">
               <Award size={20} /> Offers
             </Link>
@@ -41,9 +41,7 @@ export default function AdminSidebarLayout({
             <Link href="/admin/settings" className="flex items-center gap-3 px-4 py-2 text-slate-400 hover:text-white transition-colors">
               <Settings size={18} /> Settings
             </Link>
-            <button className="flex items-center gap-3 px-4 py-2 text-red-400 hover:text-red-300 transition-colors w-full text-left mt-2">
-              <LogOut size={18} /> Logout
-            </button>
+            <AdminLogoutButton />
           </div>
         </aside>
 
@@ -52,8 +50,8 @@ export default function AdminSidebarLayout({
           {/* Simple Topbar for Admin */}
           <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-end px-4 sm:px-6 lg:px-8 sticky top-0 z-40 shrink-0">
             <div className="flex items-center gap-3">
-              <div className="text-sm font-medium text-slate-600">Admin User</div>
-              <div className="w-9 h-9 bg-slate-200 rounded-full"></div>
+              <span className="text-sm font-medium text-slate-600">Administrator</span>
+              <div className="w-9 h-9 bg-slate-200 rounded-full shrink-0" aria-hidden />
             </div>
           </header>
 
@@ -64,5 +62,6 @@ export default function AdminSidebarLayout({
         </main>
       </div>
     </AdminViewportGuard>
+    </AdminAuthGuard>
   );
 }

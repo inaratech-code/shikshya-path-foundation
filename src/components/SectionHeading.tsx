@@ -27,9 +27,17 @@ export default function SectionHeading({
       {eyebrow && (
         <p className={`text-sm font-bold ${eyebrowTone} uppercase tracking-widest mb-3`}>{eyebrow}</p>
       )}
-      <h2 className={`text-3xl md:text-5xl font-black ${titleTone} mb-4`}>{title}</h2>
+      <h2
+        className={`text-3xl md:text-5xl font-black ${titleTone} mb-4 ${
+          align === 'center' ? 'text-center' : 'text-left'
+        }`}
+      >
+        {title}
+      </h2>
       {description && (
-        <p className={`${descTone} max-w-2xl ${descAlignCls} text-base md:text-lg leading-relaxed`}>
+        <p
+          className={`${descTone} max-w-2xl ${descAlignCls} text-base md:text-lg leading-relaxed text-justify`}
+        >
           {description}
         </p>
       )}

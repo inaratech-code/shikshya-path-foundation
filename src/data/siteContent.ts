@@ -343,7 +343,7 @@ export const studyDestinations: StudyDestinationBlock[] = [
 export function getStudyDestinationHero(slug: string): string {
   const n = normalizeStudySlug(slug);
   const d = studyDestinations.find((x) => x.slug === n);
-  return d?.heroForPage ?? 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1400&q=80';
+  return d?.heroForPage ?? 'https://images.pexels.com/photos/5212695/pexels-photo-5212695.jpeg?auto=compress&cs=tinysrgb&w=1400';
 }
 
 export function normalizeStudySlug(raw: string): string {

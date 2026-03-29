@@ -25,7 +25,7 @@ const FOOTER_DESTINATIONS = [
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-950 text-slate-400 py-12 sm:py-20 px-4 sm:px-6 border-t border-slate-900 mt-auto">
+    <footer className="bg-slate-950 text-slate-400 py-12 sm:py-20 px-4 sm:px-6 border-t border-slate-900 mt-auto [&_p]:text-justify">
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-12 gap-x-6 gap-y-10 sm:gap-12 lg:gap-x-8 lg:gap-y-8">
         <div className="col-span-2 lg:col-span-5 lg:pr-8">
           <div className="mb-4">

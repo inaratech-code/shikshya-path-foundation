@@ -56,11 +56,19 @@
   }
 
   body {
-    @apply text-[var(--color-text-main)] bg-white antialiased overflow-x-hidden;
+    @apply text-[var(--color-text-main)] bg-white antialiased overflow-x-hidden text-justify;
+    hyphens: auto;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  /* Display headings should not use full justification (body text inherits text-justify). */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-heading tracking-tight;
+    text-align: start;
   }
 }
 

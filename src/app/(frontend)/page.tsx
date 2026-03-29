@@ -81,7 +81,7 @@ function PrimaryButton({
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-semibold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl hover:scale-[1.02] transition-transform shadow-xl shadow-[var(--color-primary)]/20 text-base sm:text-lg w-full sm:w-auto"
+      className="inline-flex items-center justify-center gap-2 text-center bg-[var(--color-primary)] text-white font-semibold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl hover:scale-[1.02] transition-transform shadow-xl shadow-[var(--color-primary)]/20 text-base sm:text-lg w-full sm:w-auto"
     >
       {children}
     </button>
@@ -128,7 +128,7 @@ export default function Home() {
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl">
+            <p className="text-justify text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl">
               A modern study abroad consultancy helping students choose the right destination, prepare documents, and
               succeed with confidence.
             </p>
@@ -425,10 +425,10 @@ export default function Home() {
           <div className="w-16 h-16 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
             <GraduationCap size={30} className="text-white" />
           </div>
-          <h2 className="text-3xl md:text-5xl font-black mb-4 tracking-tight">
+          <h2 className="text-center text-3xl md:text-5xl font-black mb-4 tracking-tight">
             Begin your path to a successful future
           </h2>
-          <p className="text-slate-200 text-base md:text-lg mb-8 max-w-xl mx-auto font-medium">
+          <p className="text-justify text-slate-200 text-base md:text-lg mb-8 max-w-xl mx-auto font-medium">
             Tell us your destination and program preference—our team will guide you with the next best step.
           </p>
           <div className="flex justify-center">
