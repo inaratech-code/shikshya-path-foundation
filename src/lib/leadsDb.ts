@@ -20,11 +20,28 @@ function serviceClient(): SupabaseClient {
   );
 }
 
-export async function dbListLeads(): Promise<LeadRecord[]> {
-  const { data, error } = await serviceClient()
+/** Total row count using the service role (efficient; does not fetch rows). */
+export async function dbCountLeads(): Promise<number> {
+  const { count, error } = await serviceClient()
+    .from('leads')
+    .select('*', { count: 'exact', head: true });
+
+  if (error) throw error;
+  return count ?? 0;
+}
+
+/** List leads (newest first). Pass `limit` to avoid loading every row (e.g. dashboard preview). */
+export async function dbListLeads(limit?: number): Promise<LeadRecord[]> {
+  let q = serviceClient()
     .from('leads')
     .select('id, full_name, email, phone, destination, message, status, created_at')
     .order('created_at', { ascending: false });
+
+  if (typeof limit === 'number' && limit > 0) {
+    q = q.limit(limit);
+  }
+
+  const { data, error } = await q;
 
   if (error) throw error;
   return (data ?? []) as LeadRecord[];

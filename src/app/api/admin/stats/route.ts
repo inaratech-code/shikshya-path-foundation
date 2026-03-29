@@ -6,7 +6,7 @@ import {
   supabaseAnonConfigured,
   supabaseServiceConfigured,
 } from '@/lib/offersDb';
-import { dbListLeads } from '@/lib/leadsDb';
+import { dbCountLeads, dbListLeads } from '@/lib/leadsDb';
 import { offersWriteAuthorized } from '@/lib/offersApiAuth';
 
 /** Aggregated counts for the admin dashboard (Bearer auth). */
@@ -31,9 +31,9 @@ export async function GET(request: Request) {
 
   try {
     if (supabaseServiceConfigured()) {
-      const leads = await dbListLeads();
-      payload.leadsTotal = leads.length;
-      payload.recentLeads = leads.slice(0, 5).map((r) => ({
+      const [total, recent] = await Promise.all([dbCountLeads(), dbListLeads(5)]);
+      payload.leadsTotal = total;
+      payload.recentLeads = recent.map((r) => ({
         id: r.id,
         name: r.full_name?.trim() || '—',
         email: r.email || '—',

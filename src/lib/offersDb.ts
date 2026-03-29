@@ -1,6 +1,6 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { PublishedOffer } from '@/types/offer';
-import { isSupabaseEnvConfigured } from '@/lib/supabaseEnv';
+import { isSupabaseEnvConfigured, isSupabaseServiceRoleConfigured } from '@/lib/supabaseEnv';
 
 type OfferRow = {
   id: string;
@@ -28,7 +28,7 @@ export function supabaseAnonConfigured(): boolean {
 
 /** Service role required for admin writes and listing all rows (including inactive). */
 export function supabaseServiceConfigured(): boolean {
-  return supabaseAnonConfigured() && !!process.env.SUPABASE_SERVICE_ROLE_KEY;
+  return isSupabaseServiceRoleConfigured();
 }
 
 function anonClient(): SupabaseClient {

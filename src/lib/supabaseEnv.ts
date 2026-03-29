@@ -11,3 +11,10 @@ export function isSupabaseEnvConfigured(): boolean {
   if (!u.includes('.supabase.co')) return false;
   return true;
 }
+
+/** Server-only: `SUPABASE_SERVICE_ROLE_KEY` is required to read/count `leads`, full `offers`, etc. (bypasses RLS). */
+export function isSupabaseServiceRoleConfigured(): boolean {
+  if (!isSupabaseEnvConfigured()) return false;
+  const k = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
+  return !!k && k.length > 0;
+}
