@@ -103,9 +103,9 @@ export default function Home() {
   const applyNow = useApplyNow();
 
   return (
-    <main className="pt-20">
-      {/* HERO */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-blue-50/50 via-white to-white pt-16 sm:pt-20 pb-16 sm:pb-20">
+    <main className="pt-[var(--header-height)]">
+      {/* HERO — starts below fixed header; border reinforces header vs content */}
+      <section className="relative overflow-hidden border-t border-slate-200/80 bg-gradient-to-br from-blue-50/50 via-white to-white pt-8 sm:pt-10 md:pt-12 pb-16 sm:pb-20">
         <div className="absolute top-0 right-0 -mr-48 -mt-48 w-[40rem] h-[40rem] rounded-full bg-blue-100/40 blur-3xl opacity-60" />
         <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 rounded-full bg-indigo-100/40 blur-3xl" />
 

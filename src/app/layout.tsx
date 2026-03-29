@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Lexend, Outfit } from 'next/font/google';
 import './globals.css';
+import { getSiteLogoAbsoluteUrl, SITE_LOGO_PATH } from '@/data/siteContent';
 
 /** Lexend: readability-first (designed for longer reading — student-friendly). Outfit: energetic display for titles. */
 const lexend = Lexend({
@@ -17,7 +18,10 @@ const outfit = Outfit({
   weight: ['500', '600', '700', '800', '900'],
 });
 
+const siteOrigin = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://shikshyapath.edu.np';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteOrigin),
   title: 'Shikshya Path Foundation | Study Abroad Consultancy Nepal',
   description:
     'Shikshya Path Foundation — study abroad consultancy in Kathmandu, Nepal. IELTS & PTE training, university guidance, and visa support for Australia, UK, USA, Canada, New Zealand, Europe, Japan & Korea. Your Dream Our Guidance.',
@@ -28,6 +32,28 @@ export const metadata: Metadata = {
     'study in Australia UK USA Canada',
     'Shikshya Path Foundation',
   ],
+  icons: {
+    icon: [{ url: SITE_LOGO_PATH, type: 'image/png' }],
+    apple: [{ url: SITE_LOGO_PATH }],
+    shortcut: SITE_LOGO_PATH,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_NP',
+    siteName: 'Shikshya Path Foundation',
+    images: [
+      {
+        url: SITE_LOGO_PATH,
+        width: 512,
+        height: 512,
+        alt: 'Shikshya Path Foundation logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: [SITE_LOGO_PATH],
+  },
 };
 
 export default function RootLayout({
@@ -49,7 +75,7 @@ export default function RootLayout({
               "@type": "EducationalOrganization",
               "name": "Shikshya Path Foundation",
               "url": "https://shikshyapath.edu.np",
-              "logo": "https://shikshyapath.edu.np/logo.png",
+              "logo": getSiteLogoAbsoluteUrl(),
               "description": "Study abroad consultancy in Kathmandu, Nepal — university guidance, IELTS & PTE preparation, documentation and visa support for Nepali students.",
               "slogan": "Your Dream Our Guidance",
               "address": {

@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Mail, MapPin, Phone, Smartphone } from 'lucide-react';
+import BrandLogo from '@/components/BrandLogo';
 import { FacebookLogo, InstagramLogo, TikTokLogo, WhatsAppLogo } from '@/components/brand/SocialLogos';
 import { siteContact, siteSocial, SITE_MOTTO } from '@/data/siteContent';
 
@@ -27,9 +28,8 @@ export default function Footer() {
     <footer className="bg-slate-950 text-slate-400 py-12 sm:py-20 px-4 sm:px-6 border-t border-slate-900 mt-auto">
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-12 gap-x-6 gap-y-10 sm:gap-12 lg:gap-x-8 lg:gap-y-8">
         <div className="col-span-2 lg:col-span-5 lg:pr-8">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-[var(--color-primary)] rounded-lg flex flex-col items-center justify-center text-white font-bold text-xl">S</div>
-            <span className="text-2xl font-bold text-white font-heading">Shikshya Path</span>
+          <div className="mb-4">
+            <BrandLogo variant="footer" />
           </div>
           <p className="text-white/90 font-semibold text-sm mb-3 italic">&ldquo;{SITE_MOTTO}&rdquo;</p>
           <p className="max-w-sm mb-8 leading-relaxed text-slate-400">

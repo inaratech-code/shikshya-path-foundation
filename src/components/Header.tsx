@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
+import BrandLogo from '@/components/BrandLogo';
 import { useApplyNow } from '@/components/ApplyNowContext';
 
 export default function Header() {
@@ -15,51 +16,55 @@ export default function Header() {
     pathname === path ? 'text-[var(--color-primary)]' : '';
 
   return (
-    <header className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100 transition-all">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-3 shrink-0">
-          <div className="w-9 h-9 sm:w-10 sm:h-10 bg-[var(--color-primary)] rounded-lg flex flex-col items-center justify-center text-white font-bold text-lg sm:text-xl shadow-md">
-            S
-          </div>
-          <span className="text-lg sm:text-xl font-bold bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-brand-accent)] bg-clip-text text-transparent font-heading tracking-tight">
-            Shikshya Path
-          </span>
-        </Link>
+    <header className="fixed top-0 w-full z-50 border-b border-gray-100 bg-white shadow-sm transition-all">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 min-h-[4.5rem] sm:min-h-[5.25rem] md:min-h-[5.75rem] lg:min-h-[6.25rem] py-2 sm:py-2.5 grid grid-cols-[1fr_auto] md:grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-2 sm:gap-x-3 md:gap-x-4 lg:gap-x-6">
+        <BrandLogo variant="header" />
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex gap-6 lg:gap-8 text-[var(--color-text-main)] font-medium text-sm lg:text-base">
-          <Link href="/" className={`hover:text-[var(--color-primary)] transition ${isActive('/')}`}>Home</Link>
-          <Link href="/services" className={`hover:text-[var(--color-primary)] transition ${isActive('/services')}`}>Services</Link>
-          <Link href="/destinations" className={`hover:text-[var(--color-primary)] transition ${isActive('/destinations')}`}>Study Destination</Link>
-          <Link href="/test-preparation" className={`hover:text-[var(--color-primary)] transition ${isActive('/test-preparation')}`}>Test Preparation</Link>
-          <Link href="/about" className={`hover:text-[var(--color-primary)] transition ${isActive('/about')}`}>About</Link>
+        {/* Desktop Nav — centered in middle column; compact gaps so logo can stay large */}
+        <nav
+          className="hidden md:flex min-w-0 items-center justify-center gap-2 px-1 lg:gap-3 xl:gap-5 text-[var(--color-text-main)] font-medium text-[13px] leading-tight lg:text-sm xl:text-base whitespace-nowrap"
+          aria-label="Primary"
+        >
+          <Link href="/" className={`shrink-0 hover:text-[var(--color-primary)] transition ${isActive('/')}`}>
+            Home
+          </Link>
+          <Link href="/services" className={`shrink-0 hover:text-[var(--color-primary)] transition ${isActive('/services')}`}>
+            Services
+          </Link>
+          <Link href="/destinations" className={`shrink-0 hover:text-[var(--color-primary)] transition ${isActive('/destinations')}`}>
+            Study Destination
+          </Link>
+          <Link href="/test-preparation" className={`shrink-0 hover:text-[var(--color-primary)] transition ${isActive('/test-preparation')}`}>
+            Test Preparation
+          </Link>
+          <Link href="/about" className={`shrink-0 hover:text-[var(--color-primary)] transition ${isActive('/about')}`}>
+            About
+          </Link>
         </nav>
 
-        {/* Desktop CTA */}
-        <div className="hidden sm:flex gap-3 items-center">
+        {/* Desktop CTA + mobile menu */}
+        <div className="flex items-center justify-end gap-2 sm:gap-3 shrink-0">
           <button
             type="button"
-            className="hidden md:block bg-[var(--color-primary)] text-white font-semibold px-4 py-2 rounded-xl hover:scale-105 hover:shadow-lg hover:shadow-[var(--color-brand-accent)]/30 transition-all text-sm"
+            className="hidden md:inline-flex bg-[var(--color-primary)] text-white font-semibold px-3 py-2 lg:px-4 rounded-xl hover:scale-[1.02] hover:shadow-lg hover:shadow-[var(--color-brand-accent)]/30 transition-all text-xs lg:text-sm whitespace-nowrap"
             onClick={() => applyNow.open({ intent: 'apply', source: 'header' })}
           >
             Apply Now
           </button>
+          <button
+            type="button"
+            className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition"
+            onClick={() => setOpen((prev) => !prev)}
+            aria-label="Toggle navigation"
+          >
+            {open ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
-
-        {/* Mobile menu button */}
-        <button
-          type="button"
-          className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition"
-          onClick={() => setOpen((prev) => !prev)}
-          aria-label="Toggle navigation"
-        >
-          {open ? <X size={18} /> : <Menu size={18} />}
-        </button>
       </div>
 
       {/* Mobile Nav Drawer */}
       {open && (
-        <div className="md:hidden border-t border-slate-100 bg-white/95 backdrop-blur-md">
+        <div className="md:hidden border-t border-slate-100 bg-white">
           <div className="max-w-7xl mx-auto px-4 py-4 space-y-2">
             <nav className="flex flex-col gap-1 text-[var(--color-text-main)] text-sm">
               <Link

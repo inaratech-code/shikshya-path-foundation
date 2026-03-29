@@ -4,6 +4,14 @@
 
 export const SITE_MOTTO = 'Your Dream Our Guidance';
 
+/** Add the transparent PNG to `public/images/` — used in navbar, footer, favicon & SEO. */
+export const SITE_LOGO_PATH = '/images/Shikshya_Path_Foundation_cropped-removebg-preview.png' as const;
+
+export function getSiteLogoAbsoluteUrl(): string {
+  const base = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://shikshyapath.edu.np').replace(/\/$/, '');
+  return `${base}${SITE_LOGO_PATH}`;
+}
+
 export const siteContact = {
   addressLines: ['Ramshah Path, Putalisadak', 'Kathmandu, Nepal'],
   addressSingle: 'Ramshah Path, Putalisadak, Kathmandu, Nepal',

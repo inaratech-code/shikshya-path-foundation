@@ -18,6 +18,39 @@
 }
 
 @layer base {
+  /*
+    Fixed header (logo + nav row + padding + border). Must clear real rendered height,
+    not only min-h — tall / vertical logos otherwise overlap the first hero band.
+  */
+  :root {
+    --header-height: 6.875rem;
+    --hero-inner-pt: calc(var(--header-height) + 1.5rem);
+  }
+  @media (min-width: 640px) {
+    :root {
+      --header-height: 7.25rem;
+      --hero-inner-pt: calc(var(--header-height) + 1.75rem);
+    }
+  }
+  @media (min-width: 768px) {
+    :root {
+      --header-height: 7.5rem;
+      --hero-inner-pt: calc(var(--header-height) + 2rem);
+    }
+  }
+  @media (min-width: 1024px) {
+    :root {
+      --header-height: 8rem;
+      --hero-inner-pt: calc(var(--header-height) + 2rem);
+    }
+  }
+  @media (min-width: 1280px) {
+    :root {
+      --header-height: 8.25rem;
+      --hero-inner-pt: calc(var(--header-height) + 2.25rem);
+    }
+  }
+
   html {
     scroll-behavior: smooth;
   }
