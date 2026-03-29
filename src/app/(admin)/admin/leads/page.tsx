@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Eye, Trash2, Loader2, X, Mail, Phone, MapPin, Calendar, FileText } from 'lucide-react';
+import { serviceRoleHintText } from '@/lib/adminServiceRoleHints';
 import { getClientOffersWriteToken } from '@/lib/offersWriteToken';
+import type { SupabaseServiceRoleConfigHint } from '@/lib/supabaseEnv';
 import type { LeadRecord } from '@/types/lead';
 import { parseApplyFormMessage } from '@/components/admin/leadDetailsUtils';
 
@@ -229,13 +231,21 @@ export default function LeadsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [needsServiceRole, setNeedsServiceRole] = useState(false);
+  const [serviceRoleHint, setServiceRoleHint] = useState<SupabaseServiceRoleConfigHint | null>(null);
   const [detailLead, setDetailLead] = useState<LeadRow | null>(null);
 
   const load = useCallback(async () => {
     setError(null);
     try {
       const res = await fetch('/api/leads', { headers: authHeaders(), cache: 'no-store' });
-      setNeedsServiceRole(res.headers.get('X-Leads-Requires-Service-Role') === '1');
+      const needsSr = res.headers.get('X-Leads-Requires-Service-Role') === '1';
+      setNeedsServiceRole(needsSr);
+      const hintRaw = res.headers.get('X-Leads-Config-Hint');
+      setServiceRoleHint(
+        needsSr
+          ? ((hintRaw as SupabaseServiceRoleConfigHint | null) ?? 'missing-service-key')
+          : null
+      );
       if (!res.ok) {
         const j = (await res.json().catch(() => ({}))) as { error?: string };
         throw new Error(j.error || (res.status === 401 ? 'Unauthorized — check NEXT_PUBLIC_OFFERS_WRITE_SECRET matches OFFERS_WRITE_SECRET' : 'Failed to load'));
@@ -314,14 +324,15 @@ export default function LeadsPage() {
         <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</div>
       )}
 
-      {needsServiceRole && (
+      {needsServiceRole && serviceRoleHint ? (
         <div className="mb-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          The server does not see <code className="font-mono text-amber-900">SUPABASE_SERVICE_ROLE_KEY</code> yet. Add
-          it to <code className="font-mono text-amber-900">.env.local</code> (local) or your host env (e.g. Vercel), then{' '}
-          <strong>restart the dev server</strong> or redeploy. The admin list uses the service role because anon cannot
-          read <code className="font-mono">leads</code> by design.
+          <p>{serviceRoleHintText(serviceRoleHint)}</p>
+          <p className="mt-2 text-xs text-amber-900/90">
+            The admin list needs the service role because anon cannot read <code className="font-mono">leads</code> by
+            design.
+          </p>
         </div>
-      )}
+      ) : null}
 
       <div className="space-y-5">
         {loading ? (

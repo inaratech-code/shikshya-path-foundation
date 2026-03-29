@@ -7,7 +7,10 @@ import {
   supabaseServiceConfigured,
 } from '@/lib/offersDb';
 import { dbCountLeads, dbListLeads } from '@/lib/leadsDb';
+import { getSupabaseServiceRoleConfigHint } from '@/lib/supabaseEnv';
 import { offersWriteAuthorized } from '@/lib/offersApiAuth';
+
+export const runtime = 'nodejs';
 
 /** Aggregated counts for the admin dashboard (Bearer auth). */
 export async function GET(request: Request) {
@@ -20,6 +23,8 @@ export async function GET(request: Request) {
     offersActive: 0,
     testimonialsTotal: 0,
     leadsConfigured: supabaseServiceConfigured(),
+    /** Why the server thinks the service role is missing (no secrets). */
+    leadsConfigHint: getSupabaseServiceRoleConfigHint(),
     recentLeads: [] as {
       id: string;
       name: string;

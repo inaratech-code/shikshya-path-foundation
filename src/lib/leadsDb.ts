@@ -1,5 +1,9 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { isSupabaseEnvConfigured } from '@/lib/supabaseEnv';
+import {
+  getNextPublicSupabaseUrl,
+  getSupabaseServiceRoleKey,
+  isSupabaseEnvConfigured,
+} from '@/lib/supabaseEnv';
 import type { LeadRecord } from '@/types/lead';
 
 export type { LeadRecord };
@@ -13,11 +17,9 @@ function anonClient(): SupabaseClient {
 }
 
 function serviceClient(): SupabaseClient {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-  );
+  const url = getNextPublicSupabaseUrl()!;
+  const key = getSupabaseServiceRoleKey()!;
+  return createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
 }
 
 /** Total row count using the service role (efficient; does not fetch rows). */

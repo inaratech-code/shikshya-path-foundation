@@ -1,6 +1,11 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import type { PublishedOffer } from '@/types/offer';
-import { isSupabaseEnvConfigured, isSupabaseServiceRoleConfigured } from '@/lib/supabaseEnv';
+import {
+  getNextPublicSupabaseUrl,
+  getSupabaseServiceRoleKey,
+  isSupabaseEnvConfigured,
+  isSupabaseServiceRoleConfigured,
+} from '@/lib/supabaseEnv';
 
 type OfferRow = {
   id: string;
@@ -40,11 +45,9 @@ function anonClient(): SupabaseClient {
 }
 
 function serviceClient(): SupabaseClient {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-  );
+  const url = getNextPublicSupabaseUrl()!;
+  const key = getSupabaseServiceRoleKey()!;
+  return createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
 }
 
 export async function dbGetPublicOffers(): Promise<PublishedOffer[]> {

@@ -3,13 +3,16 @@
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Users, Gift, MessageSquare, Loader2 } from 'lucide-react';
+import { serviceRoleHintText } from '@/lib/adminServiceRoleHints';
 import { getClientOffersWriteToken } from '@/lib/offersWriteToken';
+import type { SupabaseServiceRoleConfigHint } from '@/lib/supabaseEnv';
 
 type AdminStats = {
   leadsTotal: number;
   offersActive: number;
   testimonialsTotal: number;
   leadsConfigured: boolean;
+  leadsConfigHint: SupabaseServiceRoleConfigHint;
   recentLeads: {
     id: string;
     name: string;
@@ -71,7 +74,7 @@ export default function AdminDashboard() {
             <div className="text-xs sm:text-sm font-medium text-slate-500 break-words">Total Leads</div>
             {stats && !stats.leadsConfigured ? (
               <p className="text-[11px] text-amber-700 mt-1 leading-snug">
-                Set <code className="font-mono">SUPABASE_SERVICE_ROLE_KEY</code> in env and restart dev / redeploy.
+                {serviceRoleHintText(stats.leadsConfigHint)}
               </p>
             ) : null}
           </div>
@@ -127,9 +130,8 @@ export default function AdminDashboard() {
                   </tr>
                 ) : stats && !stats.leadsConfigured ? (
                   <tr>
-                    <td colSpan={4} className="py-12 text-center text-slate-500">
-                      Set <code className="text-xs bg-slate-100 px-1 rounded">SUPABASE_SERVICE_ROLE_KEY</code> in env
-                      (local or Vercel), then restart or redeploy — the server must load it to show leads.
+                    <td colSpan={4} className="py-12 text-center text-slate-500 text-sm">
+                      {serviceRoleHintText(stats.leadsConfigHint)}
                     </td>
                   </tr>
                 ) : stats && stats.recentLeads.length === 0 ? (
