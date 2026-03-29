@@ -10,14 +10,11 @@ export default function AdminViewportGuard({ children }: Props) {
   const [isAllowed, setIsAllowed] = useState<boolean | null>(null);
 
   useEffect(() => {
-    const checkViewport = () => {
-      // md breakpoint — avoids blocking common laptop split windows / tablets (was 1024 + UA)
-      setIsAllowed(window.innerWidth >= 768);
-    };
-
-    checkViewport();
-    window.addEventListener('resize', checkViewport);
-    return () => window.removeEventListener('resize', checkViewport);
+    const mq = window.matchMedia('(min-width: 768px)');
+    const sync = () => setIsAllowed(mq.matches);
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
   }, []);
 
   // Avoid a blank screen while measuring viewport (was confusing as "nothing loads")

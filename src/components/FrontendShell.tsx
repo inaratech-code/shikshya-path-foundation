@@ -1,11 +1,17 @@
 'use client';
 
+import dynamic from 'next/dynamic';
 import SmoothScroll from '@/components/SmoothScroll';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import FloatingOffersButton from '@/components/FloatingOffersButton';
 import { ApplyNowProvider } from '@/components/ApplyNowContext';
-import ApplyNowModal from '@/components/ApplyNowModal';
+
+const FloatingOffersButton = dynamic(() => import('@/components/FloatingOffersButton'), {
+  ssr: false,
+});
+const ApplyNowModal = dynamic(() => import('@/components/ApplyNowModal'), {
+  ssr: false,
+});
 
 export default function FrontendShell({ children }: { children: React.ReactNode }) {
   return (

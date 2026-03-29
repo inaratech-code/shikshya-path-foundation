@@ -19,35 +19,55 @@ export default function FloatingOffersButton() {
   useEffect(() => {
     if (hideOnAdmin) return;
     let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch('/api/offers', { cache: 'no-store' });
-        if (!res.ok) return;
-        const data = (await res.json()) as PublishedOffer[];
-        if (!cancelled) setOffers(Array.isArray(data) ? data : []);
-      } catch {
-        /* ignore */
-      } finally {
-        if (!cancelled) setLoaded(true);
-      }
-    })();
+
+    const load = () => {
+      void (async () => {
+        try {
+          const res = await fetch('/api/offers', { cache: 'no-store' });
+          if (!res.ok) return;
+          const data = (await res.json()) as PublishedOffer[];
+          if (!cancelled) setOffers(Array.isArray(data) ? data : []);
+        } catch {
+          /* ignore */
+        } finally {
+          if (!cancelled) setLoaded(true);
+        }
+      })();
+    };
+
+    let idleHandle: number | undefined;
+    if (typeof window.requestIdleCallback === 'function') {
+      idleHandle = window.requestIdleCallback(load, { timeout: 2500 });
+    } else {
+      idleHandle = window.setTimeout(load, 400) as unknown as number;
+    }
+
     return () => {
       cancelled = true;
+      if (typeof window.cancelIdleCallback === 'function' && idleHandle !== undefined) {
+        window.cancelIdleCallback(idleHandle);
+      } else {
+        window.clearTimeout(idleHandle);
+      }
     };
-  }, [hideOnAdmin, pathname]);
+  }, [hideOnAdmin]);
 
   useEffect(() => {
     if (hideOnAdmin || !loaded) return;
-    const id = window.setInterval(async () => {
-      try {
-        const res = await fetch('/api/offers', { cache: 'no-store' });
-        if (!res.ok) return;
-        const data = (await res.json()) as PublishedOffer[];
-        setOffers(Array.isArray(data) ? data : []);
-      } catch {
-        /* ignore */
-      }
-    }, 60_000);
+    const tick = () => {
+      if (document.visibilityState !== 'visible') return;
+      void (async () => {
+        try {
+          const res = await fetch('/api/offers', { cache: 'no-store' });
+          if (!res.ok) return;
+          const data = (await res.json()) as PublishedOffer[];
+          setOffers(Array.isArray(data) ? data : []);
+        } catch {
+          /* ignore */
+        }
+      })();
+    };
+    const id = window.setInterval(tick, 120_000);
     return () => clearInterval(id);
   }, [hideOnAdmin, loaded]);
 
