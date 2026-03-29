@@ -1,11 +1,7 @@
 import type { Metadata } from 'next';
 import { Lexend, Outfit } from 'next/font/google';
 import './globals.css';
-import {
-  getMainSiteLogoAbsoluteUrl,
-  MAIN_SITE_LOGO_PATH,
-  SITE_FAVICON_PATH,
-} from '@/data/siteContent';
+import { getMainSiteLogoAbsoluteUrl, MAIN_SITE_LOGO_PATH } from '@/data/siteContent';
 
 /** Lexend: readability-first (designed for longer reading — student-friendly). Outfit: energetic display for titles. */
 const lexend = Lexend({
@@ -37,9 +33,8 @@ export const metadata: Metadata = {
     'Shikshya Path Foundation',
   ],
   icons: {
-    icon: [{ url: SITE_FAVICON_PATH, type: 'image/jpeg', sizes: 'any' }],
-    apple: [{ url: SITE_FAVICON_PATH, sizes: '180x180' }],
-    shortcut: SITE_FAVICON_PATH,
+    icon: [{ url: '/icon.jpeg', type: 'image/jpeg', sizes: 'any' }],
+    apple: [{ url: '/apple-icon.jpeg', sizes: '180x180', type: 'image/jpeg' }],
   },
   openGraph: {
     type: 'website',

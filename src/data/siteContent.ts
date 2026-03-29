@@ -19,8 +19,8 @@ export const NAVBAR_LOGO_PATH = '/images/SPK.jpeg' as const;
 /** @deprecated Use MAIN_SITE_LOGO_PATH — kept for older imports */
 export const SITE_LOGO_PATH = MAIN_SITE_LOGO_PATH;
 
-/** Browser tab / favicon — `public/images/SPK.jpeg`. */
-export const SITE_FAVICON_PATH = '/images/SPK.jpeg' as const;
+/** Browser tab / favicon — same asset as `src/app/icon.jpeg` (also at `public/images/SPK.jpeg`). */
+export const SITE_FAVICON_PATH = '/icon.jpeg' as const;
 
 function siteOriginBase(): string {
   return (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://shikshyapath.edu.np').replace(/\/$/, '');
