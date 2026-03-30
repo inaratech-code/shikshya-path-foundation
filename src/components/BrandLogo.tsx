@@ -21,7 +21,7 @@ export default function BrandLogo({
   return (
     <Link
       href="/"
-      className={`flex items-center gap-3 shrink-0 min-w-0 ${className}`}
+      className={`flex items-center gap-3 md:gap-4 lg:gap-5 shrink-0 min-w-0 ${className}`}
       aria-label="Shikshya Path Foundation — Home"
     >
       <Image

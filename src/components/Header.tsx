@@ -43,8 +43,15 @@ export default function Header() {
   return (
     <header className="fixed top-0 w-full z-50 border-b border-slate-200/50 bg-white/80 backdrop-blur-md text-start shadow-sm transition-all">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 min-h-[3.75rem] sm:min-h-[4.75rem] md:min-h-[5.75rem] lg:min-h-[6.25rem] py-1.5 sm:py-2 grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-2 sm:gap-x-3 md:gap-x-4 lg:gap-x-6">
-        {/* Logo (left) */}
-        <BrandLogo variant="header" />
+        {/* Mobile: logo only (left) */}
+        <div className="md:hidden">
+          <BrandLogo variant="header" />
+        </div>
+
+        {/* Desktop: logo + full name + tagline (left) */}
+        <div className="hidden md:block">
+          <BrandLogo variant="header" showName showMotto />
+        </div>
 
         {/* Mobile centered brand text (only) */}
         <div className="md:hidden min-w-0 text-center leading-tight">
