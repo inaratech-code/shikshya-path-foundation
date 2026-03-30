@@ -12,6 +12,9 @@ export default function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [destOpen, setDestOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [testPrepOpen, setTestPrepOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [mobileDestOpen, setMobileDestOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileTestPrepOpen, setMobileTestPrepOpen] = useState(false);
@@ -39,6 +42,13 @@ export default function Header() {
     { label: 'IELTS', href: '/test-preparation/ielts' },
     { label: 'PTE', href: '/test-preparation/pte' },
   ] as const;
+
+  const keepOpenOnPointerLeave = (e: React.PointerEvent<HTMLElement>, close: () => void) => {
+    const next = e.relatedTarget;
+    // relatedTarget can be EventTarget but not a Node (e.g. Window); contains() requires a Node.
+    if (next instanceof Node && e.currentTarget.contains(next)) return;
+    close();
+  };
 
   return (
     <header className="fixed top-0 w-full z-50 border-b border-slate-200/50 bg-white/80 backdrop-blur-md text-start shadow-sm transition-all">
@@ -78,8 +88,8 @@ export default function Header() {
 
           <div
             className="relative"
-            onMouseEnter={() => setDestOpen(true)}
-            onMouseLeave={() => setDestOpen(false)}
+            onPointerEnter={() => setDestOpen(true)}
+            onPointerLeave={(e) => keepOpenOnPointerLeave(e, () => setDestOpen(false))}
           >
             <button
               type="button"
@@ -90,6 +100,7 @@ export default function Header() {
             >
               Study Destinations
             </button>
+            <div className="absolute left-0 right-0 top-full h-3" aria-hidden="true" />
 
             <AnimatePresence>
               {destOpen && (
@@ -132,124 +143,186 @@ export default function Header() {
           </div>
 
           <div
-            className="relative group"
-            onMouseEnter={() => setDestOpen(false)}
+            className="relative"
+            onPointerEnter={() => {
+              setDestOpen(false);
+              setServicesOpen(true);
+            }}
+            onPointerLeave={(e) => keepOpenOnPointerLeave(e, () => setServicesOpen(false))}
           >
             <button
               type="button"
               className={`inline-flex items-center gap-1.5 shrink-0 hover:text-[var(--color-primary)] transition ${pathname?.startsWith('/services') ? 'text-[var(--color-primary)]' : ''}`}
               aria-haspopup="menu"
-              aria-expanded={false}
+              aria-expanded={servicesOpen}
+              onClick={() => setServicesOpen((v) => !v)}
             >
               Services
             </button>
-            <motion.div
-              initial={{ opacity: 0, y: 10, scale: 0.98 }}
-              animate={{ opacity: 0, y: 10, scale: 0.98 }}
-              className="pointer-events-none"
-            />
-            <div className="absolute left-1/2 top-full mt-3 w-72 -translate-x-1/2 rounded-2xl border border-slate-200 bg-white/95 backdrop-blur-md shadow-2xl shadow-slate-900/10 overflow-hidden opacity-0 translate-y-2 scale-[0.98] pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 ease-out">
-              <div className="p-2" role="menu">
-                {SERVICES.map((s) => (
-                  <Link
-                    key={s.href}
-                    href={s.href}
-                    className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
-                    role="menuitem"
-                  >
-                    <span>{s.label}</span>
-                    <span className="text-slate-400">→</span>
-                  </Link>
-                ))}
-                <div className="mt-1 border-t border-slate-100 pt-1">
-                  <Link
-                    href="/services"
-                    className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
-                    role="menuitem"
-                  >
-                    <span>View all services</span>
-                    <span className="text-slate-400">↗</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
+            <div className="absolute left-0 right-0 top-full h-3" aria-hidden="true" />
+
+            <AnimatePresence>
+              {servicesOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                  className="absolute left-1/2 top-full mt-3 w-72 -translate-x-1/2 rounded-2xl border border-slate-200 bg-white/95 backdrop-blur-md shadow-2xl shadow-slate-900/10 overflow-hidden"
+                  role="menu"
+                >
+                  <div className="p-2">
+                    {SERVICES.map((s) => (
+                      <Link
+                        key={s.href}
+                        href={s.href}
+                        className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
+                        role="menuitem"
+                        onClick={() => setServicesOpen(false)}
+                      >
+                        <span>{s.label}</span>
+                        <span className="text-slate-400">→</span>
+                      </Link>
+                    ))}
+                    <div className="mt-1 border-t border-slate-100 pt-1">
+                      <Link
+                        href="/services"
+                        className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
+                        role="menuitem"
+                        onClick={() => setServicesOpen(false)}
+                      >
+                        <span>View all services</span>
+                        <span className="text-slate-400">↗</span>
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          <div className="relative group" onMouseEnter={() => setDestOpen(false)}>
+          <div
+            className="relative"
+            onPointerEnter={() => {
+              setDestOpen(false);
+              setTestPrepOpen(true);
+            }}
+            onPointerLeave={(e) => keepOpenOnPointerLeave(e, () => setTestPrepOpen(false))}
+          >
             <button
               type="button"
               className={`inline-flex items-center gap-1.5 shrink-0 hover:text-[var(--color-primary)] transition ${pathname?.startsWith('/test-preparation') ? 'text-[var(--color-primary)]' : ''}`}
               aria-haspopup="menu"
-              aria-expanded={false}
+              aria-expanded={testPrepOpen}
+              onClick={() => setTestPrepOpen((v) => !v)}
             >
               Test Preparation
             </button>
-            <div className="absolute left-1/2 top-full mt-3 w-64 -translate-x-1/2 rounded-2xl border border-slate-200 bg-white/95 backdrop-blur-md shadow-2xl shadow-slate-900/10 overflow-hidden opacity-0 translate-y-2 scale-[0.98] pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 ease-out">
-              <div className="p-2" role="menu">
-                {TEST_PREP.map((t) => (
-                  <Link
-                    key={t.href}
-                    href={t.href}
-                    className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
-                    role="menuitem"
-                  >
-                    <span>{t.label}</span>
-                    <span className="text-slate-400">→</span>
-                  </Link>
-                ))}
-                <div className="mt-1 border-t border-slate-100 pt-1">
-                  <Link
-                    href="/test-preparation"
-                    className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
-                    role="menuitem"
-                  >
-                    <span>View all tests</span>
-                    <span className="text-slate-400">↗</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
+            <div className="absolute left-0 right-0 top-full h-3" aria-hidden="true" />
+
+            <AnimatePresence>
+              {testPrepOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                  className="absolute left-1/2 top-full mt-3 w-64 -translate-x-1/2 rounded-2xl border border-slate-200 bg-white/95 backdrop-blur-md shadow-2xl shadow-slate-900/10 overflow-hidden"
+                  role="menu"
+                >
+                  <div className="p-2">
+                    {TEST_PREP.map((t) => (
+                      <Link
+                        key={t.href}
+                        href={t.href}
+                        className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
+                        role="menuitem"
+                        onClick={() => setTestPrepOpen(false)}
+                      >
+                        <span>{t.label}</span>
+                        <span className="text-slate-400">→</span>
+                      </Link>
+                    ))}
+                    <div className="mt-1 border-t border-slate-100 pt-1">
+                      <Link
+                        href="/test-preparation"
+                        className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
+                        role="menuitem"
+                        onClick={() => setTestPrepOpen(false)}
+                      >
+                        <span>View all tests</span>
+                        <span className="text-slate-400">↗</span>
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          <div className="relative group" onMouseEnter={() => setDestOpen(false)}>
+          <div
+            className="relative"
+            onPointerEnter={() => {
+              setDestOpen(false);
+              setAboutOpen(true);
+            }}
+            onPointerLeave={(e) => keepOpenOnPointerLeave(e, () => setAboutOpen(false))}
+          >
             <button
               type="button"
               className={`inline-flex items-center gap-1.5 shrink-0 hover:text-[var(--color-primary)] transition ${pathname === '/about' ? 'text-[var(--color-primary)]' : ''}`}
               aria-haspopup="menu"
-              aria-expanded={false}
+              aria-expanded={aboutOpen}
+              onClick={() => setAboutOpen((v) => !v)}
             >
               About
             </button>
-            <div className="absolute left-1/2 top-full mt-3 w-56 -translate-x-1/2 rounded-2xl border border-slate-200 bg-white/95 backdrop-blur-md shadow-2xl shadow-slate-900/10 overflow-hidden opacity-0 translate-y-2 scale-[0.98] pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:scale-100 group-hover:pointer-events-auto transition-all duration-200 ease-out">
-              <div className="p-2" role="menu">
-                <Link
-                  href="/about"
-                  className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
-                  role="menuitem"
+            <div className="absolute left-0 right-0 top-full h-3" aria-hidden="true" />
+
+            <AnimatePresence>
+              {aboutOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                  className="absolute left-1/2 top-full mt-3 w-56 -translate-x-1/2 rounded-2xl border border-slate-200 bg-white/95 backdrop-blur-md shadow-2xl shadow-slate-900/10 overflow-hidden"
+                  role="menu"
                 >
-                  <span>About us</span>
-                  <span className="text-slate-400">→</span>
-                </Link>
-                <Link
-                  href="/about#mission"
-                  className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
-                  role="menuitem"
-                >
-                  <span>Our mission</span>
-                  <span className="text-slate-400">→</span>
-                </Link>
-                <div className="mt-1 border-t border-slate-100 pt-1">
-                  <Link
-                    href="/contact"
-                    className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
-                    role="menuitem"
-                  >
-                    <span>Contact</span>
-                    <span className="text-slate-400">↗</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
+                  <div className="p-2">
+                    <Link
+                      href="/about"
+                      className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
+                      role="menuitem"
+                      onClick={() => setAboutOpen(false)}
+                    >
+                      <span>About us</span>
+                      <span className="text-slate-400">→</span>
+                    </Link>
+                    <Link
+                      href="/about#mission"
+                      className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-800 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
+                      role="menuitem"
+                      onClick={() => setAboutOpen(false)}
+                    >
+                      <span>Our mission</span>
+                      <span className="text-slate-400">→</span>
+                    </Link>
+                    <div className="mt-1 border-t border-slate-100 pt-1">
+                      <Link
+                        href="/contact"
+                        className="flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 hover:text-[var(--color-primary)] transition-colors"
+                        role="menuitem"
+                        onClick={() => setAboutOpen(false)}
+                      >
+                        <span>Contact</span>
+                        <span className="text-slate-400">↗</span>
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </nav>
 
