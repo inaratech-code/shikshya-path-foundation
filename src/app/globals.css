@@ -85,6 +85,16 @@
   100% { transform: translateX(-100%); }
 }
 
+@keyframes brand-hue {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(22deg); }
+}
+
+.brand-color-anim {
+  background-size: 200% 200%;
+  animation: brand-hue 6s ease-in-out infinite alternate;
+}
+
 /* Glassmorphism Classes */
 .glass {
   @apply bg-white/70 backdrop-blur-lg border border-white/20;

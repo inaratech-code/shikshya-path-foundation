@@ -15,8 +15,15 @@ const academicLevels = [
   { value: 'phd', label: 'PhD' },
 ];
 
-export default function ApplyNowModal() {
-  const { state, close } = useApplyNow();
+function ApplyNowBody({
+  intent,
+  prefill,
+  onDone,
+}: {
+  intent: 'apply' | 'enroll';
+  prefill: { preferredStudyDestination?: string; academicLevel?: string; preferredProgram?: string } | undefined;
+  onDone: () => void;
+}) {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -26,23 +33,170 @@ export default function ApplyNowModal() {
       fullName: '',
       email: '',
       phone: '',
-      preferredStudyDestination: state.prefill?.preferredStudyDestination ?? '',
-      academicLevel: state.prefill?.academicLevel ?? '',
-      preferredProgram: state.prefill?.preferredProgram ?? '',
+      preferredStudyDestination: prefill?.preferredStudyDestination ?? '',
+      academicLevel: prefill?.academicLevel ?? '',
+      preferredProgram: prefill?.preferredProgram ?? '',
     }),
-    [state.prefill]
+    [prefill]
   );
 
   const [form, setForm] = useState(initial);
 
-  useEffect(() => {
-    if (state.open) {
-      setSubmitted(false);
-      setSubmitError(null);
-      setForm(initial);
-    }
-  }, [state.open, initial]);
+  if (submitted) {
+    return (
+      <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-6">
+        <div className="text-emerald-900 font-bold text-lg">Request received</div>
+        <div className="text-emerald-800 mt-1">We’ll contact you shortly. If it’s urgent, please call our office.</div>
+        <button
+          type="button"
+          className="mt-5 inline-flex items-center justify-center bg-[var(--color-primary)] text-white font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition"
+          onClick={onDone}
+        >
+          Done
+        </button>
+      </div>
+    );
+  }
 
+  return (
+    <form
+      className="space-y-5"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        setSubmitError(null);
+        const destLabel =
+          applyDestinationSelectOptions.find((d) => d.value === form.preferredStudyDestination)?.label ??
+          form.preferredStudyDestination;
+        const message = [
+          `Intent: ${intent === 'enroll' ? 'Enroll' : 'Apply'}`,
+          form.academicLevel ? `Academic level: ${form.academicLevel}` : null,
+          form.preferredProgram ? `Preferred program: ${form.preferredProgram}` : null,
+        ]
+          .filter(Boolean)
+          .join('\n');
+        setSubmitting(true);
+        const result = await submitLeadPublic({
+          full_name: form.fullName.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim(),
+          destination: destLabel || null,
+          message,
+        });
+        setSubmitting(false);
+        if (!result.ok) {
+          setSubmitError(result.error);
+          return;
+        }
+        setSubmitted(true);
+      }}
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
+          <input
+            required
+            value={form.fullName}
+            onChange={(e) => setForm((p) => ({ ...p, fullName: e.target.value }))}
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
+            placeholder="Your full name"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Email</label>
+          <input
+            required
+            type="email"
+            value={form.email}
+            onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
+            placeholder="you@example.com"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Phone Number</label>
+          <input
+            required
+            type="tel"
+            value={form.phone}
+            onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
+            placeholder="+977 98XXXXXXXX"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Preferred Study Destination</label>
+          <select
+            required
+            value={form.preferredStudyDestination}
+            onChange={(e) => setForm((p) => ({ ...p, preferredStudyDestination: e.target.value }))}
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
+          >
+            {applyDestinationSelectOptions.map((d) => (
+              <option key={d.label + d.value} value={d.value}>
+                {d.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Academic Level</label>
+          <select
+            required
+            value={form.academicLevel}
+            onChange={(e) => setForm((p) => ({ ...p, academicLevel: e.target.value }))}
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
+          >
+            {academicLevels.map((d) => (
+              <option key={d.value} value={d.value}>
+                {d.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">Preferred Program</label>
+          <input
+            required
+            value={form.preferredProgram}
+            onChange={(e) => setForm((p) => ({ ...p, preferredProgram: e.target.value }))}
+            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
+            placeholder="e.g. Business, IT, Nursing"
+          />
+        </div>
+      </div>
+
+      {submitError ? (
+        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{submitError}</div>
+      ) : null}
+
+      <button
+        type="submit"
+        disabled={submitting}
+        className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-black px-8 py-4 rounded-xl transition-all shadow-xl shadow-[var(--color-primary)]/20 text-base sm:text-lg hover:scale-[1.02] hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none"
+      >
+        {submitting ? (
+          'Sending…'
+        ) : (
+          <>
+            Submit <Send size={20} />
+          </>
+        )}
+      </button>
+
+      <p className="text-xs text-slate-500">By submitting, you agree to be contacted by Shikshya Path Foundation.</p>
+    </form>
+  );
+}
+
+export default function ApplyNowModal() {
+  const { state, close } = useApplyNow();
   useEffect(() => {
     if (!state.open) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -68,6 +222,8 @@ export default function ApplyNowModal() {
     state.intent === 'enroll'
       ? 'Share your details and we’ll help you enroll with the right plan.'
       : 'Share your details and we’ll reach out with the next steps.';
+
+  const bodyKey = `${state.intent}:${JSON.stringify(state.prefill ?? {})}`;
 
   return (
     <div className="fixed inset-0 z-[999]">
@@ -98,157 +254,7 @@ export default function ApplyNowModal() {
           </div>
 
           <div className="p-6 sm:p-8 overflow-y-auto min-h-0 flex-1">
-            {submitted ? (
-              <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-6">
-                <div className="text-emerald-900 font-bold text-lg">Request received</div>
-                <div className="text-emerald-800 mt-1">
-                  We’ll contact you shortly. If it’s urgent, please call our office.
-                </div>
-                <button
-                  type="button"
-                  className="mt-5 inline-flex items-center justify-center bg-[var(--color-primary)] text-white font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition"
-                  onClick={close}
-                >
-                  Done
-                </button>
-              </div>
-            ) : (
-              <form
-                className="space-y-5"
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  setSubmitError(null);
-                  const destLabel =
-                    applyDestinationSelectOptions.find((d) => d.value === form.preferredStudyDestination)?.label ??
-                    form.preferredStudyDestination;
-                  const message = [
-                    `Intent: ${state.intent === 'enroll' ? 'Enroll' : 'Apply'}`,
-                    form.academicLevel ? `Academic level: ${form.academicLevel}` : null,
-                    form.preferredProgram ? `Preferred program: ${form.preferredProgram}` : null,
-                  ]
-                    .filter(Boolean)
-                    .join('\n');
-                  setSubmitting(true);
-                  const result = await submitLeadPublic({
-                    full_name: form.fullName.trim(),
-                    email: form.email.trim(),
-                    phone: form.phone.trim(),
-                    destination: destLabel || null,
-                    message,
-                  });
-                  setSubmitting(false);
-                  if (!result.ok) {
-                    setSubmitError(result.error);
-                    return;
-                  }
-                  setSubmitted(true);
-                }}
-              >
-                <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
-                    <input
-                      required
-                      value={form.fullName}
-                      onChange={(e) => setForm((p) => ({ ...p, fullName: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
-                      placeholder="Your full name"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Email</label>
-                    <input
-                      required
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
-                      placeholder="you@example.com"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Phone Number</label>
-                    <input
-                      required
-                      type="tel"
-                      value={form.phone}
-                      onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
-                      placeholder="+977 98XXXXXXXX"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Preferred Study Destination</label>
-                    <select
-                      required
-                      value={form.preferredStudyDestination}
-                      onChange={(e) => setForm((p) => ({ ...p, preferredStudyDestination: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
-                    >
-                      {applyDestinationSelectOptions.map((d) => (
-                        <option key={d.label + d.value} value={d.value}>
-                          {d.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 sm:gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Academic Level</label>
-                    <select
-                      required
-                      value={form.academicLevel}
-                      onChange={(e) => setForm((p) => ({ ...p, academicLevel: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
-                    >
-                      {academicLevels.map((d) => (
-                        <option key={d.value} value={d.value}>
-                          {d.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Preferred Program</label>
-                    <input
-                      required
-                      value={form.preferredProgram}
-                      onChange={(e) => setForm((p) => ({ ...p, preferredProgram: e.target.value }))}
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all bg-slate-50"
-                      placeholder="e.g. Business, IT, Nursing"
-                    />
-                  </div>
-                </div>
-
-                {submitError ? (
-                  <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-                    {submitError}
-                  </div>
-                ) : null}
-
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-bold px-8 py-4 rounded-xl hover:scale-[1.02] transition-transform shadow-xl shadow-[var(--color-primary)]/20 text-lg disabled:opacity-60 disabled:pointer-events-none"
-                >
-                  {submitting ? 'Sending…' : (
-                    <>
-                      Submit <Send size={20} />
-                    </>
-                  )}
-                </button>
-
-                <p className="text-xs text-slate-500">
-                  By submitting, you agree to be contacted by Shikshya Path Foundation.
-                </p>
-              </form>
-            )}
+            <ApplyNowBody key={bodyKey} intent={state.intent} prefill={state.prefill} onDone={close} />
           </div>
         </div>
       </div>

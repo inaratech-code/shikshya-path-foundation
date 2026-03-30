@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 };
 
 const blocks = [
-  servicesCopy.abroadStudies,
-  servicesCopy.testPreparation,
-  servicesCopy.documentationGuide,
-  servicesCopy.universityCollegeGuide,
+  { id: 'abroad-studies', ...servicesCopy.abroadStudies },
+  { id: 'test-preparation', ...servicesCopy.testPreparation },
+  { id: 'documentation-guide', ...servicesCopy.documentationGuide },
+  { id: 'university-college-guide', ...servicesCopy.universityCollegeGuide },
 ];
 
 export default function ServicesPage() {
@@ -26,7 +26,11 @@ export default function ServicesPage() {
         <p className="text-center text-slate-500 font-semibold mb-10 italic">&ldquo;{SITE_MOTTO}&rdquo;</p>
         <div className="space-y-14">
           {blocks.map((b) => (
-            <article key={b.title} className="border-b border-slate-100 last:border-0 pb-14 last:pb-0">
+            <article
+              key={b.id}
+              id={b.id}
+              className="border-b border-slate-100 last:border-0 pb-14 last:pb-0 scroll-mt-28"
+            >
               <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-4">{b.title}</h2>
               <p className="text-slate-600 leading-relaxed text-base sm:text-lg">{b.body}</p>
             </article>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Mail, MapPin, Phone, Smartphone } from 'lucide-react';
 import BrandLogo from '@/components/BrandLogo';
 import { FacebookLogo, InstagramLogo, TikTokLogo, WhatsAppLogo } from '@/components/brand/SocialLogos';
-import { siteContact, siteSocial, SITE_MOTTO } from '@/data/siteContent';
+import { siteContact, siteSocial, SITE_MOTTO, studyDestinations } from '@/data/siteContent';
 
 const SOCIAL_PILL_CLASS =
   'inline-flex size-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-all duration-300 ease-out hover:scale-[1.06] hover:border-[var(--color-primary)]/50 hover:bg-[var(--color-primary)]/90 hover:text-white hover:shadow-[0_0_28px_-4px_rgba(29,78,216,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950';
@@ -12,22 +12,35 @@ const SOCIAL_PILL_CLASS =
 const FOOTER_DESTINATION_LINK_CLASS =
   'inline-block rounded-md px-1.5 py-0.5 -mx-1.5 transition-all duration-300 ease-out hover:bg-white/[0.08] hover:text-white hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.12)]';
 
-const FOOTER_DESTINATIONS = [
-  'Australia',
-  'UK',
-  'New Zealand',
-  'Canada',
-  'USA',
-  'Europe',
-  'Japan',
-  'South Korea',
+const FOOTER_DESTINATIONS = studyDestinations.map((d) => ({
+  label: d.accordionTitle.replace(/^Study in /, ''),
+  slug: d.slug,
+}));
+
+const FOOTER_QUICK_LINKS_FULL = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services' },
+  { label: 'Study Destination', href: '/destinations' },
+  { label: 'Test Preparation', href: '/test-preparation' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Offers', href: '/offers' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+] as const;
+
+const FOOTER_QUICK_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'Offers', href: '/offers' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Terms of Service', href: '/terms' },
 ] as const;
 
 export default function Footer() {
   return (
     <footer className="bg-slate-950 text-slate-400 py-12 sm:py-20 px-4 sm:px-6 border-t border-slate-900 mt-auto [&_p]:text-justify">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-12 gap-x-6 gap-y-10 sm:gap-12 lg:gap-x-8 lg:gap-y-8">
-        <div className="col-span-2 lg:col-span-5 lg:pr-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-12 gap-x-6 gap-y-10 sm:gap-12 lg:gap-x-10 lg:gap-y-10">
+        <div className="col-span-2 lg:col-span-4 min-w-0">
           <div className="mb-4">
             <BrandLogo variant="footer" />
           </div>
@@ -72,24 +85,23 @@ export default function Footer() {
         <div className="col-span-1 lg:col-span-2 min-w-0">
           <h4 className="text-white font-bold mb-4 sm:mb-6 text-base sm:text-lg">Quick Links</h4>
           <ul className="space-y-3 sm:space-y-4 font-medium text-sm sm:text-base">
-            <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-            <li><Link href="/services" className="hover:text-white transition-colors">Services</Link></li>
-            <li><Link href="/destinations" className="hover:text-white transition-colors">Study Destination</Link></li>
-            <li><Link href="/test-preparation" className="hover:text-white transition-colors">Test Preparation</Link></li>
-            <li><Link href="/gallery" className="hover:text-white transition-colors">Gallery</Link></li>
-            <li><Link href="/offers" className="hover:text-white transition-colors">Offers</Link></li>
-            <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
-            <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+            {FOOTER_QUICK_LINKS_FULL.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className={FOOTER_DESTINATION_LINK_CLASS}>
+                  {l.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
 
-        <div className="col-span-1 lg:col-span-2 min-w-0">
+        <div className="col-span-1 lg:col-span-3 min-w-0">
           <h4 className="text-white font-bold mb-4 sm:mb-6 text-base sm:text-lg">Destinations</h4>
           <ul className="space-y-3 sm:space-y-4 font-medium text-sm sm:text-base">
-            {FOOTER_DESTINATIONS.map((name) => (
-              <li key={name}>
-                <Link href="/destinations" className={FOOTER_DESTINATION_LINK_CLASS}>
-                  {name}
+            {FOOTER_DESTINATIONS.map((d) => (
+              <li key={d.slug}>
+                <Link href={`/destinations/${d.slug}`} className={FOOTER_DESTINATION_LINK_CLASS}>
+                  {d.label}
                 </Link>
               </li>
             ))}

@@ -9,6 +9,9 @@ import { ApplyNowProvider } from '@/components/ApplyNowContext';
 const FloatingOffersButton = dynamic(() => import('@/components/FloatingOffersButton'), {
   ssr: false,
 });
+const FloatingApplyNowButton = dynamic(() => import('@/components/FloatingApplyNowButton'), {
+  ssr: false,
+});
 const ApplyNowModal = dynamic(() => import('@/components/ApplyNowModal'), {
   ssr: false,
 });
@@ -21,6 +24,7 @@ export default function FrontendShell({ children }: { children: React.ReactNode 
         <div className="flex-grow">{children}</div>
         <Footer />
         <FloatingOffersButton />
+        <FloatingApplyNowButton />
         <ApplyNowModal />
       </ApplyNowProvider>
     </SmoothScroll>

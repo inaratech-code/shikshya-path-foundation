@@ -5,16 +5,23 @@ import { MAIN_SITE_LOGO_PATH } from '@/data/siteContent';
 type Props = {
   /** Header: main PNG. Footer: slightly larger on dark background. */
   variant?: 'header' | 'footer';
+  showName?: boolean;
+  showMotto?: boolean;
   className?: string;
 };
 
-export default function BrandLogo({ variant = 'header', className = '' }: Props) {
+export default function BrandLogo({
+  variant = 'header',
+  showName = false,
+  showMotto = false,
+  className = '',
+}: Props) {
   const isHeader = variant === 'header';
 
   return (
     <Link
       href="/"
-      className={`flex items-center shrink-0 min-w-0 ${className}`}
+      className={`flex items-center gap-3 shrink-0 min-w-0 ${className}`}
       aria-label="Shikshya Path Foundation — Home"
     >
       <Image
@@ -34,6 +41,23 @@ export default function BrandLogo({ variant = 'header', className = '' }: Props)
             : '(max-width: 640px) 85vw, 400px'
         }
       />
+
+      {showName ? (
+        <span className="min-w-0 block max-w-[min(62vw,22rem)] sm:max-w-none text-center sm:text-left">
+          <span className="block font-black leading-tight text-[13px] sm:text-sm md:text-base lg:text-lg tracking-tight truncate">
+            <span className="brand-color-anim inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-600 to-sky-500">
+              Shikshya Path Foundation
+            </span>
+          </span>
+          {showMotto ? (
+            <span className="block text-[11px] sm:text-xs md:text-sm font-semibold truncate">
+              <span className="brand-color-anim inline-block text-transparent bg-clip-text bg-gradient-to-r from-slate-600 via-slate-500 to-slate-600">
+                Your Dream Our Guidance
+              </span>
+            </span>
+          ) : null}
+        </span>
+      ) : null}
     </Link>
   );
 }

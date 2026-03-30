@@ -75,6 +75,10 @@ export default function FloatingOffersButton() {
 
   const count = offers.length;
 
+  // Only show the floating button when at least one offer exists.
+  // Stay hidden while loading to avoid UI flicker.
+  if (!loaded || count === 0) return null;
+
   return (
     <>
       <div className="fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-3 sm:bottom-8 sm:right-8">
@@ -102,28 +106,22 @@ export default function FloatingOffersButton() {
                 </button>
               </div>
               <div className="max-h-[min(60vh,360px)] overflow-y-auto p-3">
-                {count === 0 ? (
-                  <p className="px-2 py-6 text-center text-sm text-slate-500">
-                    No active promotions right now. Visit our offers page for updates.
-                  </p>
-                ) : (
-                  <ul className="space-y-2">
-                    {offers.map((o) => (
-                      <li
-                        key={o.id}
-                        className="rounded-xl border border-slate-100 bg-slate-50/80 p-3 text-left"
-                      >
-                        {o.badge ? (
-                          <span className="mb-1 inline-block rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-blue-800">
-                            {o.badge}
-                          </span>
-                        ) : null}
-                        <div className="font-bold text-slate-900 text-sm leading-snug">{o.title}</div>
-                        <p className="mt-1 text-xs text-slate-600 leading-relaxed">{o.subtitle}</p>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                <ul className="space-y-2">
+                  {offers.map((o) => (
+                    <li
+                      key={o.id}
+                      className="rounded-xl border border-slate-100 bg-slate-50/80 p-3 text-left"
+                    >
+                      {o.badge ? (
+                        <span className="mb-1 inline-block rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-blue-800">
+                          {o.badge}
+                        </span>
+                      ) : null}
+                      <div className="font-bold text-slate-900 text-sm leading-snug">{o.title}</div>
+                      <p className="mt-1 text-xs text-slate-600 leading-relaxed">{o.subtitle}</p>
+                    </li>
+                  ))}
+                </ul>
                 <Link
                   href="/offers"
                   className="mt-3 block rounded-xl bg-slate-900 py-2.5 text-center text-sm font-bold text-white hover:bg-slate-800 transition-colors"
