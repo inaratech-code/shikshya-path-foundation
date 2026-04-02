@@ -107,7 +107,7 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="col-span-1 lg:col-span-3 min-w-0 rounded-3xl border border-white/10 bg-white/[0.02] p-6 sm:p-7">
+        <div className="col-span-1 lg:col-span-2 min-w-0 rounded-3xl border border-white/10 bg-white/[0.02] p-6 sm:p-7">
           <h4 className="text-white font-black mb-4 sm:mb-6 text-base sm:text-lg tracking-tight">
             <span className="brand-color-anim text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-brand-accent)]">
               Destinations
@@ -124,44 +124,46 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="col-span-2 lg:col-span-3 rounded-3xl border border-white/10 bg-white/[0.02] p-6 sm:p-7">
+        <div className="col-span-2 lg:col-span-4 rounded-3xl border border-white/10 bg-white/[0.02] p-6 sm:p-7">
           <h4 className="text-white font-black mb-4 sm:mb-6 text-base sm:text-lg tracking-tight">
             <span className="brand-color-anim text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-brand-accent)]">
               Contact Us
             </span>
           </h4>
           <ul className="space-y-3 text-slate-200/85 font-medium text-sm sm:text-base">
-            <li className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
+            <li className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
               <MapPin size={20} className="text-[var(--color-accent-bright)] shrink-0 mt-1" />
-              <span>
-                {siteContact.addressLines[0]}
-                <br />
-                {siteContact.addressLines[1]}
-              </span>
+              <span className="leading-snug">{siteContact.addressSingle}</span>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
+            <li className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
               <Mail size={20} className="text-[var(--color-accent-bright)] shrink-0 mt-0.5" aria-hidden="true" />
-              <a href={`mailto:${siteContact.email}`} className="hover:text-white break-all transition-colors">
+              <a
+                href={`mailto:${siteContact.email}`}
+                className="hover:text-white break-words transition-colors"
+              >
                 {siteContact.email}
               </a>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
+            <li className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
               <Phone size={20} className="text-[var(--color-accent-bright)] shrink-0 mt-0.5" aria-hidden="true" />
-              <span>Tel: {siteContact.phoneLandline}</span>
+              <span className="leading-snug">Tel: {siteContact.phoneLandline}</span>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
+            <li className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
               <Smartphone size={20} className="text-[var(--color-accent-bright)] shrink-0 mt-0.5" aria-hidden="true" />
-              <a href={`tel:${siteContact.mobile.replace(/\s/g, '')}`} className="hover:text-white transition-colors">
+              <a
+                href={`tel:${siteContact.mobile.replace(/\s/g, '')}`}
+                className="whitespace-nowrap hover:text-white transition-colors"
+              >
                 {siteContact.mobile}
               </a>
             </li>
-            <li className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
+            <li className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
               <WhatsAppLogo className="h-5 w-5 shrink-0 text-[var(--color-accent-bright)] mt-0.5" />
               <a
                 href={`https://wa.me/${siteContact.whatsappTel}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white transition-colors"
+                className="whitespace-nowrap hover:text-white transition-colors"
                 aria-label={`WhatsApp ${siteContact.whatsappDisplay}`}
               >
                 {siteContact.whatsappDisplay}
