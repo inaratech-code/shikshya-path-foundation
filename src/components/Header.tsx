@@ -8,6 +8,7 @@ import { ChevronDown, Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import BrandLogo from '@/components/BrandLogo';
 import { useApplyNow } from '@/components/ApplyNowContext';
+import { studyDestinations } from '@/data/siteContent';
 
 export default function Header() {
   const pathname = usePathname();
@@ -25,12 +26,11 @@ export default function Header() {
   const isActive = (path: string) =>
     pathname === path ? 'text-[var(--color-primary)]' : '';
 
-  const DESTINATIONS = [
-    { label: 'Australia', slug: 'australia', flag: 'au' },
-    { label: 'Canada', slug: 'canada', flag: 'ca' },
-    { label: 'UK', slug: 'uk', flag: 'gb' },
-    { label: 'USA', slug: 'usa', flag: 'us' },
-  ] as const;
+  const DESTINATIONS = studyDestinations.map((d) => ({
+    label: d.accordionTitle.replace(/^Study in /, ''),
+    slug: d.slug,
+    flagSrc: d.flagImgTile || d.flagImgAccordion,
+  }));
 
   const SERVICES = [
     { label: 'Abroad Studies', href: '/services#abroad-studies' },
@@ -112,7 +112,7 @@ export default function Header() {
                   className="absolute left-1/2 top-full mt-3 w-64 -translate-x-1/2 rounded-2xl border border-slate-200 bg-white/95 backdrop-blur-md shadow-2xl shadow-slate-900/10 overflow-hidden"
                   role="menu"
                 >
-                  <div className="p-2">
+                  <div className="p-2 max-h-[22rem] overflow-y-auto">
                     {DESTINATIONS.map((d) => (
                       <Link
                         key={d.slug}
@@ -123,7 +123,7 @@ export default function Header() {
                       >
                         <span>{d.label}</span>
                         <Image
-                          src={`https://flagcdn.com/w40/${d.flag}.png`}
+                          src={d.flagSrc}
                           alt={`${d.label} flag`}
                           width={22}
                           height={16}
