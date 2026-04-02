@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown, Menu, X } from 'lucide-react';
@@ -25,10 +26,10 @@ export default function Header() {
     pathname === path ? 'text-[var(--color-primary)]' : '';
 
   const DESTINATIONS = [
-    { label: 'Australia', slug: 'australia' },
-    { label: 'Canada', slug: 'canada' },
-    { label: 'UK', slug: 'uk' },
-    { label: 'USA', slug: 'usa' },
+    { label: 'Australia', slug: 'australia', flag: 'au' },
+    { label: 'Canada', slug: 'canada', flag: 'ca' },
+    { label: 'UK', slug: 'uk', flag: 'gb' },
+    { label: 'USA', slug: 'usa', flag: 'us' },
   ] as const;
 
   const SERVICES = [
@@ -79,7 +80,7 @@ export default function Header() {
 
         {/* Desktop Nav — centered in middle column */}
         <nav
-          className="hidden md:flex min-w-0 items-center justify-center gap-4 lg:gap-5 xl:gap-7 px-1 text-[var(--color-text-main)] font-bold text-[13px] leading-tight lg:text-sm xl:text-base whitespace-nowrap"
+          className="hidden md:flex min-w-0 items-center justify-center gap-4 lg:gap-5 xl:gap-7 px-1 text-[var(--color-text-main)] font-bold text-sm leading-tight lg:text-base xl:text-lg whitespace-nowrap"
           aria-label="Primary"
         >
           <Link href="/" className={`shrink-0 hover:text-[var(--color-primary)] transition ${isActive('/')}`}>
@@ -121,7 +122,13 @@ export default function Header() {
                         onClick={() => setDestOpen(false)}
                       >
                         <span>{d.label}</span>
-                        <span className="text-slate-400">→</span>
+                        <Image
+                          src={`https://flagcdn.com/w40/${d.flag}.png`}
+                          alt={`${d.label} flag`}
+                          width={22}
+                          height={16}
+                          className="rounded-sm shadow-sm ring-1 ring-slate-200/70"
+                        />
                       </Link>
                     ))}
                     <div className="mt-1 border-t border-slate-100 pt-1">
