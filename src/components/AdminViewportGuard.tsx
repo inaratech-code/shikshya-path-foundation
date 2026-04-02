@@ -21,7 +21,7 @@ export default function AdminViewportGuard({ children }: Props) {
   if (isAllowed === null) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center text-slate-500 text-sm font-medium gap-2">
-        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-blue-600" />
+        <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-slate-300 border-t-[var(--color-primary)]" />
         Preparing admin…
       </div>
     );

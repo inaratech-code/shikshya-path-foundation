@@ -20,6 +20,9 @@
 # production
 /build
 
+# local dev lead captures (when Supabase is not configured)
+/tmp/
+
 # misc
 .DS_Store
 *.pem

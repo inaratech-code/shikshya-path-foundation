@@ -57,9 +57,9 @@ export default function ContactPage() {
           </p>
 
           {done ? (
-            <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-6">
-              <div className="text-emerald-900 font-bold text-lg">Thank you</div>
-              <p className="text-emerald-800 mt-2">
+            <div className="rounded-2xl bg-accent-soft border border-accent-soft-border p-6">
+              <div className="text-[var(--color-accent-foreground)] font-bold text-lg">Thank you</div>
+              <p className="text-[var(--color-accent-foreground)]/90 mt-2">
                 We’ve received your message and will get back to you soon.
               </p>
             </div>

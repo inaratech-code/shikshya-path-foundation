@@ -1,5 +1,6 @@
 /**
  * True when NEXT_PUBLIC_SUPABASE_* look like a real project (not copy-paste placeholders).
+ * Accepts hosted `*.supabase.co`, local Supabase CLI (`127.0.0.1` / `localhost`), and custom domains.
  */
 export function isSupabaseEnvConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
@@ -8,7 +9,14 @@ export function isSupabaseEnvConfigured(): boolean {
   const u = url.toLowerCase();
   if (u.includes('your_project_ref')) return false;
   if (u.includes('xxxxxxxx')) return false;
-  if (!u.includes('.supabase.co')) return false;
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') return false;
+  } catch {
+    return false;
+  }
+  // Supabase anon / publishable keys are JWTs
+  if (!key.startsWith('eyJ')) return false;
   return true;
 }
 

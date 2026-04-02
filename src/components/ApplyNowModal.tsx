@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { X, Send } from 'lucide-react';
 import { useApplyNow } from '@/components/ApplyNowContext';
-import { applyDestinationSelectOptions } from '@/data/siteContent';
+import { applyDestinationSelectOptions, siteContact } from '@/data/siteContent';
 import { submitLeadPublic } from '@/lib/submitLeadClient';
 
 const academicLevels = [
@@ -44,9 +44,40 @@ function ApplyNowBody({
 
   if (submitted) {
     return (
-      <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-6">
-        <div className="text-emerald-900 font-bold text-lg">Request received</div>
-        <div className="text-emerald-800 mt-1">We’ll contact you shortly. If it’s urgent, please call our office.</div>
+      <div className="rounded-2xl bg-accent-soft border border-accent-soft-border p-6">
+        <div className="text-[var(--color-accent-foreground)] font-bold text-lg">Request received</div>
+        <div className="text-[var(--color-accent-foreground)]/90 mt-1">We’ll contact you shortly. If it’s urgent, please call our office.</div>
+
+        <div className="mt-5 rounded-xl bg-white/40 border border-white/50 p-4">
+          <div className="text-sm font-bold">
+            <span className="brand-color-anim text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-brand-accent)]">
+              Contact details
+            </span>
+          </div>
+          <div className="mt-2 space-y-2 text-[var(--color-accent-foreground)]/90 text-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+              <span className="font-semibold text-[var(--color-accent-foreground)]">Email:</span>
+              <a
+                className="hover:underline underline-offset-2"
+                href={`mailto:${siteContact.email}`}
+              >
+                {siteContact.email}
+              </a>
+            </div>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+              <span className="font-semibold text-[var(--color-accent-foreground)]">Phone:</span>
+              <a className="hover:underline underline-offset-2" href={`tel:${siteContact.mobile.replace(/\\s/g, '')}`}>
+                {siteContact.mobile}
+              </a>
+              <span className="hidden sm:inline text-[var(--color-accent-foreground)]/70">({siteContact.phoneLandline})</span>
+            </div>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1">
+              <span className="font-semibold text-[var(--color-accent-foreground)]">Address:</span>
+              <span>{siteContact.addressSingle}</span>
+            </div>
+          </div>
+        </div>
+
         <button
           type="button"
           className="mt-5 inline-flex items-center justify-center bg-[var(--color-primary)] text-white font-semibold px-6 py-3 rounded-xl hover:opacity-90 transition"
@@ -236,7 +267,7 @@ export default function ApplyNowModal() {
 
       <div className="absolute inset-0 flex items-end sm:items-center justify-center p-3 sm:p-6">
         <div className="relative w-full max-w-2xl max-h-[min(100dvh,720px)] sm:max-h-[90vh] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
-          <div className="p-6 sm:p-8 bg-gradient-to-br from-blue-50 via-white to-white border-b border-slate-100 shrink-0">
+          <div className="p-6 sm:p-8 bg-gradient-to-br from-primary-soft via-white to-white border-b border-slate-100 shrink-0">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h2 className="text-2xl sm:text-3xl font-black text-slate-900">{title}</h2>

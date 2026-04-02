@@ -46,7 +46,7 @@ export default function AdminSidebarLayout({
           </div>
           
           <nav className="flex-grow py-6 px-4 space-y-2">
-            <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-600/10 text-blue-400 hover:bg-blue-600/20 transition-colors font-medium">
+            <Link href="/admin" className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[var(--color-primary)]/10 text-[var(--color-accent-bright)] hover:bg-[var(--color-primary)]/20 transition-colors font-medium">
               <Home size={20} /> Dashboard
             </Link>
             <Link href="/admin/leads" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-colors font-medium">

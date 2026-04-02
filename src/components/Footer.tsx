@@ -7,10 +7,10 @@ import { FacebookLogo, InstagramLogo, TikTokLogo, WhatsAppLogo } from '@/compone
 import { siteContact, siteSocial, SITE_MOTTO, studyDestinations } from '@/data/siteContent';
 
 const SOCIAL_PILL_CLASS =
-  'inline-flex size-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-all duration-300 ease-out hover:scale-[1.06] hover:border-emerald-300/40 hover:bg-emerald-400/15 hover:text-white hover:shadow-[0_0_34px_-6px_rgba(16,185,129,0.65)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070818]';
+  'inline-flex size-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition-all duration-300 ease-out hover:scale-[1.06] hover:border-[var(--color-brand-accent)]/40 hover:bg-[var(--color-brand-accent)]/15 hover:text-white hover:shadow-[0_0_34px_-6px_rgba(37,126,67,0.65)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#070818]';
 
 const FOOTER_DESTINATION_LINK_CLASS =
-  'inline-block rounded-md px-1.5 py-0.5 -mx-1.5 text-slate-300/90 transition-all duration-300 ease-out hover:bg-white/[0.08] hover:text-white hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.14)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070818]';
+  'inline-flex items-center justify-between gap-3 rounded-lg px-3 py-1.5 text-slate-300/90 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-white/[0.10] hover:text-white hover:shadow-[0_0_26px_-12px_rgba(37,126,67,0.65)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-accent)]/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#070818]';
 
 const FOOTER_DESTINATIONS = studyDestinations.map((d) => ({
   label: d.accordionTitle.replace(/^Study in /, ''),
@@ -22,7 +22,7 @@ const FOOTER_QUICK_LINKS_FULL = [
   { label: 'Services', href: '/services' },
   { label: 'Study Destination', href: '/destinations' },
   { label: 'Test Preparation', href: '/test-preparation' },
-  { label: 'Gallery', href: '/gallery' },
+  // { label: 'Gallery', href: '/gallery' },
   { label: 'Offers', href: '/offers' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
@@ -31,20 +31,24 @@ const FOOTER_QUICK_LINKS_FULL = [
 const FOOTER_QUICK_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Offers', href: '/offers' },
-  { label: 'Gallery', href: '/gallery' },
+  // { label: 'Gallery', href: '/gallery' },
   { label: 'Privacy Policy', href: '/privacy' },
   { label: 'Terms of Service', href: '/terms' },
 ] as const;
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden text-slate-300 py-12 sm:py-20 px-4 sm:px-6 mt-auto [&_p]:text-justify">
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(900px_460px_at_14%_18%,rgba(45,212,191,0.14),transparent_60%),radial-gradient(900px_520px_at_86%_22%,rgba(236,72,153,0.14),transparent_55%),linear-gradient(180deg,#070818_0%,#050615_55%,#03030C_100%)]" />
+    <footer className="relative overflow-hidden text-slate-300 py-12 sm:py-20 px-4 sm:px-6 mt-auto [&_p]:text-justify bg-[#070818]">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(900px_460px_at_14%_18%,rgba(1,82,144,0.28),transparent_60%),radial-gradient(900px_520px_at_86%_22%,rgba(37,126,67,0.22),transparent_55%),linear-gradient(180deg,#070818_0%,#050615_55%,#03030C_100%)]" />
       <div className="absolute inset-0 -z-10 opacity-45 [background-image:radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:18px_18px]" />
       <div className="absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" />
+      {/* Brand banner highlight */}
+      <div className="absolute left-1/2 -translate-x-1/2 top-0 -z-10 h-24 w-[90%] bg-gradient-to-r from-[var(--color-primary)]/25 via-transparent to-[var(--color-brand-accent)]/20 blur-[0.5px]" />
+      <div className="absolute -top-28 left-1/3 -z-10 h-[20rem] w-[28rem] bg-[radial-gradient(circle_at_center,rgba(1,82,144,0.30),transparent_60%)] blur-2xl" />
+      <div className="absolute -top-24 right-1/4 -z-10 h-[22rem] w-[26rem] bg-[radial-gradient(circle_at_center,rgba(37,126,67,0.26),transparent_60%)] blur-2xl" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-12 gap-x-6 gap-y-10 sm:gap-12 lg:gap-x-10 lg:gap-y-10">
-        <div className="col-span-2 lg:col-span-4 min-w-0 text-center lg:text-left">
+        <div className="col-span-2 lg:col-span-4 min-w-0 text-center lg:text-left rounded-3xl border border-white/10 bg-white/[0.02] p-6 sm:p-8">
           <div className="mb-4 flex justify-center lg:justify-start">
             <BrandLogo variant="footer" className="justify-center lg:justify-start" />
           </div>
@@ -86,8 +90,12 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="col-span-1 lg:col-span-2 min-w-0">
-          <h4 className="text-white font-black mb-4 sm:mb-6 text-base sm:text-lg tracking-tight">Quick Links</h4>
+        <div className="col-span-1 lg:col-span-2 min-w-0 rounded-3xl border border-white/10 bg-white/[0.02] p-6 sm:p-7">
+          <h4 className="text-white font-black mb-4 sm:mb-6 text-base sm:text-lg tracking-tight">
+            <span className="brand-color-anim text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-brand-accent)]">
+              Quick Links
+            </span>
+          </h4>
           <ul className="space-y-3 sm:space-y-4 font-medium text-sm sm:text-base">
             {FOOTER_QUICK_LINKS_FULL.map((l) => (
               <li key={l.href}>
@@ -99,8 +107,12 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="col-span-1 lg:col-span-3 min-w-0">
-          <h4 className="text-white font-black mb-4 sm:mb-6 text-base sm:text-lg tracking-tight">Destinations</h4>
+        <div className="col-span-1 lg:col-span-3 min-w-0 rounded-3xl border border-white/10 bg-white/[0.02] p-6 sm:p-7">
+          <h4 className="text-white font-black mb-4 sm:mb-6 text-base sm:text-lg tracking-tight">
+            <span className="brand-color-anim text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-brand-accent)]">
+              Destinations
+            </span>
+          </h4>
           <ul className="space-y-3 sm:space-y-4 font-medium text-sm sm:text-base">
             {FOOTER_DESTINATIONS.map((d) => (
               <li key={d.slug}>
@@ -112,35 +124,39 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="col-span-2 lg:col-span-3">
-          <h4 className="text-white font-black mb-4 sm:mb-6 text-base sm:text-lg tracking-tight">Contact Us</h4>
-          <ul className="space-y-4 text-slate-200/85 font-medium text-sm sm:text-base">
-            <li className="flex items-start gap-3">
-              <MapPin size={20} className="text-emerald-300 shrink-0 mt-1" />
+        <div className="col-span-2 lg:col-span-3 rounded-3xl border border-white/10 bg-white/[0.02] p-6 sm:p-7">
+          <h4 className="text-white font-black mb-4 sm:mb-6 text-base sm:text-lg tracking-tight">
+            <span className="brand-color-anim text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-brand-accent)]">
+              Contact Us
+            </span>
+          </h4>
+          <ul className="space-y-3 text-slate-200/85 font-medium text-sm sm:text-base">
+            <li className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
+              <MapPin size={20} className="text-[var(--color-accent-bright)] shrink-0 mt-1" />
               <span>
                 {siteContact.addressLines[0]}
                 <br />
                 {siteContact.addressLines[1]}
               </span>
             </li>
-            <li className="flex items-start gap-3">
-              <Mail size={20} className="text-emerald-300 shrink-0 mt-0.5" aria-hidden="true" />
+            <li className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
+              <Mail size={20} className="text-[var(--color-accent-bright)] shrink-0 mt-0.5" aria-hidden="true" />
               <a href={`mailto:${siteContact.email}`} className="hover:text-white break-all transition-colors">
                 {siteContact.email}
               </a>
             </li>
-            <li className="flex items-start gap-3">
-              <Phone size={20} className="text-emerald-300 shrink-0 mt-0.5" aria-hidden="true" />
+            <li className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
+              <Phone size={20} className="text-[var(--color-accent-bright)] shrink-0 mt-0.5" aria-hidden="true" />
               <span>Tel: {siteContact.phoneLandline}</span>
             </li>
-            <li className="flex items-start gap-3">
-              <Smartphone size={20} className="text-emerald-300 shrink-0 mt-0.5" aria-hidden="true" />
+            <li className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
+              <Smartphone size={20} className="text-[var(--color-accent-bright)] shrink-0 mt-0.5" aria-hidden="true" />
               <a href={`tel:${siteContact.mobile.replace(/\s/g, '')}`} className="hover:text-white transition-colors">
                 {siteContact.mobile}
               </a>
             </li>
-            <li className="flex items-start gap-3">
-              <WhatsAppLogo className="h-5 w-5 shrink-0 text-emerald-300 mt-0.5" />
+            <li className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
+              <WhatsAppLogo className="h-5 w-5 shrink-0 text-[var(--color-accent-bright)] mt-0.5" />
               <a
                 href={`https://wa.me/${siteContact.whatsappTel}`}
                 target="_blank"
@@ -169,8 +185,18 @@ export default function Footer() {
           .
         </p>
         <div className="flex flex-wrap justify-center sm:justify-end gap-4 sm:gap-6">
-          <Link href="/privacy" className="text-slate-300/70 hover:text-white transition-colors">Privacy Policy</Link>
-          <Link href="/terms" className="text-slate-300/70 hover:text-white transition-colors">Terms of Service</Link>
+          <Link
+            href="/privacy"
+            className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-slate-300/80 hover:text-white hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/30 transition-colors"
+          >
+            Privacy Policy
+          </Link>
+          <Link
+            href="/terms"
+            className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-slate-300/80 hover:text-white hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/30 transition-colors"
+          >
+            Terms of Service
+          </Link>
         </div>
       </div>
     </footer>

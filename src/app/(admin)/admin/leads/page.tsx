@@ -64,7 +64,7 @@ function LeadStatusSelect({
     <select
       value={value}
       onChange={(e) => onChange(e.target.value as LeadStatus)}
-      className="max-w-[11rem] rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+      className="max-w-[11rem] rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-800 shadow-sm focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
       aria-label="Lead status"
     >
       {STATUS_OPTIONS.map((o) => (
@@ -90,21 +90,21 @@ function LeadFormDetails({ message }: { message: string }) {
       {hasParsed ? (
         <div className="flex flex-wrap gap-2">
           {parsed.intent ? (
-            <span className="inline-flex items-center rounded-lg bg-blue-50 border border-blue-100 px-3 py-1.5 text-sm">
-              <span className="font-semibold text-blue-900 mr-1.5">Intent</span>
-              <span className="text-blue-800">{parsed.intent}</span>
+            <span className="inline-flex items-center rounded-lg bg-primary-soft border border-primary/15 px-3 py-1.5 text-sm">
+              <span className="font-semibold text-primary-dark mr-1.5">Intent</span>
+              <span className="text-primary">{parsed.intent}</span>
             </span>
           ) : null}
           {parsed.academicLevel ? (
-            <span className="inline-flex items-center rounded-lg bg-violet-50 border border-violet-100 px-3 py-1.5 text-sm">
-              <span className="font-semibold text-violet-900 mr-1.5">Academic level</span>
-              <span className="text-violet-800 capitalize">{parsed.academicLevel}</span>
+            <span className="inline-flex items-center rounded-lg bg-accent-soft border border-accent-soft-border px-3 py-1.5 text-sm">
+              <span className="font-semibold text-accent-foreground mr-1.5">Academic level</span>
+              <span className="text-[var(--color-brand-accent)] capitalize">{parsed.academicLevel}</span>
             </span>
           ) : null}
           {parsed.preferredProgram ? (
-            <span className="inline-flex items-center rounded-lg bg-emerald-50 border border-emerald-100 px-3 py-1.5 text-sm max-w-full">
-              <span className="font-semibold text-emerald-900 mr-1.5 shrink-0">Program</span>
-              <span className="text-emerald-800 break-words">{parsed.preferredProgram}</span>
+            <span className="inline-flex items-center rounded-lg bg-primary-softer border border-primary/20 px-3 py-1.5 text-sm max-w-full">
+              <span className="font-semibold text-primary-dark mr-1.5 shrink-0">Program</span>
+              <span className="text-primary-dark/90 break-words">{parsed.preferredProgram}</span>
             </span>
           ) : null}
         </div>
@@ -170,11 +170,11 @@ function LeadDetailModal({
         <div className="p-5 space-y-6">
           <div className="grid sm:grid-cols-2 gap-4 text-sm">
             <div className="flex gap-3 min-w-0">
-              <Mail className="text-blue-600 shrink-0 mt-0.5" size={18} />
+              <Mail className="text-[var(--color-primary)] shrink-0 mt-0.5" size={18} />
               <div className="min-w-0">
                 <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Email</div>
                 {lead.email !== '—' ? (
-                  <a href={`mailto:${lead.email}`} className="text-blue-700 font-medium hover:underline break-all">
+                  <a href={`mailto:${lead.email}`} className="text-primary-dark font-medium hover:underline break-all">
                     {lead.email}
                   </a>
                 ) : (
@@ -183,7 +183,7 @@ function LeadDetailModal({
               </div>
             </div>
             <div className="flex gap-3 min-w-0">
-              <Phone className="text-blue-600 shrink-0 mt-0.5" size={18} />
+              <Phone className="text-[var(--color-primary)] shrink-0 mt-0.5" size={18} />
               <div className="min-w-0">
                 <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Phone</div>
                 {lead.phone ? (
@@ -364,7 +364,7 @@ export default function LeadsPage() {
                   <button
                     type="button"
                     onClick={() => setDetailLead(lead)}
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200"
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 hover:bg-primary-soft hover:text-primary-dark hover:border-primary/25"
                     aria-label="Open full details"
                     title="Full screen details"
                   >
@@ -387,7 +387,7 @@ export default function LeadsPage() {
                   <div>
                     <div className="text-xs font-bold uppercase tracking-wide text-slate-500 mb-1">Email</div>
                     {lead.email !== '—' ? (
-                      <a href={`mailto:${lead.email}`} className="text-blue-700 font-semibold hover:underline break-all">
+                      <a href={`mailto:${lead.email}`} className="text-primary-dark font-semibold hover:underline break-all">
                         {lead.email}
                       </a>
                     ) : (

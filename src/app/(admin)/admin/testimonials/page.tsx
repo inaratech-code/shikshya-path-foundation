@@ -10,7 +10,7 @@ export default function TestimonialsManagementPage() {
         </div>
         <button
           type="button"
-          className="flex items-center gap-2 bg-blue-600 text-white font-semibold px-5 py-2.5 rounded-xl hover:bg-blue-700 transition-colors shadow-sm"
+          className="flex items-center gap-2 bg-[var(--color-primary)] text-white font-semibold px-5 py-2.5 rounded-xl hover:opacity-95 transition-colors shadow-sm"
         >
           <Plus size={18} /> Add Success Story
         </button>
@@ -21,7 +21,7 @@ export default function TestimonialsManagementPage() {
           <input
             type="text"
             placeholder="Search by student name or university..."
-            className="w-full max-w-sm px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full max-w-sm px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
           />
         </div>
 

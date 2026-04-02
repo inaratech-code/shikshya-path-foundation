@@ -68,7 +68,7 @@ export default async function CountryDestinationPage({
              </li>
           </ul>
           
-          <button className="w-full bg-[var(--color-primary)] text-white font-bold py-3 rounded-xl hover:scale-105 transition-transform mt-8 shadow-lg shadow-blue-500/20">
+          <button className="w-full bg-[var(--color-primary)] text-white font-bold py-3 rounded-xl hover:scale-105 transition-transform mt-8 shadow-lg shadow-[var(--color-primary)]/20">
             Apply Now
           </button>
         </div>

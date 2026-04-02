@@ -91,7 +91,7 @@ export default function FloatingOffersButton() {
               transition={{ duration: 0.2 }}
               className="w-[min(100vw-2rem,22rem)] max-h-[min(70vh,420px)] overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/15"
             >
-              <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-white">
+              <div className="flex items-center justify-between border-b border-slate-100 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary-dark)] px-4 py-3 text-white">
                 <div className="flex items-center gap-2 font-bold">
                   <Gift size={18} className="shrink-0" />
                   Current offers
@@ -113,7 +113,7 @@ export default function FloatingOffersButton() {
                       className="rounded-xl border border-slate-100 bg-slate-50/80 p-3 text-left"
                     >
                       {o.badge ? (
-                        <span className="mb-1 inline-block rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-blue-800">
+                        <span className="mb-1 inline-block rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-primary-dark">
                           {o.badge}
                         </span>
                       ) : null}
@@ -137,7 +137,7 @@ export default function FloatingOffersButton() {
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-600/35 transition-transform hover:scale-105 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500"
+          className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-brand-accent)] text-white shadow-lg shadow-[var(--color-primary)]/35 transition-transform hover:scale-105 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-primary)]"
           aria-expanded={open}
           aria-label={open ? 'Close offers' : 'Open current offers'}
         >

@@ -21,7 +21,7 @@ export default function BrandLogo({
   return (
     <Link
       href="/"
-      className={`flex items-center gap-3 md:gap-4 lg:gap-5 shrink-0 min-w-0 ${className}`}
+      className={`flex items-center gap-1 md:gap-1.5 lg:gap-2 shrink-0 min-w-0 ${className}`}
       aria-label="Shikshya Path Foundation — Home"
     >
       <Image
@@ -32,7 +32,7 @@ export default function BrandLogo({
         priority
         className={
           isHeader
-            ? 'h-12 w-auto min-h-[48px] sm:h-16 sm:min-h-[64px] md:h-20 md:min-h-[80px] lg:h-22 lg:min-h-[88px] max-w-[min(88vw,240px)] sm:max-w-[280px] md:max-w-[300px] lg:max-w-[320px] object-contain object-left'
+            ? 'h-12 w-auto min-h-[48px] sm:h-16 sm:min-h-[64px] md:h-20 md:min-h-[80px] lg:h-22 lg:min-h-[88px] max-w-[84px] sm:max-w-[96px] md:max-w-[108px] lg:max-w-[118px] object-contain object-left'
             : 'h-20 w-auto sm:h-24 md:h-28 lg:h-32 max-w-[min(100%,400px)] object-contain object-left'
         }
         sizes={
@@ -45,7 +45,7 @@ export default function BrandLogo({
       {showName ? (
         <span className="min-w-0 block max-w-[min(62vw,22rem)] sm:max-w-none text-center sm:text-left">
           <span className="block font-black leading-tight text-[13px] sm:text-sm md:text-base lg:text-lg tracking-tight truncate">
-            <span className="brand-color-anim inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-600 to-sky-500">
+            <span className="brand-color-anim inline-block text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-brand-accent)]">
               Shikshya Path Foundation
             </span>
           </span>

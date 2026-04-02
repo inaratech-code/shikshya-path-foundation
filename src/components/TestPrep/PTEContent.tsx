@@ -92,7 +92,7 @@ export default function PTEContent() {
           <button
             type="button"
             onClick={() => applyNow.open({ intent: 'enroll', source: 'pte' })}
-            className="inline-flex items-center justify-center gap-2 bg-white text-[var(--color-primary-dark)] font-black px-8 py-4 rounded-2xl hover:scale-[1.02] transition-transform shadow-2xl shadow-blue-900/50"
+            className="inline-flex items-center justify-center gap-2 bg-white text-[var(--color-primary-dark)] font-black px-8 py-4 rounded-2xl hover:scale-[1.02] transition-transform shadow-2xl shadow-[var(--color-primary-dark)]/50"
           >
             Enroll Now <ArrowRight size={18} />
           </button>

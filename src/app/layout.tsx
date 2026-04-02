@@ -33,8 +33,8 @@ export const metadata: Metadata = {
     'Shikshya Path Foundation',
   ],
   icons: {
-    icon: [{ url: '/icon.jpeg', type: 'image/jpeg', sizes: 'any' }],
-    apple: [{ url: '/apple-icon.jpeg', sizes: '180x180', type: 'image/jpeg' }],
+    icon: [{ url: MAIN_SITE_LOGO_PATH, type: 'image/png', sizes: 'any' }],
+    apple: [{ url: MAIN_SITE_LOGO_PATH, sizes: '180x180', type: 'image/png' }],
   },
   openGraph: {
     type: 'website',

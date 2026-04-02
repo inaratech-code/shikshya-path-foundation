@@ -101,7 +101,7 @@ export default function DestinationsAccordion() {
               type="button"
               onClick={() => setOpenKey((prev) => (prev === c.key ? '' : c.key))}
               className={`w-full flex items-center justify-between gap-2 lg:gap-4 px-3 py-4 sm:px-6 sm:py-5 text-left border-b border-slate-100 last:border-0 lg:last:border-b transition ${
-                active ? 'bg-blue-50/60' : 'bg-white hover:bg-slate-50'
+                active ? 'bg-primary-soft/60' : 'bg-white hover:bg-slate-50'
               } ${items.length % 2 === 1 && c.key === items[items.length - 1]?.key ? 'col-span-2 lg:col-span-1' : ''}`}
             >
               <div className="flex items-start gap-2 sm:gap-3 min-w-0 flex-1">

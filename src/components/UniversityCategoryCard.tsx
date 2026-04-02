@@ -18,7 +18,7 @@ export default function UniversityCategoryCard({
   flagImg,
   bgImage,
   bgImageAlt,
-  fallbackClassName = 'bg-gradient-to-br from-slate-100 via-blue-50/80 to-slate-100',
+  fallbackClassName = 'bg-gradient-to-br from-slate-100 via-primary-soft/80 to-slate-100',
   className = '',
 }: Props) {
   const [flagFailed, setFlagFailed] = useState(false);
@@ -59,7 +59,7 @@ export default function UniversityCategoryCard({
         className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-white/95 via-white/55 to-white/15"
         aria-hidden="true"
       />
-      <div className="pointer-events-none absolute -top-6 -right-8 z-[1] h-28 w-28 rounded-full bg-blue-100/50 blur-2xl" aria-hidden="true" />
+      <div className="pointer-events-none absolute -top-6 -right-8 z-[1] h-28 w-28 rounded-full bg-primary/12 blur-2xl" aria-hidden="true" />
       {/* Light doodle — sits under text, adds interest if photo is soft */}
       <svg
         className="pointer-events-none absolute bottom-1 right-1 z-[2] h-16 w-16 text-[var(--color-primary)] opacity-[0.14]"

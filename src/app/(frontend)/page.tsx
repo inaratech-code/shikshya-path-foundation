@@ -105,9 +105,9 @@ export default function Home() {
   return (
     <main className="pt-[var(--header-height)]">
       {/* HERO — starts below fixed header; border reinforces header vs content */}
-      <section className="relative overflow-hidden border-t border-slate-200/80 bg-gradient-to-br from-blue-50/50 via-white to-white pt-8 sm:pt-10 md:pt-12 pb-16 sm:pb-20">
-        <div className="absolute top-0 right-0 -mr-48 -mt-48 w-[40rem] h-[40rem] rounded-full bg-blue-100/40 blur-3xl opacity-60" />
-        <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 rounded-full bg-indigo-100/40 blur-3xl" />
+      <section className="relative overflow-hidden border-t border-slate-200/80 bg-gradient-to-br from-primary-softer/80 via-white to-white pt-8 sm:pt-10 md:pt-12 pb-16 sm:pb-20">
+        <div className="absolute top-0 right-0 -mr-48 -mt-48 w-[40rem] h-[40rem] rounded-full bg-primary/15 blur-3xl opacity-60" />
+        <div className="absolute bottom-0 left-0 -ml-32 -mb-32 w-96 h-96 rounded-full bg-accent/12 blur-3xl" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 lg:gap-14 items-center relative z-10 min-w-0">
           <motion.div
@@ -116,15 +116,15 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-100 text-[var(--color-primary-dark)] rounded-full text-sm font-semibold shadow-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-soft border border-primary/15 text-[var(--color-primary-dark)] rounded-full text-sm font-semibold shadow-sm">
               <Globe2 size={16} className="text-[var(--color-primary)]" />
               Your pathway to studying abroad
             </div>
 
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-black leading-tight text-slate-900 tracking-tight">
               Welcome to{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-indigo-500">
-                Shikshya Path
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-brand-accent)]">
+                Shikshya Path Foundation
               </span>
             </h1>
 
@@ -168,7 +168,7 @@ export default function Home() {
             </div>
 
             <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 glass px-3 py-2.5 sm:px-4 sm:py-3 rounded-2xl shadow-2xl flex items-center gap-3 max-w-[calc(100%-2rem)]">
-              <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
+              <div className="w-10 h-10 rounded-full bg-accent-soft flex items-center justify-center text-[var(--color-brand-accent)]">
                 <ShieldCheck size={18} />
               </div>
               <div>
@@ -178,7 +178,7 @@ export default function Home() {
             </div>
 
             <div className="absolute top-4 right-4 sm:top-6 sm:right-6 glass px-3 py-2.5 sm:px-4 sm:py-3 rounded-2xl shadow-2xl flex items-center gap-2 sm:gap-3 max-w-[min(100%-2rem,16rem)] sm:max-w-none">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary-soft flex items-center justify-center text-[var(--color-primary)] shrink-0">
                 <CheckCircle2 size={18} />
               </div>
               <div className="min-w-0">
@@ -219,7 +219,7 @@ export default function Home() {
                 <Link
                   key={c.slug}
                   href={`/destinations?country=${encodeURIComponent(c.slug)}#study-abroad-destinations`}
-                  className="group relative shrink-0 snap-start aspect-square w-[min(44vw,200px)] sm:w-[188px] md:w-[208px] lg:w-[228px] xl:w-[248px] rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-primary)]/40 hover:shadow-[0_20px_50px_-12px_rgba(29,78,216,0.25)] flex flex-col justify-end"
+                  className="group relative shrink-0 snap-start aspect-square w-[min(44vw,200px)] sm:w-[188px] md:w-[208px] lg:w-[228px] xl:w-[248px] rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-primary)]/40 hover:shadow-[0_20px_50px_-12px_rgba(1,82,144,0.25)] flex flex-col justify-end"
                 >
                   <img
                     src={c.flagImg}
@@ -281,7 +281,7 @@ export default function Home() {
                 href={t.href}
                 className="group bg-white rounded-2xl sm:rounded-[2rem] border border-slate-200 p-4 sm:p-7 hover:shadow-2xl hover:-translate-y-1 transition-all h-full flex flex-col"
               >
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-50 text-[var(--color-primary)] flex items-center justify-center mb-3 sm:mb-5 border border-blue-100 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-primary-soft text-[var(--color-primary)] flex items-center justify-center mb-3 sm:mb-5 border border-primary/15 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors shrink-0">
                   {t.icon}
                 </div>
                 <div className="text-lg sm:text-2xl font-black text-slate-900">{t.title}</div>

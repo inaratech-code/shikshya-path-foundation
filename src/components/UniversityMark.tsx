@@ -23,15 +23,16 @@ function initials(name: string): string {
   return chars.toUpperCase() || 'U';
 }
 
+/** Brand blue (#015290) + green (#257e43) gradients — distinct pairs per hash */
 const PALETTE: Array<[string, string]> = [
-  ['#2563EB', '#06B6D4'], // blue → cyan
-  ['#4F46E5', '#EC4899'], // indigo → pink
-  ['#0EA5E9', '#22C55E'], // sky → green
-  ['#F97316', '#EF4444'], // orange → red
-  ['#10B981', '#22C55E'], // emerald → green
-  ['#7C3AED', '#3B82F6'], // violet → blue
-  ['#E11D48', '#F59E0B'], // rose → amber
-  ['#0891B2', '#6366F1'], // cyan → indigo
+  ['#015290', '#257e43'],
+  ['#0d6ea3', '#257e43'],
+  ['#015290', '#3d9a5c'],
+  ['#1273a8', '#257e43'],
+  ['#013a5c', '#257e43'],
+  ['#015290', '#1a5c30'],
+  ['#0f6fa3', '#3d9a5c'],
+  ['#014a6e', '#257e43'],
 ];
 
 export default function UniversityMark({ name, className = '' }: Props) {

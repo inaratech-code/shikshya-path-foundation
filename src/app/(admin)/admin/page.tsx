@@ -64,7 +64,7 @@ export default function AdminDashboard() {
       {/* Stats — Leads, Offers, Testimonials */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-8 sm:mb-10">
         <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3 sm:gap-4 min-w-0">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-soft text-[var(--color-primary)] rounded-xl flex items-center justify-center shrink-0">
             <Users size={28} />
           </div>
           <div className="min-w-0">
@@ -81,7 +81,7 @@ export default function AdminDashboard() {
         </div>
 
         <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3 sm:gap-4 min-w-0">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center shrink-0">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-accent-soft text-[var(--color-brand-accent)] rounded-xl flex items-center justify-center shrink-0">
             <Gift size={28} />
           </div>
           <div className="min-w-0">
@@ -93,7 +93,7 @@ export default function AdminDashboard() {
         </div>
 
         <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3 sm:gap-4 min-w-0">
-          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center shrink-0">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-softer text-[var(--color-primary-dark)] rounded-xl flex items-center justify-center shrink-0">
             <MessageSquare size={28} />
           </div>
           <div className="min-w-0">
@@ -160,7 +160,7 @@ export default function AdminDashboard() {
           <div className="space-y-3">
             <Link
               href="/admin/offers"
-              className="block w-full text-left bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold py-3 px-4 rounded-xl transition-colors border border-blue-200 text-sm"
+              className="block w-full text-left bg-primary-soft hover:bg-primary/10 text-primary-dark font-semibold py-3 px-4 rounded-xl transition-colors border border-primary/20 text-sm"
             >
               + Create Offer
             </Link>

@@ -43,7 +43,7 @@ export default function HeroBannerLayers({
         aria-hidden
       />
       <div
-        className="absolute bottom-[-25%] left-[-12%] w-96 h-96 bg-indigo-500/18 blur-[100px] rounded-full z-[2] pointer-events-none"
+        className="absolute bottom-[-25%] left-[-12%] w-96 h-96 bg-primary/18 blur-[100px] rounded-full z-[2] pointer-events-none"
         aria-hidden
       />
     </>

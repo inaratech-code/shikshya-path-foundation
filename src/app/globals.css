@@ -1,13 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #1D4ED8;
-  --color-primary-light: #3B82F6;
-  --color-primary-dark: #1E3A8A;
-  
-  --color-brand-accent: #60A5FA;
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
+  /* Logo: primary blue #015290, accent green #257e43 */
+  --color-primary: #015290;
+  --color-primary-light: #0d6ea3;
+  --color-primary-dark: #013a5c;
+
+  --color-brand-accent: #257e43;
+  --color-accent: #257e43;
+  --color-accent-light: #3d9a5c;
+  --color-accent-bright: #7ec99a;
+  --color-accent-foreground: #174a25;
+  /* Light tints for sections / success panels */
+  --color-primary-soft: #e8f1f7;
+  --color-primary-softer: #f2f7fb;
+  --color-accent-soft: #e8f4ec;
+  --color-accent-soft-border: #c5e6d0;
+
+  --color-success: #257e43;
+  --color-warning: #f59e0b;
   
   --color-text-main: #0F172A;
   --color-text-muted: #64748B;
@@ -86,8 +97,13 @@
 }
 
 @keyframes brand-hue {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(22deg); }
+  0%,
+  100% {
+    filter: hue-rotate(0deg) saturate(1.05);
+  }
+  50% {
+    filter: hue-rotate(-6deg) saturate(1.08);
+  }
 }
 
 .brand-color-anim {

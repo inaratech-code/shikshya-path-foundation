@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { ChevronDown, Menu, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import BrandLogo from '@/components/BrandLogo';
 import { useApplyNow } from '@/components/ApplyNowContext';
@@ -64,9 +64,9 @@ export default function Header() {
         </div>
 
         {/* Mobile centered brand text (only) */}
-        <div className="md:hidden min-w-0 text-center leading-tight">
+        <Link href="/" className="md:hidden min-w-0 text-center leading-tight block" aria-label="Shikshya Path Foundation — Home">
           <div className="font-black tracking-tight text-[13px] truncate">
-            <span className="brand-color-anim inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-600 to-sky-500">
+            <span className="brand-color-anim inline-block text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-brand-accent)]">
               Shikshya Path Foundation
             </span>
           </div>
@@ -75,7 +75,7 @@ export default function Header() {
               Your Dream Our Guidance
             </span>
           </div>
-        </div>
+        </Link>
 
         {/* Desktop Nav — centered in middle column */}
         <nav
@@ -91,15 +91,14 @@ export default function Header() {
             onPointerEnter={() => setDestOpen(true)}
             onPointerLeave={(e) => keepOpenOnPointerLeave(e, () => setDestOpen(false))}
           >
-            <button
-              type="button"
+            <Link
+              href="/destinations"
               className={`inline-flex items-center gap-1.5 shrink-0 hover:text-[var(--color-primary)] transition ${pathname?.startsWith('/destinations') ? 'text-[var(--color-primary)]' : ''}`}
               aria-haspopup="menu"
               aria-expanded={destOpen}
-              onClick={() => setDestOpen((v) => !v)}
             >
               Study Destinations
-            </button>
+            </Link>
             <div className="absolute left-0 right-0 top-full h-3" aria-hidden="true" />
 
             <AnimatePresence>
@@ -150,15 +149,14 @@ export default function Header() {
             }}
             onPointerLeave={(e) => keepOpenOnPointerLeave(e, () => setServicesOpen(false))}
           >
-            <button
-              type="button"
+            <Link
+              href="/services"
               className={`inline-flex items-center gap-1.5 shrink-0 hover:text-[var(--color-primary)] transition ${pathname?.startsWith('/services') ? 'text-[var(--color-primary)]' : ''}`}
               aria-haspopup="menu"
               aria-expanded={servicesOpen}
-              onClick={() => setServicesOpen((v) => !v)}
             >
               Services
-            </button>
+            </Link>
             <div className="absolute left-0 right-0 top-full h-3" aria-hidden="true" />
 
             <AnimatePresence>
@@ -209,15 +207,14 @@ export default function Header() {
             }}
             onPointerLeave={(e) => keepOpenOnPointerLeave(e, () => setTestPrepOpen(false))}
           >
-            <button
-              type="button"
+            <Link
+              href="/test-preparation"
               className={`inline-flex items-center gap-1.5 shrink-0 hover:text-[var(--color-primary)] transition ${pathname?.startsWith('/test-preparation') ? 'text-[var(--color-primary)]' : ''}`}
               aria-haspopup="menu"
               aria-expanded={testPrepOpen}
-              onClick={() => setTestPrepOpen((v) => !v)}
             >
               Test Preparation
-            </button>
+            </Link>
             <div className="absolute left-0 right-0 top-full h-3" aria-hidden="true" />
 
             <AnimatePresence>
@@ -268,15 +265,14 @@ export default function Header() {
             }}
             onPointerLeave={(e) => keepOpenOnPointerLeave(e, () => setAboutOpen(false))}
           >
-            <button
-              type="button"
+            <Link
+              href="/about"
               className={`inline-flex items-center gap-1.5 shrink-0 hover:text-[var(--color-primary)] transition ${pathname === '/about' ? 'text-[var(--color-primary)]' : ''}`}
               aria-haspopup="menu"
               aria-expanded={aboutOpen}
-              onClick={() => setAboutOpen((v) => !v)}
             >
               About
-            </button>
+            </Link>
             <div className="absolute left-0 right-0 top-full h-3" aria-hidden="true" />
 
             <AnimatePresence>
@@ -360,16 +356,29 @@ export default function Header() {
               </Link>
 
               <div className="rounded-lg border border-slate-200/60 bg-white/60 overflow-hidden">
-                <button
-                  type="button"
-                  className={`w-full flex items-center justify-between px-3 py-2 hover:bg-slate-50 transition ${
-                    pathname?.startsWith('/services') ? 'text-[var(--color-primary)]' : ''
-                  }`}
-                  onClick={() => setMobileServicesOpen((v) => !v)}
-                  aria-expanded={mobileServicesOpen}
-                >
-                  <span>Services</span>
-                </button>
+                <div className="flex w-full min-w-0 items-stretch">
+                  <Link
+                    href="/services"
+                    className={`min-w-0 flex-1 px-3 py-2 hover:bg-slate-50 transition ${
+                      pathname?.startsWith('/services') ? 'text-[var(--color-primary)]' : ''
+                    }`}
+                    onClick={() => setOpen(false)}
+                  >
+                    Services
+                  </Link>
+                  <button
+                    type="button"
+                    className="flex shrink-0 items-center justify-center border-l border-slate-200/60 px-2.5 text-slate-500 hover:bg-slate-50"
+                    onClick={() => setMobileServicesOpen((v) => !v)}
+                    aria-expanded={mobileServicesOpen}
+                    aria-label="Toggle Services submenu"
+                  >
+                    <ChevronDown
+                      size={18}
+                      className={mobileServicesOpen ? 'rotate-180 transition-transform' : 'transition-transform'}
+                    />
+                  </button>
+                </div>
 
                 <AnimatePresence initial={false}>
                   {mobileServicesOpen && (
@@ -411,16 +420,29 @@ export default function Header() {
               </div>
 
               <div className="rounded-lg border border-slate-200/60 bg-white/60 overflow-hidden">
-                <button
-                  type="button"
-                  className={`w-full flex items-center justify-between px-3 py-2 hover:bg-slate-50 transition ${
-                    pathname?.startsWith('/destinations') ? 'text-[var(--color-primary)]' : ''
-                  }`}
-                  onClick={() => setMobileDestOpen((v) => !v)}
-                  aria-expanded={mobileDestOpen}
-                >
-                  <span>Study Destinations</span>
-                </button>
+                <div className="flex w-full min-w-0 items-stretch">
+                  <Link
+                    href="/destinations"
+                    className={`min-w-0 flex-1 px-3 py-2 hover:bg-slate-50 transition ${
+                      pathname?.startsWith('/destinations') ? 'text-[var(--color-primary)]' : ''
+                    }`}
+                    onClick={() => setOpen(false)}
+                  >
+                    Study Destinations
+                  </Link>
+                  <button
+                    type="button"
+                    className="flex shrink-0 items-center justify-center border-l border-slate-200/60 px-2.5 text-slate-500 hover:bg-slate-50"
+                    onClick={() => setMobileDestOpen((v) => !v)}
+                    aria-expanded={mobileDestOpen}
+                    aria-label="Toggle Study Destinations submenu"
+                  >
+                    <ChevronDown
+                      size={18}
+                      className={mobileDestOpen ? 'rotate-180 transition-transform' : 'transition-transform'}
+                    />
+                  </button>
+                </div>
 
                 <AnimatePresence initial={false}>
                   {mobileDestOpen && (
@@ -462,16 +484,29 @@ export default function Header() {
               </div>
 
               <div className="rounded-lg border border-slate-200/60 bg-white/60 overflow-hidden">
-                <button
-                  type="button"
-                  className={`w-full flex items-center justify-between px-3 py-2 hover:bg-slate-50 transition ${
-                    pathname?.startsWith('/test-preparation') ? 'text-[var(--color-primary)]' : ''
-                  }`}
-                  onClick={() => setMobileTestPrepOpen((v) => !v)}
-                  aria-expanded={mobileTestPrepOpen}
-                >
-                  <span>Test Preparation</span>
-                </button>
+                <div className="flex w-full min-w-0 items-stretch">
+                  <Link
+                    href="/test-preparation"
+                    className={`min-w-0 flex-1 px-3 py-2 hover:bg-slate-50 transition ${
+                      pathname?.startsWith('/test-preparation') ? 'text-[var(--color-primary)]' : ''
+                    }`}
+                    onClick={() => setOpen(false)}
+                  >
+                    Test Preparation
+                  </Link>
+                  <button
+                    type="button"
+                    className="flex shrink-0 items-center justify-center border-l border-slate-200/60 px-2.5 text-slate-500 hover:bg-slate-50"
+                    onClick={() => setMobileTestPrepOpen((v) => !v)}
+                    aria-expanded={mobileTestPrepOpen}
+                    aria-label="Toggle Test Preparation submenu"
+                  >
+                    <ChevronDown
+                      size={18}
+                      className={mobileTestPrepOpen ? 'rotate-180 transition-transform' : 'transition-transform'}
+                    />
+                  </button>
+                </div>
 
                 <AnimatePresence initial={false}>
                   {mobileTestPrepOpen && (
@@ -513,16 +548,29 @@ export default function Header() {
               </div>
 
               <div className="rounded-lg border border-slate-200/60 bg-white/60 overflow-hidden">
-                <button
-                  type="button"
-                  className={`w-full flex items-center justify-between px-3 py-2 hover:bg-slate-50 transition ${
-                    pathname === '/about' ? 'text-[var(--color-primary)]' : ''
-                  }`}
-                  onClick={() => setMobileAboutOpen((v) => !v)}
-                  aria-expanded={mobileAboutOpen}
-                >
-                  <span>About</span>
-                </button>
+                <div className="flex w-full min-w-0 items-stretch">
+                  <Link
+                    href="/about"
+                    className={`min-w-0 flex-1 px-3 py-2 hover:bg-slate-50 transition ${
+                      pathname === '/about' ? 'text-[var(--color-primary)]' : ''
+                    }`}
+                    onClick={() => setOpen(false)}
+                  >
+                    About
+                  </Link>
+                  <button
+                    type="button"
+                    className="flex shrink-0 items-center justify-center border-l border-slate-200/60 px-2.5 text-slate-500 hover:bg-slate-50"
+                    onClick={() => setMobileAboutOpen((v) => !v)}
+                    aria-expanded={mobileAboutOpen}
+                    aria-label="Toggle About submenu"
+                  >
+                    <ChevronDown
+                      size={18}
+                      className={mobileAboutOpen ? 'rotate-180 transition-transform' : 'transition-transform'}
+                    />
+                  </button>
+                </div>
 
                 <AnimatePresence initial={false}>
                   {mobileAboutOpen && (

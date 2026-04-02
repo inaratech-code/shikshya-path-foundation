@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { appendDevLeadFallback } from '@/lib/devLeadsFallback';
 import { dbInsertLeadPublic } from '@/lib/leadsDb';
 import { isSupabaseEnvConfigured } from '@/lib/supabaseEnv';
 
@@ -16,13 +17,6 @@ function trimStr(v: unknown, max: number): string | null {
  * No auth header; do not put secrets here.
  */
 export async function POST(request: Request) {
-  if (!isSupabaseEnvConfigured()) {
-    return NextResponse.json(
-      { error: 'Submissions are temporarily unavailable. Please call or email us instead.' },
-      { status: 503 }
-    );
-  }
-
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const emailRaw = typeof body.email === 'string' ? body.email.trim() : '';
@@ -30,13 +24,30 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'A valid email is required.' }, { status: 400 });
     }
 
-    await dbInsertLeadPublic({
+    const row = {
       full_name: trimStr(body.full_name, 500),
       email: emailRaw,
       phone: trimStr(body.phone, 80),
       destination: trimStr(body.destination, 500),
       message: trimStr(body.message, MAX_LEN),
-    });
+    };
+
+    if (!isSupabaseEnvConfigured()) {
+      if (process.env.NODE_ENV === 'development') {
+        try {
+          await appendDevLeadFallback(row);
+          return NextResponse.json({ ok: true, dev: true });
+        } catch (e) {
+          console.error('[api/leads/public] dev fallback write failed', e);
+        }
+      }
+      return NextResponse.json(
+        { error: 'Submissions are temporarily unavailable. Please call or email us instead.' },
+        { status: 503 }
+      );
+    }
+
+    await dbInsertLeadPublic(row);
 
     return NextResponse.json({ ok: true });
   } catch (e) {

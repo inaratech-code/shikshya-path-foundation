@@ -18,9 +18,9 @@ export default function AboutPage() {
       />
       <section id="mission" className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 scroll-mt-28">
         <div className="grid gap-10 md:gap-12 md:grid-cols-2 items-center min-w-0">
-          <div className="relative rounded-3xl border border-slate-200 bg-gradient-to-br from-blue-50 via-white to-white p-8 sm:p-10 overflow-hidden">
-            <div className="absolute -top-20 -right-16 h-64 w-64 rounded-full bg-blue-200/30 blur-3xl" />
-            <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-indigo-200/25 blur-3xl" />
+          <div className="relative rounded-3xl border border-slate-200 bg-gradient-to-br from-primary-soft via-white to-white p-8 sm:p-10 overflow-hidden">
+            <div className="absolute -top-20 -right-16 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
+            <div className="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-accent/15 blur-3xl" />
             <div className="relative">
               <div className="inline-flex items-center rounded-full bg-white/70 px-4 py-2 text-sm font-bold text-[var(--color-primary)] border border-slate-200 shadow-sm">
                 Shikshya Path Foundation

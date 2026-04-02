@@ -5,22 +5,21 @@
 export const SITE_MOTTO = 'Your Dream Our Guidance';
 
 /**
- * Full main logo (icon + “SHIKSHYA PATH / FOUNDATION”) — footer, social previews, SEO, structured data.
- * `public/images/Shikshya_Path_Foundation_cropped-removebg-preview.png`
+ * Full main logo — header, footer, about, admin login, social previews, SEO, structured data.
+ * `public/images/SPF_Cropped-removebg-preview.png`
  */
-export const MAIN_SITE_LOGO_PATH = '/images/Shikshya_Path_Foundation_cropped-removebg-preview.png' as const;
+export const MAIN_SITE_LOGO_PATH = '/images/SPF_Cropped-removebg-preview.png' as const;
 
 /**
- * Compact mark for admin sidebar (same JPEG as favicon; main PNG is used in the public navbar).
- * `public/images/SPK.jpeg`
+ * Admin sidebar mark (same asset as main logo for a consistent brand mark).
  */
-export const NAVBAR_LOGO_PATH = '/images/SPK.jpeg' as const;
+export const NAVBAR_LOGO_PATH = '/images/SPF_Cropped-removebg-preview.png' as const;
 
 /** @deprecated Use MAIN_SITE_LOGO_PATH — kept for older imports */
 export const SITE_LOGO_PATH = MAIN_SITE_LOGO_PATH;
 
-/** Browser tab / favicon — same asset as `src/app/icon.jpeg` (also at `public/images/SPK.jpeg`). */
-export const SITE_FAVICON_PATH = '/icon.jpeg' as const;
+/** Browser tab / favicon — same asset as `MAIN_SITE_LOGO_PATH`. */
+export const SITE_FAVICON_PATH = MAIN_SITE_LOGO_PATH;
 
 function siteOriginBase(): string {
   return (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://shikshyapath.edu.np').replace(/\/$/, '');

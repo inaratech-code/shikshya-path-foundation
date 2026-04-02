@@ -16,7 +16,7 @@ export default function TestPreparationPage() {
             href="/test-preparation/ielts"
             className="group bg-white rounded-2xl sm:rounded-[2rem] border border-slate-200 p-4 sm:p-8 hover:shadow-2xl hover:-translate-y-1 transition-all h-full flex flex-col"
           >
-            <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-blue-50 text-[var(--color-primary)] flex items-center justify-center mb-4 sm:mb-6 border border-blue-100 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors shrink-0">
+            <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-primary-soft text-[var(--color-primary)] flex items-center justify-center mb-4 sm:mb-6 border border-primary/15 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors shrink-0">
               <BookOpen className="w-5 h-5 sm:w-[22px] sm:h-[22px]" />
             </div>
             <div className="text-lg sm:text-2xl font-black text-slate-900">IELTS</div>
@@ -32,7 +32,7 @@ export default function TestPreparationPage() {
             href="/test-preparation/pte"
             className="group bg-white rounded-2xl sm:rounded-[2rem] border border-slate-200 p-4 sm:p-8 hover:shadow-2xl hover:-translate-y-1 transition-all h-full flex flex-col"
           >
-            <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-blue-50 text-[var(--color-primary)] flex items-center justify-center mb-4 sm:mb-6 border border-blue-100 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors shrink-0">
+            <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-primary-soft text-[var(--color-primary)] flex items-center justify-center mb-4 sm:mb-6 border border-primary/15 group-hover:bg-[var(--color-primary)] group-hover:text-white transition-colors shrink-0">
               <Sparkles className="w-5 h-5 sm:w-[22px] sm:h-[22px]" />
             </div>
             <div className="text-lg sm:text-2xl font-black text-slate-900">PTE</div>

@@ -131,7 +131,7 @@ export default function OffersManagementPage() {
         className="mb-10 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
       >
         <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-          <Plus size={20} className="text-blue-600" />
+          <Plus size={20} className="text-[var(--color-primary)]" />
           Publish new offer
         </h2>
         <div className="grid gap-4 md:grid-cols-2">
@@ -140,7 +140,7 @@ export default function OffersManagementPage() {
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+              className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
               placeholder="e.g. 100% application fee waiver"
               required
             />
@@ -151,7 +151,7 @@ export default function OffersManagementPage() {
               value={subtitle}
               onChange={(e) => setSubtitle(e.target.value)}
               rows={3}
-              className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+              className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
               placeholder="Short details for students (shown on website)"
               required
             />
@@ -161,13 +161,13 @@ export default function OffersManagementPage() {
             <input
               value={badge}
               onChange={(e) => setBadge(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+              className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
               placeholder="e.g. Limited time"
             />
           </div>
           <div className="flex items-end">
             <label className="flex items-center gap-2 cursor-pointer text-sm font-medium text-slate-700">
-              <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} className="rounded text-blue-600" />
+              <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} className="rounded text-[var(--color-primary)]" />
               Live on website (active)
             </label>
           </div>
@@ -175,7 +175,7 @@ export default function OffersManagementPage() {
         <button
           type="submit"
           disabled={saving}
-          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-bold text-white hover:bg-blue-700 disabled:opacity-60 shadow-sm"
+          className="mt-6 inline-flex items-center gap-2 rounded-xl bg-[var(--color-primary)] px-6 py-3 font-bold text-white hover:opacity-95 disabled:opacity-60 shadow-sm"
         >
           {saving ? <Loader2 className="animate-spin" size={18} /> : <Plus size={18} />}
           Publish offer
@@ -200,13 +200,13 @@ export default function OffersManagementPage() {
             <div
               key={o.id}
               className={`rounded-2xl border p-5 flex flex-col ${
-                o.active ? 'border-blue-100 bg-white shadow-md' : 'border-slate-200 bg-slate-50 opacity-80'
+                o.active ? 'border-primary/20 bg-white shadow-md' : 'border-slate-200 bg-slate-50 opacity-80'
               }`}
             >
               <div className="flex justify-between items-start gap-2 mb-2">
                 <span
                   className={`text-xs font-bold uppercase px-2 py-0.5 rounded-full ${
-                    o.active ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-slate-200 text-slate-600'
+                    o.active ? 'bg-accent-soft text-accent-foreground border border-accent-soft-border' : 'bg-slate-200 text-slate-600'
                   }`}
                 >
                   {o.active ? 'Live' : 'Hidden'}
@@ -230,7 +230,7 @@ export default function OffersManagementPage() {
                 </div>
               </div>
               {o.badge && (
-                <span className="inline-block text-xs font-bold text-blue-800 bg-blue-50 px-2 py-0.5 rounded-full mb-2 w-fit">
+                <span className="inline-block text-xs font-bold text-primary-dark bg-primary-soft px-2 py-0.5 rounded-full mb-2 w-fit">
                   {o.badge}
                 </span>
               )}

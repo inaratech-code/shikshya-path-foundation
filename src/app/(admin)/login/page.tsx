@@ -94,7 +94,7 @@ export default function AdminLoginPage() {
               autoComplete="username"
               value={id}
               onChange={(e) => setId(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all bg-slate-50"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-slate-50"
               placeholder="Enter admin ID"
               required
             />
@@ -111,7 +111,7 @@ export default function AdminLoginPage() {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all bg-slate-50"
+              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-slate-50"
               placeholder="Enter password"
               required
             />
@@ -119,7 +119,7 @@ export default function AdminLoginPage() {
 
           <div className="flex justify-between items-center text-sm">
             <label className="flex items-center gap-2 text-slate-600 cursor-pointer">
-              <input type="checkbox" className="rounded text-blue-600 focus:ring-blue-600" />
+              <input type="checkbox" className="rounded text-[var(--color-primary)] focus:ring-[var(--color-primary)]" />
               Remember me
             </label>
             <span className="text-slate-400">Forgot password? Contact support.</span>
@@ -128,7 +128,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white font-bold px-8 py-4 rounded-xl hover:bg-blue-700 transition-colors disabled:opacity-60 shadow-xl shadow-blue-600/20 text-lg mt-4"
+            className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-bold px-8 py-4 rounded-xl hover:opacity-95 transition-colors disabled:opacity-60 shadow-xl shadow-[var(--color-primary)]/20 text-lg mt-4"
           >
             Login to Dashboard <LogIn size={20} />
           </button>

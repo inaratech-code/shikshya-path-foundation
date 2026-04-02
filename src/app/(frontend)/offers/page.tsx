@@ -38,7 +38,7 @@ export default async function OffersPage() {
                 className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition-shadow text-left"
               >
                 {o.badge ? (
-                  <span className="inline-block rounded-full bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-blue-800 border border-blue-100 mb-3">
+                  <span className="inline-block rounded-full bg-primary-soft px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary-dark border border-primary/15 mb-3">
                     {o.badge}
                   </span>
                 ) : null}
