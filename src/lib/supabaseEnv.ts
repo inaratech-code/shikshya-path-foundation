@@ -1,4 +1,16 @@
 /**
+ * Legacy anon key (JWT) or new publishable key — both work with @supabase/supabase-js.
+ * @see https://supabase.com/docs/guides/api/api-keys
+ */
+export function looksLikeSupabaseAnonKey(key: string): boolean {
+  const k = key.trim();
+  if (k.length < 20) return false;
+  if (k.startsWith('eyJ')) return true;
+  if (k.startsWith('sb_publishable_')) return true;
+  return false;
+}
+
+/**
  * True when NEXT_PUBLIC_SUPABASE_* look like a real project (not copy-paste placeholders).
  * Accepts hosted `*.supabase.co`, local Supabase CLI (`127.0.0.1` / `localhost`), and custom domains.
  */
@@ -15,8 +27,7 @@ export function isSupabaseEnvConfigured(): boolean {
   } catch {
     return false;
   }
-  // Supabase anon / publishable keys are JWTs
-  if (!key.startsWith('eyJ')) return false;
+  if (!looksLikeSupabaseAnonKey(key)) return false;
   return true;
 }
 

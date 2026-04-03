@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
     return [{ source: "/favicon.ico", destination: "/icon.jpeg" }];
   },
   images: {
+    /** Used by next/image `quality` across heroes, cards, and flags (Next 16 defaults to [75] only). */
+    qualities: [75, 85, 88, 90],
     remotePatterns: [
       {
         protocol: "https",

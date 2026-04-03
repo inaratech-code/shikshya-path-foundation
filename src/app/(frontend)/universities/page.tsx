@@ -1,5 +1,7 @@
 import InnerPageHero from '@/components/InnerPageHero';
+import Image from 'next/image';
 import Link from 'next/link';
+import RegionPhotoBanner from '@/components/RegionPhotoBanner';
 import UniversityCategoryCard from '@/components/UniversityCategoryCard';
 import UniversityMark from '@/components/UniversityMark';
 import { universityCategoryTiles } from '@/data/universityCategories';
@@ -56,30 +58,25 @@ export default function UniversitiesPage() {
 
             return (
               <div key={region.id}>
-                <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 mb-6">
+                <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-slate-900 mb-6 min-h-[220px] sm:min-h-[260px]">
                   {banner ? (
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-0 bg-cover bg-center"
-                      style={{
-                        backgroundImage: bannerFallback
-                          ? `url("${banner}"), url("${bannerFallback}")`
-                          : `url("${banner}")`,
-                      }}
-                    />
+                    <RegionPhotoBanner primarySrc={banner} fallbackSrc={bannerFallback} />
                   ) : null}
                   <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/45 to-slate-950/10" />
                   <div className="relative px-6 py-8 sm:px-8 sm:py-10 flex items-start sm:items-center justify-between gap-6">
                     <div className="min-w-0">
                       <h3 className="text-xl sm:text-2xl font-black text-white flex items-center gap-3">
                         {flag ? (
-                          <img
+                          <Image
                             src={flag}
                             alt=""
-                            aria-hidden="true"
+                            aria-hidden={true}
+                            width={48}
+                            height={32}
                             className="h-6 w-9 rounded-md border border-white/15 object-cover bg-white/10 shrink-0"
                             loading="lazy"
-                            decoding="async"
+                            quality={90}
+                            sizes="36px"
                           />
                         ) : (
                           <span aria-hidden="true">🎓</span>
@@ -107,14 +104,11 @@ export default function UniversitiesPage() {
                     >
                       <div className="relative h-24 w-full overflow-hidden bg-slate-900">
                         {banner ? (
-                          <div
-                            aria-hidden="true"
-                            className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                            style={{
-                              backgroundImage: bannerFallback
-                                ? `url("${banner}"), url("${bannerFallback}")`
-                                : `url("${banner}")`,
-                            }}
+                          <RegionPhotoBanner
+                            variant="strip"
+                            primarySrc={banner}
+                            fallbackSrc={bannerFallback}
+                            imageClassName="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                           />
                         ) : (
                           <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900" />
@@ -129,13 +123,16 @@ export default function UniversitiesPage() {
                       <div className="p-5 sm:p-6">
                         <div className="flex items-start gap-3">
                           {flag ? (
-                            <img
+                            <Image
                               src={flag}
                               alt=""
-                              aria-hidden="true"
+                              aria-hidden={true}
+                              width={48}
+                              height={32}
                               className="mt-0.5 h-6 w-9 rounded-md border border-slate-200 object-cover bg-white shrink-0"
                               loading="lazy"
-                              decoding="async"
+                              quality={90}
+                              sizes="36px"
                             />
                           ) : null}
                           <div className="min-w-0">

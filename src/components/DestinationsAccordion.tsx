@@ -1,38 +1,12 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import { ChevronDown, ArrowRight } from 'lucide-react';
+import PhotoCover from '@/components/PhotoCover';
 import { useApplyNow } from '@/components/ApplyNowContext';
 import { normalizeStudySlug, studyDestinations } from '@/data/siteContent';
-
-function AccordionHeroBanner({
-  primarySrc,
-  fallbackSrc,
-}: {
-  primarySrc: string;
-  fallbackSrc: string;
-}) {
-  const [src, setSrc] = useState(primarySrc);
-
-  useEffect(() => {
-    setSrc(primarySrc);
-  }, [primarySrc]);
-
-  return (
-    <img
-      src={src}
-      alt=""
-      className="absolute inset-0 w-full h-full object-cover"
-      loading="eager"
-      decoding="async"
-      fetchPriority="high"
-      onError={() => {
-        setSrc((current) => (current !== fallbackSrc ? fallbackSrc : current));
-      }}
-    />
-  );
-}
 
 type Country = {
   key: string;
@@ -105,13 +79,16 @@ export default function DestinationsAccordion() {
               } ${items.length % 2 === 1 && c.key === items[items.length - 1]?.key ? 'col-span-2 lg:col-span-1' : ''}`}
             >
               <div className="flex items-start gap-2 sm:gap-3 min-w-0 flex-1">
-                <img
+                <Image
                   src={c.flagImg}
                   alt=""
-                  aria-hidden="true"
+                  aria-hidden={true}
+                  width={48}
+                  height={32}
                   className="w-8 h-5 sm:w-9 sm:h-6 rounded-md border border-slate-200 object-cover shrink-0 mt-0.5 bg-white"
                   loading="eager"
-                  decoding="async"
+                  quality={90}
+                  sizes="36px"
                 />
                 <div className="min-w-0">
                   <div className={`text-sm sm:text-base font-black leading-tight ${active ? 'text-slate-900' : 'text-slate-800'}`}>
@@ -136,23 +113,29 @@ export default function DestinationsAccordion() {
           .map((c) => (
             <div key={c.key} className="space-y-8">
               <div className="relative overflow-hidden rounded-2xl border border-slate-200 aspect-[21/9] max-h-52 sm:max-h-60 w-full bg-slate-100">
-                <AccordionHeroBanner
+                <PhotoCover
                   key={`${c.key}-banner`}
                   primarySrc={c.heroImg}
                   fallbackSrc={c.heroImgFallback}
+                  sizes="(max-width: 1024px) 100vw, min(900px, 70vw)"
+                  priority
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/35 via-transparent to-transparent pointer-events-none z-[1]" />
               </div>
 
               <header>
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-900 flex flex-wrap items-center gap-3">
-                  <img
+                  <Image
                     src={c.flagImg}
                     alt=""
-                    aria-hidden="true"
+                    aria-hidden={true}
+                    width={56}
+                    height={40}
                     className="w-10 h-7 rounded-md border border-slate-200 object-cover bg-white"
                     loading="eager"
-                    decoding="async"
+                    quality={90}
+                    sizes="40px"
                   />
                   <span>{c.title}</span>
                 </h2>

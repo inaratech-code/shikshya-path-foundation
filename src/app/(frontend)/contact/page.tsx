@@ -162,9 +162,13 @@ export default function ContactPage() {
         <div>
           <h2 className="text-3xl font-black text-slate-900 mb-6">Visit & reach us</h2>
           <ul className="text-slate-600 space-y-3 mb-10">
-            <li>
-              <span className="font-semibold text-slate-800">Address: </span>
-              {siteContact.addressSingle}
+            <li className="flex flex-col gap-0.5 sm:flex-row sm:items-start sm:gap-2">
+              <span className="font-semibold text-slate-800 shrink-0">Address:</span>
+              <span className="inline-flex flex-col gap-0.5 leading-snug">
+                {siteContact.addressLines.map((line, i) => (
+                  <span key={i}>{line}</span>
+                ))}
+              </span>
             </li>
             <li>
               <span className="font-semibold text-slate-800">Email: </span>

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import InnerPageHero from '@/components/InnerPageHero';
 import { getDestinationHeroImage } from '@/data/universityCategories';
 
@@ -23,13 +24,15 @@ export default async function CountryDestinationPage({
         description={`Discover world-class universities, top-tier living standards, and excellent post-study opportunities in ${formattedCountry}.`} 
       />
       <section className="max-w-7xl mx-auto px-6 pt-10">
-        <div className="relative rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm">
-          <img
+        <div className="relative rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm aspect-[16/10] min-h-[14rem] md:min-h-[20rem]">
+          <Image
             src={heroImage}
             alt={`${formattedCountry} skyline`}
-            className="w-full h-64 md:h-80 object-cover"
-            loading="eager"
-            decoding="async"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1280px) 100vw, 1280px"
+            priority
+            quality={85}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-slate-900/10 to-transparent" />
           <div className="absolute -bottom-12 -right-10 w-48 h-48 rounded-full bg-white/20 blur-3xl" />

@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { MAIN_SITE_LOGO_PATH } from '@/data/siteContent';
+import { FOOTER_LOGO_PATH, MAIN_SITE_LOGO_PATH } from '@/data/siteContent';
 
 type Props = {
   /** Header: main PNG. Footer: slightly larger on dark background. */
   variant?: 'header' | 'footer';
+  /** Override image (e.g. footer uses `FOOTER_LOGO_PATH`). Defaults by variant when omitted. */
+  logoSrc?: string;
   showName?: boolean;
   showMotto?: boolean;
   className?: string;
@@ -12,11 +14,14 @@ type Props = {
 
 export default function BrandLogo({
   variant = 'header',
+  logoSrc,
   showName = false,
   showMotto = false,
   className = '',
 }: Props) {
   const isHeader = variant === 'header';
+  const src =
+    logoSrc ?? (variant === 'footer' ? FOOTER_LOGO_PATH : MAIN_SITE_LOGO_PATH);
 
   return (
     <Link
@@ -25,7 +30,7 @@ export default function BrandLogo({
       aria-label="Shikshya Path Foundation — Home"
     >
       <Image
-        src={MAIN_SITE_LOGO_PATH}
+        src={src}
         alt="Shikshya Path Foundation Logo"
         width={512}
         height={512}

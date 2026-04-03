@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 type Props = {
@@ -37,13 +38,15 @@ export default function UniversityCategoryCard({
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <div className={`absolute inset-0 ${fallbackClassName}`} />
         {!bgFailed && (
-          <img
+          <Image
+            key={bgSrc}
             src={bgSrc}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover"
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 50vw, 33vw"
+            quality={85}
+            priority
             onError={() => {
               if (bgImageAlt && bgSrc === bgImage) {
                 setBgSrc(bgImageAlt);
@@ -80,13 +83,16 @@ export default function UniversityCategoryCard({
       <div className="relative z-[2] flex flex-col flex-1 justify-end min-h-0">
         <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2 py-1 sm:px-3 sm:py-1 rounded-full bg-white/90 border border-slate-200 text-[10px] sm:text-xs font-semibold text-slate-700 mb-2 sm:mb-3 max-w-full">
           {!flagFailed ? (
-            <img
+            <Image
               src={flagImg}
               alt=""
-              aria-hidden="true"
+              aria-hidden={true}
+              width={40}
+              height={28}
               className="w-4 h-2.5 sm:w-5 sm:h-3.5 rounded-[3px] border border-slate-200 object-cover shrink-0"
               loading="eager"
-              decoding="async"
+              quality={90}
+              sizes="40px"
               referrerPolicy="no-referrer"
               onError={() => setFlagFailed(true)}
             />

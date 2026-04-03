@@ -10,6 +10,9 @@ export const SITE_MOTTO = 'Your Dream Our Guidance';
  */
 export const MAIN_SITE_LOGO_PATH = '/images/SPF_Cropped-removebg-preview.png' as const;
 
+/** Square full mark (cream background) — footer only; header and SEO use `MAIN_SITE_LOGO_PATH`. */
+export const FOOTER_LOGO_PATH = '/images/SPK.jpeg' as const;
+
 /**
  * Admin sidebar mark (same asset as main logo for a consistent brand mark).
  */
@@ -44,7 +47,6 @@ export function getSiteFaviconAbsoluteUrl(): string {
 
 export const siteContact = {
   addressLines: ['Ramshah Path, Putalisadak', 'Kathmandu, Nepal'],
-  addressSingle: 'Ramshah Path, Putalisadak, Kathmandu, Nepal',
   email: 'shikshyapathofficial@gmail.com',
   whatsappDisplay: '+977 9712036939',
   whatsappTel: '9779712036939',
@@ -113,27 +115,27 @@ export type StudyDestinationBlock = {
 
 /** Fallback when Pexels primary fails (university cards use this chain) */
 const H = {
-  au: 'https://images.unsplash.com/photo-1523482580672-f109ba8cb886?auto=format&fit=crop&w=1400&q=85',
-  uk: 'https://images.unsplash.com/photo-1513635269976-596596e8df88?auto=format&fit=crop&w=1400&q=85',
-  nz: 'https://images.unsplash.com/photo-1469528849692-9bcd8c38e792?auto=format&fit=crop&w=1400&q=85',
-  ca: 'https://images.unsplash.com/photo-1517935706615-2717063c2215?auto=format&fit=crop&w=1400&q=85',
-  us: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=1400&q=85',
-  eu: 'https://images.unsplash.com/photo-1467261338127-7a468c63a068?auto=format&fit=crop&w=1400&q=85',
-  jp: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1400&q=85',
-  kr: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=1400&q=85',
+  au: 'https://images.unsplash.com/photo-1523482580672-f109ba8cb886?auto=format&fit=crop&w=1920&q=85',
+  uk: 'https://images.unsplash.com/photo-1513635269976-596596e8df88?auto=format&fit=crop&w=1920&q=85',
+  nz: 'https://images.unsplash.com/photo-1469528849692-9bcd8c38e792?auto=format&fit=crop&w=1920&q=85',
+  ca: 'https://images.unsplash.com/photo-1517935706615-2717063c2215?auto=format&fit=crop&w=1920&q=85',
+  us: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=1920&q=85',
+  eu: 'https://images.unsplash.com/photo-1467261338127-7a468c63a068?auto=format&fit=crop&w=1920&q=85',
+  jp: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1920&q=85',
+  kr: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=1920&q=85',
 } as const;
 
 /** Country banner + card imagery (Pexels — reliable CDN). heroForPage matches bgImg for accordions. */
 const PX = {
-  au: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  uk: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  nz: 'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  ca: 'https://images.pexels.com/photos/2449452/pexels-photo-2449452.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  us: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=1600&q=82',
+  au: 'https://images.pexels.com/photos/2901209/pexels-photo-2901209.jpeg?auto=compress&cs=srgb&w=1920',
+  uk: 'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=srgb&w=1920',
+  nz: 'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=srgb&w=1920',
+  ca: 'https://images.pexels.com/photos/2449452/pexels-photo-2449452.jpeg?auto=compress&cs=srgb&w=1920',
+  us: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=1920&q=85',
   /** Pexels 161901 was unreliable; use Unsplash (same as H.eu) + Pexels UK as card fallback */
-  eu: 'https://images.unsplash.com/photo-1467261338127-7a468c63a068?auto=format&fit=crop&w=1600&q=82',
-  jp: 'https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=tinysrgb&w=1600',
-  kr: 'https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  eu: 'https://images.unsplash.com/photo-1467261338127-7a468c63a068?auto=format&fit=crop&w=1920&q=85',
+  jp: 'https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=srgb&w=1920',
+  kr: 'https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=srgb&w=1920',
 } as const;
 
 export const studyDestinations: StudyDestinationBlock[] = [
@@ -144,7 +146,7 @@ export const studyDestinations: StudyDestinationBlock[] = [
     universityCardTitle: 'Popular Universities Australia',
     showOnUniversityTiles: true,
     flagImgAccordion: 'https://flagcdn.com/w320/au.png',
-    flagImgTile: 'https://flagcdn.com/w80/au.png',
+    flagImgTile: 'https://flagcdn.com/w320/au.png',
     bgImg: PX.au,
     bgImgAlt: H.au,
     heroForPage: PX.au,
@@ -173,7 +175,7 @@ export const studyDestinations: StudyDestinationBlock[] = [
     universityCardTitle: 'Popular Universities UK',
     showOnUniversityTiles: true,
     flagImgAccordion: 'https://flagcdn.com/w320/gb.png',
-    flagImgTile: 'https://flagcdn.com/w80/gb.png',
+    flagImgTile: 'https://flagcdn.com/w320/gb.png',
     bgImg: PX.uk,
     bgImgAlt: H.uk,
     heroForPage: PX.uk,
@@ -202,7 +204,7 @@ export const studyDestinations: StudyDestinationBlock[] = [
     universityCardTitle: 'Popular Universities New Zealand',
     showOnUniversityTiles: true,
     flagImgAccordion: 'https://flagcdn.com/w320/nz.png',
-    flagImgTile: 'https://flagcdn.com/w80/nz.png',
+    flagImgTile: 'https://flagcdn.com/w320/nz.png',
     bgImg: PX.nz,
     bgImgAlt: H.nz,
     heroForPage: PX.nz,
@@ -231,7 +233,7 @@ export const studyDestinations: StudyDestinationBlock[] = [
     universityCardTitle: 'Popular Universities Canada',
     showOnUniversityTiles: true,
     flagImgAccordion: 'https://flagcdn.com/w320/ca.png',
-    flagImgTile: 'https://flagcdn.com/w80/ca.png',
+    flagImgTile: 'https://flagcdn.com/w320/ca.png',
     bgImg: PX.ca,
     bgImgAlt: H.ca,
     heroForPage: PX.ca,
@@ -260,7 +262,7 @@ export const studyDestinations: StudyDestinationBlock[] = [
     universityCardTitle: 'Popular Universities USA',
     showOnUniversityTiles: true,
     flagImgAccordion: 'https://flagcdn.com/w320/us.png',
-    flagImgTile: 'https://flagcdn.com/w80/us.png',
+    flagImgTile: 'https://flagcdn.com/w320/us.png',
     bgImg: PX.us,
     bgImgAlt: H.us,
     heroForPage: PX.us,
@@ -289,7 +291,7 @@ export const studyDestinations: StudyDestinationBlock[] = [
     universityCardTitle: 'Popular Universities Europe',
     showOnUniversityTiles: false,
     flagImgAccordion: 'https://flagcdn.com/w320/eu.png',
-    flagImgTile: 'https://flagcdn.com/w80/eu.png',
+    flagImgTile: 'https://flagcdn.com/w320/eu.png',
     bgImg: PX.eu,
     bgImgAlt: PX.uk,
     heroForPage: PX.eu,
@@ -318,7 +320,7 @@ export const studyDestinations: StudyDestinationBlock[] = [
     universityCardTitle: 'Popular Universities Japan',
     showOnUniversityTiles: false,
     flagImgAccordion: 'https://flagcdn.com/w320/jp.png',
-    flagImgTile: 'https://flagcdn.com/w80/jp.png',
+    flagImgTile: 'https://flagcdn.com/w320/jp.png',
     bgImg: PX.jp,
     bgImgAlt: H.jp,
     heroForPage: PX.jp,
@@ -347,7 +349,7 @@ export const studyDestinations: StudyDestinationBlock[] = [
     universityCardTitle: 'Popular Universities South Korea',
     showOnUniversityTiles: false,
     flagImgAccordion: 'https://flagcdn.com/w320/kr.png',
-    flagImgTile: 'https://flagcdn.com/w80/kr.png',
+    flagImgTile: 'https://flagcdn.com/w320/kr.png',
     bgImg: PX.kr,
     bgImgAlt: H.kr,
     heroForPage: PX.kr,
@@ -373,7 +375,7 @@ export const studyDestinations: StudyDestinationBlock[] = [
 export function getStudyDestinationHero(slug: string): string {
   const n = normalizeStudySlug(slug);
   const d = studyDestinations.find((x) => x.slug === n);
-  return d?.heroForPage ?? 'https://images.pexels.com/photos/5212695/pexels-photo-5212695.jpeg?auto=compress&cs=tinysrgb&w=1400';
+  return d?.heroForPage ?? 'https://images.pexels.com/photos/5212695/pexels-photo-5212695.jpeg?auto=compress&cs=srgb&w=1920';
 }
 
 export function normalizeStudySlug(raw: string): string {

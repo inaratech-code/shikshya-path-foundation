@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
@@ -31,15 +32,15 @@ const countries = [
   {
     name: 'Australia',
     slug: 'australia',
-    flagImg: 'https://flagcdn.com/w320/au.png',
+    flagImg: 'https://flagcdn.com/w640/au.png',
   },
-  { name: 'USA', slug: 'usa', flagImg: 'https://flagcdn.com/w320/us.png' },
-  { name: 'Canada', slug: 'canada', flagImg: 'https://flagcdn.com/w320/ca.png' },
-  { name: 'UK', slug: 'uk', flagImg: 'https://flagcdn.com/w320/gb.png' },
+  { name: 'USA', slug: 'usa', flagImg: 'https://flagcdn.com/w640/us.png' },
+  { name: 'Canada', slug: 'canada', flagImg: 'https://flagcdn.com/w640/ca.png' },
+  { name: 'UK', slug: 'uk', flagImg: 'https://flagcdn.com/w640/gb.png' },
   {
     name: 'New Zealand',
     slug: 'new-zealand',
-    flagImg: 'https://flagcdn.com/w320/nz.png',
+    flagImg: 'https://flagcdn.com/w640/nz.png',
   },
 ];
 
@@ -48,25 +49,25 @@ const services = [
     title: servicesCopy.abroadStudies.title,
     description: servicesCopy.abroadStudies.body,
     image:
-      'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      'https://images.pexels.com/photos/5212345/pexels-photo-5212345.jpeg?auto=compress&cs=srgb&w=1920',
   },
   {
     title: servicesCopy.testPreparation.title,
     description: servicesCopy.testPreparation.body,
     image:
-      'https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      'https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=srgb&w=1920',
   },
   {
     title: servicesCopy.documentationGuide.title,
     description: servicesCopy.documentationGuide.body,
     image:
-      'https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      'https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg?auto=compress&cs=srgb&w=1920',
   },
   {
     title: servicesCopy.universityCollegeGuide.title,
     description: servicesCopy.universityCollegeGuide.body,
     image:
-      'https://images.pexels.com/photos/7972526/pexels-photo-7972526.jpeg?auto=compress&cs=tinysrgb&w=1200',
+      'https://images.pexels.com/photos/7972526/pexels-photo-7972526.jpeg?auto=compress&cs=srgb&w=1920',
   },
 ];
 
@@ -156,13 +157,14 @@ export default function Home() {
             transition={{ duration: 0.7, delay: 0.1, ease: 'easeOut' }}
           >
             <div className="absolute inset-0 rounded-[2rem] overflow-hidden bg-white">
-              <img
-                src="https://images.pexels.com/photos/5212695/pexels-photo-5212695.jpeg?auto=compress&cs=tinysrgb&w=1400"
+              <Image
+                src="https://images.pexels.com/photos/5212695/pexels-photo-5212695.jpeg?auto=compress&cs=srgb&w=1920"
                 alt="Students planning study abroad"
-                className="w-full h-full object-cover"
-                loading="eager"
-                fetchPriority="high"
-                decoding="async"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+                quality={88}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/35 via-transparent to-transparent" />
             </div>
@@ -221,14 +223,15 @@ export default function Home() {
                   href={`/destinations?country=${encodeURIComponent(c.slug)}#study-abroad-destinations`}
                   className="group relative shrink-0 snap-start aspect-square w-[min(44vw,200px)] sm:w-[188px] md:w-[208px] lg:w-[228px] xl:w-[248px] rounded-2xl border border-slate-200 overflow-hidden shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[var(--color-primary)]/40 hover:shadow-[0_20px_50px_-12px_rgba(1,82,144,0.25)] flex flex-col justify-end"
                 >
-                  <img
+                  <Image
                     src={c.flagImg}
                     alt=""
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 w-full h-full object-cover select-none"
+                    aria-hidden={true}
+                    fill
+                    className="pointer-events-none object-cover select-none"
+                    sizes="(max-width: 640px) 44vw, 248px"
                     loading="eager"
-                    fetchPriority="high"
-                    decoding="async"
+                    quality={90}
                   />
                   <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-white via-white/80 to-white/20" />
                   <div className="absolute inset-0 pointer-events-none bg-white/15" />
@@ -310,16 +313,18 @@ export default function Home() {
               return (
                 <div
                   key={s.title}
-                  className={`grid lg:grid-cols-2 gap-6 lg:gap-10 items-center bg-slate-50 border border-slate-200 rounded-[2rem] overflow-hidden`}
+                  className={`grid lg:grid-cols-2 gap-6 lg:gap-10 items-stretch bg-slate-50 border border-slate-200 rounded-[2rem] overflow-hidden`}
                 >
-                  <div className={`${reverse ? 'lg:order-2' : ''} h-full`}>
-                    <img
+                  <div className={`${reverse ? 'lg:order-2' : ''} relative h-64 sm:h-72 min-h-[16rem] lg:h-full lg:min-h-[22rem]`}>
+                    <Image
                       src={s.image}
                       alt={s.title}
-                      className="w-full h-64 sm:h-72 lg:h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
                       loading={idx < 2 ? 'eager' : 'lazy'}
-                      fetchPriority={idx === 0 ? 'high' : undefined}
-                      decoding="async"
+                      priority={idx === 0}
+                      quality={85}
                     />
                   </div>
                   <div className={`${reverse ? 'lg:order-1' : ''} p-7 sm:p-10`}>

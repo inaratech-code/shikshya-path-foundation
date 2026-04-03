@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import HeroBannerLayers from '@/components/HeroBannerLayers';
 import { useApplyNow } from '@/components/ApplyNowContext';
 import { heroBannerForSeed } from '@/data/heroBanners';
@@ -12,13 +13,15 @@ export default function PTEContent() {
     <>
       <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
-          <div className="rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm">
-            <img
-              src="https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1200"
+          <div className="relative rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm h-72 md:h-96">
+            <Image
+              src="https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=srgb&w=1920"
               alt="PTE Academic computer-based test preparation"
-              className="w-full h-72 md:h-96 object-cover"
-              loading="eager"
-              decoding="async"
+              fill
+              className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority
+              quality={85}
             />
           </div>
           <div>

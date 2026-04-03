@@ -133,7 +133,11 @@ export default function Footer() {
           <ul className="space-y-3 text-slate-200/85 font-medium text-sm sm:text-base">
             <li className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
               <MapPin size={20} className="text-[var(--color-accent-bright)] shrink-0 mt-1" />
-              <span className="leading-snug">{siteContact.addressSingle}</span>
+              <span className="inline-flex flex-col gap-0.5 leading-snug">
+                {siteContact.addressLines.map((line, i) => (
+                  <span key={i}>{line}</span>
+                ))}
+              </span>
             </li>
             <li className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 transition-all hover:bg-white/[0.06] hover:border-[var(--color-brand-accent)]/25">
               <Mail size={20} className="text-[var(--color-accent-bright)] shrink-0 mt-0.5" aria-hidden="true" />

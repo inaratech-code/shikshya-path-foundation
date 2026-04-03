@@ -71,9 +71,13 @@ function ApplyNowBody({
               </a>
               <span className="hidden sm:inline text-[var(--color-accent-foreground)]/70">({siteContact.phoneLandline})</span>
             </div>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-1">
-              <span className="font-semibold text-[var(--color-accent-foreground)]">Address:</span>
-              <span>{siteContact.addressSingle}</span>
+            <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:gap-3">
+              <span className="font-semibold text-[var(--color-accent-foreground)] shrink-0">Address:</span>
+              <span className="inline-flex flex-col gap-0.5 leading-snug">
+                {siteContact.addressLines.map((line, i) => (
+                  <span key={i}>{line}</span>
+                ))}
+              </span>
             </div>
           </div>
         </div>

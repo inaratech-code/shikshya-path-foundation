@@ -33,6 +33,7 @@ export default function HeroBannerLayers({
           fill
           className="object-cover"
           sizes="100vw"
+          quality={88}
           priority={priority}
           fetchPriority={priority ? 'high' : 'auto'}
         />
