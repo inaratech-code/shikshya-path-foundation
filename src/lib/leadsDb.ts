@@ -3,6 +3,7 @@ import {
   getNextPublicSupabaseUrl,
   getSupabaseServiceRoleKey,
   isSupabaseEnvConfigured,
+  isSupabaseServiceRoleConfigured,
 } from '@/lib/supabaseEnv';
 import type { LeadRecord } from '@/types/lead';
 
@@ -68,6 +69,33 @@ export async function dbDeleteLead(id: string): Promise<boolean> {
   const { data, error } = await serviceClient().from('leads').delete().eq('id', id).select('id');
   if (error) throw error;
   return (data?.length ?? 0) > 0;
+}
+
+/**
+ * Insert from the public API route using the service role (server-only).
+ * Use when anon/publishable env is unset or invalid, but project URL + `SUPABASE_SERVICE_ROLE_KEY` are set.
+ */
+export async function dbInsertLeadWithServiceRole(input: {
+  full_name?: string | null;
+  email: string;
+  phone?: string | null;
+  destination?: string | null;
+  message?: string | null;
+}): Promise<void> {
+  if (!isSupabaseServiceRoleConfigured()) {
+    throw new Error('Supabase service role is not configured');
+  }
+  const { error } = await serviceClient()
+    .from('leads')
+    .insert({
+      full_name: input.full_name?.trim() || null,
+      email: input.email.trim(),
+      phone: input.phone?.trim() || null,
+      destination: input.destination?.trim() || null,
+      message: input.message?.trim() || null,
+    });
+
+  if (error) throw error;
 }
 
 /** Insert from public forms; uses anon key (RLS allows insert on `leads`). */
