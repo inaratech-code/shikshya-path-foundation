@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
+import { readAllGallery } from '@/lib/galleryStore';
 import { readAllOffers } from '@/lib/offersStore';
+import { dbGetAllGallery, dbGetPublicGallery, supabaseAnonConfigured as galleryAnonOk } from '@/lib/galleryDb';
 import {
   dbGetAllOffers,
   dbGetPublicOffers,
@@ -21,7 +23,7 @@ export async function GET(request: Request) {
   const payload = {
     leadsTotal: 0,
     offersActive: 0,
-    testimonialsTotal: 0,
+    galleryActive: 0,
     leadsConfigured: supabaseServiceConfigured(),
     /** Why the server thinks the service role is missing (no secrets). */
     leadsConfigHint: getSupabaseServiceRoleConfigHint(),
@@ -63,6 +65,21 @@ export async function GET(request: Request) {
     }
   } catch (e) {
     console.error('[admin/stats] offers', e);
+  }
+
+  try {
+    if (supabaseServiceConfigured()) {
+      const all = await dbGetAllGallery();
+      payload.galleryActive = all.filter((g) => g.active).length;
+    } else if (galleryAnonOk()) {
+      const pub = await dbGetPublicGallery();
+      payload.galleryActive = pub.length;
+    } else {
+      const all = await readAllGallery();
+      payload.galleryActive = all.filter((g) => g.active).length;
+    }
+  } catch (e) {
+    console.error('[admin/stats] gallery', e);
   }
 
   return NextResponse.json(payload);

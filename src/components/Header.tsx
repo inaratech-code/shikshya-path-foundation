@@ -264,6 +264,19 @@ export default function Header() {
             </AnimatePresence>
           </div>
 
+          <Link
+            href="/gallery"
+            className={`shrink-0 hover:text-[var(--color-primary)] transition ${pathname === '/gallery' ? 'text-[var(--color-primary)]' : ''}`}
+            onPointerEnter={() => {
+              setDestOpen(false);
+              setServicesOpen(false);
+              setTestPrepOpen(false);
+              setAboutOpen(false);
+            }}
+          >
+            Gallery
+          </Link>
+
           <div
             className="relative"
             onPointerEnter={() => {
@@ -553,6 +566,16 @@ export default function Header() {
                   )}
                 </AnimatePresence>
               </div>
+
+              <Link
+                href="/gallery"
+                className={`flex items-center justify-between px-3 py-2 rounded-lg hover:bg-slate-50 ${
+                  pathname === '/gallery' ? 'text-[var(--color-primary)]' : ''
+                }`}
+                onClick={() => setOpen(false)}
+              >
+                <span>Gallery</span>
+              </Link>
 
               <div className="rounded-lg border border-slate-200/60 bg-white/60 overflow-hidden">
                 <div className="flex w-full min-w-0 items-stretch">

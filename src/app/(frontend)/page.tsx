@@ -13,6 +13,7 @@ import {
   Files,
   Sparkles,
 } from 'lucide-react';
+import GalleryHomePreview from '@/components/GalleryHomePreview';
 import HeroBannerLayers from '@/components/HeroBannerLayers';
 import SectionHeading from '@/components/SectionHeading';
 import UniversityCategoryCard from '@/components/UniversityCategoryCard';
@@ -421,6 +422,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <GalleryHomePreview />
 
       {/* FINAL CTA */}
       <section className="py-12 sm:py-16 md:py-20 overflow-hidden relative text-white text-center rounded-3xl sm:rounded-[3rem] mx-2 sm:mx-4 md:mx-10 mb-6 sm:mb-10 shadow-2xl">

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import { Home, Users, Award, Settings, MessageSquare } from 'lucide-react';
+import { Home, Users, Award, Settings, Images } from 'lucide-react';
 import AdminViewportGuard from '@/components/AdminViewportGuard';
 import AdminAuthGuard from '@/components/AdminAuthGuard';
 import AdminLogoutButton from '@/components/AdminLogoutButton';
@@ -55,9 +55,10 @@ export default function AdminSidebarLayout({
             <Link href="/admin/offers" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-colors font-medium">
               <Award size={20} /> Offers
             </Link>
-            <Link href="/admin/testimonials" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-colors font-medium">
-              <MessageSquare size={20} /> Testimonials
+            <Link href="/admin/gallery" className="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-colors font-medium">
+              <Images size={20} /> Gallery
             </Link>
+            {/* Testimonials: route /admin/testimonials exists but UI is disabled (see testimonials/page.tsx). */}
           </nav>
           
           <div className="p-4 border-t border-slate-800 mt-auto">

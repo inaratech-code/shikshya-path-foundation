@@ -23,6 +23,10 @@
 # local dev lead captures (when Supabase is not configured)
 /tmp/
 
+# local gallery uploads (keep folder via .gitkeep)
+/public/uploads/gallery/*
+!/public/uploads/gallery/.gitkeep
+
 # misc
 .DS_Store
 *.pem

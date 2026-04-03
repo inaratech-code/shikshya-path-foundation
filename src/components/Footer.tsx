@@ -22,7 +22,7 @@ const FOOTER_QUICK_LINKS_FULL = [
   { label: 'Services', href: '/services' },
   { label: 'Study Destination', href: '/destinations' },
   { label: 'Test Preparation', href: '/test-preparation' },
-  // { label: 'Gallery', href: '/gallery' },
+  { label: 'Gallery', href: '/gallery' },
   { label: 'Offers', href: '/offers' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
@@ -31,7 +31,7 @@ const FOOTER_QUICK_LINKS_FULL = [
 const FOOTER_QUICK_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Offers', href: '/offers' },
-  // { label: 'Gallery', href: '/gallery' },
+  { label: 'Gallery', href: '/gallery' },
   { label: 'Privacy Policy', href: '/privacy' },
   { label: 'Terms of Service', href: '/terms' },
 ] as const;

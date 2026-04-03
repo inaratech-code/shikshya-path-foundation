@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Users, Gift, MessageSquare, Loader2 } from 'lucide-react';
+import { Users, Gift, Images, Loader2 } from 'lucide-react';
 import { serviceRoleHintText } from '@/lib/adminServiceRoleHints';
 import { getClientOffersWriteToken } from '@/lib/offersWriteToken';
 import type { SupabaseServiceRoleConfigHint } from '@/lib/supabaseEnv';
@@ -10,7 +10,7 @@ import type { SupabaseServiceRoleConfigHint } from '@/lib/supabaseEnv';
 type AdminStats = {
   leadsTotal: number;
   offersActive: number;
-  testimonialsTotal: number;
+  galleryActive: number;
   leadsConfigured: boolean;
   leadsConfigHint: SupabaseServiceRoleConfigHint;
   recentLeads: {
@@ -61,7 +61,7 @@ export default function AdminDashboard() {
         <div className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</div>
       )}
 
-      {/* Stats — Leads, Offers, Testimonials */}
+      {/* Stats — Leads, Offers, Gallery */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-8 sm:mb-10">
         <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3 sm:gap-4 min-w-0">
           <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-soft text-[var(--color-primary)] rounded-xl flex items-center justify-center shrink-0">
@@ -94,14 +94,13 @@ export default function AdminDashboard() {
 
         <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3 sm:gap-4 min-w-0">
           <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary-softer text-[var(--color-primary-dark)] rounded-xl flex items-center justify-center shrink-0">
-            <MessageSquare size={28} />
+            <Images size={28} />
           </div>
           <div className="min-w-0">
             <div className="text-xl sm:text-2xl font-black text-slate-900 tabular-nums flex items-center gap-2">
-              {loading ? <Loader2 className="animate-spin text-slate-400" size={24} /> : stats?.testimonialsTotal ?? 0}
+              {loading ? <Loader2 className="animate-spin text-slate-400" size={24} /> : stats?.galleryActive ?? '—'}
             </div>
-            <div className="text-xs sm:text-sm font-medium text-slate-500 break-words">Testimonials</div>
-            <p className="text-[11px] text-slate-400 mt-1">Coming when testimonials are stored in the app.</p>
+            <div className="text-xs sm:text-sm font-medium text-slate-500 break-words">Gallery photos (live)</div>
           </div>
         </div>
       </div>
@@ -165,10 +164,10 @@ export default function AdminDashboard() {
               + Create Offer
             </Link>
             <Link
-              href="/admin/testimonials"
+              href="/admin/gallery"
               className="block w-full text-left bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold py-3 px-4 rounded-xl transition-colors border border-slate-200 text-sm"
             >
-              + Add Testimonial
+              + Manage Gallery
             </Link>
           </div>
         </div>

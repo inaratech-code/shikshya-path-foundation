@@ -1,33 +1,9 @@
 import InnerPageHero from '@/components/InnerPageHero';
+import { getPublicGallery } from '@/lib/galleryStore';
 
-const galleryItems = [
-  {
-    title: 'Counselling Session',
-    image: 'https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=srgb&w=1920',
-  },
-  {
-    title: 'Student Success',
-    image: 'https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=srgb&w=1920',
-  },
-  {
-    title: 'Document Review',
-    image: 'https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=srgb&w=1920',
-  },
-  {
-    title: 'Test Preparation',
-    image: 'https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=srgb&w=1920',
-  },
-  {
-    title: 'University Shortlisting',
-    image: 'https://images.pexels.com/photos/5905705/pexels-photo-5905705.jpeg?auto=compress&cs=srgb&w=1920',
-  },
-  {
-    title: 'Application Support',
-    image: 'https://images.pexels.com/photos/3184639/pexels-photo-3184639.jpeg?auto=compress&cs=srgb&w=1920',
-  },
-];
+export default async function GalleryPage() {
+  const galleryItems = await getPublicGallery();
 
-export default function GalleryPage() {
   return (
     <main>
       <InnerPageHero
@@ -35,31 +11,41 @@ export default function GalleryPage() {
         description="A glimpse of our counselling, preparation, and student success moments."
       />
 
-      {/* Gallery grid — temporarily hidden
-      <section className="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-          {galleryItems.map((item) => (
-            <div
-              key={item.title}
-              className="bg-white border border-slate-200 rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow"
-            >
-              <div className="aspect-[4/3] bg-slate-100">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
+      {galleryItems.length === 0 ? (
+        <section className="py-10 sm:py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6">
+          <p className="text-center text-slate-600 max-w-lg mx-auto text-sm sm:text-base leading-relaxed px-1">
+            Photos will appear here once they are added in the admin gallery.
+          </p>
+        </section>
+      ) : (
+        <section className="py-10 sm:py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 min-[420px]:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5 lg:gap-6">
+            {galleryItems.map((item) => (
+              <div
+                key={item.id}
+                className="min-w-0 bg-white border border-slate-200 rounded-xl sm:rounded-2xl lg:rounded-[2rem] overflow-hidden shadow-sm hover:shadow-xl transition-shadow"
+              >
+                <div className="aspect-[4/3] bg-slate-100 overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={item.imageUrl}
+                    alt={item.title}
+                    className="w-full h-full min-h-0 object-cover"
+                    loading="lazy"
+                    decoding="async"
+                    sizes="(max-width: 419px) 100vw, (max-width: 1023px) 50vw, 33vw"
+                  />
+                </div>
+                <div className="p-3 sm:p-4 md:p-5 text-center">
+                  <div className="font-black text-slate-900 text-sm sm:text-base leading-snug break-words hyphens-auto">
+                    {item.title}
+                  </div>
+                </div>
               </div>
-              <div className="p-3 sm:p-5">
-                <div className="font-black text-slate-900 text-sm sm:text-base leading-snug">{item.title}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-      */}
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   );
 }
-
