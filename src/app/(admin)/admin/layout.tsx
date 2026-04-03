@@ -75,7 +75,16 @@ export default function AdminSidebarLayout({
           <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-end px-4 sm:px-6 lg:px-8 sticky top-0 z-40 shrink-0">
             <div className="flex items-center gap-3">
               <span className="text-sm font-medium text-slate-600">Administrator</span>
-              <div className="w-9 h-9 bg-slate-200 rounded-full shrink-0" aria-hidden />
+              <div className="relative h-9 w-9 shrink-0 rounded-full overflow-hidden ring-2 ring-slate-100 shadow-sm bg-indigo-100">
+                <Image
+                  src="/images/admin-avatar.svg"
+                  alt="Administrator profile"
+                  width={36}
+                  height={36}
+                  className="h-full w-full object-cover"
+                  unoptimized
+                />
+              </div>
             </div>
           </header>
 
