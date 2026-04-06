@@ -162,16 +162,21 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto mt-12 sm:mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs sm:text-sm text-center sm:text-left">
         <p className="max-w-md sm:max-w-none text-slate-600">
-          &copy; {new Date().getFullYear()} Shikshya Path Foundation. All rights reserved. Built by{' '}
-          <a
-            href="https://www.inaratech.com.np"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-slate-800 hover:text-[var(--color-primary)] transition-colors font-medium"
-          >
-            Inara Tech
-          </a>
-          .
+          <span className="block">
+            &copy; {new Date().getFullYear()} Shikshya Path Foundation. All rights reserved.
+          </span>
+          <span className="mt-1 block">
+            Built by{' '}
+            <a
+              href="https://www.inaratech.com.np"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-slate-800 hover:text-[var(--color-primary)] transition-colors font-medium"
+            >
+              Inara Tech
+            </a>
+            .
+          </span>
         </p>
         <div className="flex flex-wrap justify-center sm:justify-end gap-4 sm:gap-6">
           <Link
