@@ -10,8 +10,8 @@ export const SITE_MOTTO = 'Your Dream Our Guidance';
  */
 export const MAIN_SITE_LOGO_PATH = '/images/SPF_Cropped-removebg-preview.png' as const;
 
-/** Square full mark (cream background) — footer only; header and SEO use `MAIN_SITE_LOGO_PATH`. */
-export const FOOTER_LOGO_PATH = '/images/SPK.jpeg' as const;
+/** Full mark — footer only; header and SEO use `MAIN_SITE_LOGO_PATH`. */
+export const FOOTER_LOGO_PATH = '/images/SPK-removebg-preview.png' as const;
 
 /**
  * Admin sidebar mark (same asset as main logo for a consistent brand mark).

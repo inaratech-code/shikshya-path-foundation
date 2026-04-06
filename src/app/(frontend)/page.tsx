@@ -142,13 +142,7 @@ export default function Home() {
               <SecondaryButton href="/contact">Free Consultation</SecondaryButton>
             </div>
 
-            <div className="flex items-center gap-3 text-sm font-semibold text-slate-500">
-              <div className="px-3 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm">
-                1000+ students guided
-              </div>
-              <div className="hidden sm:block text-slate-400">•</div>
-              <div className="hidden sm:block">Fast, transparent process</div>
-            </div>
+            <p className="text-sm font-semibold text-slate-600">Fast, transparent process</p>
           </motion.div>
 
           <motion.div

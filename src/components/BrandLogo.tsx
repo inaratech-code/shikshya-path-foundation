@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FOOTER_LOGO_PATH, MAIN_SITE_LOGO_PATH } from '@/data/siteContent';
+import { FOOTER_LOGO_PATH, MAIN_SITE_LOGO_PATH, SITE_MOTTO } from '@/data/siteContent';
 
 type Props = {
   /** Header: main PNG. Footer: slightly larger on dark background. */
@@ -26,7 +26,11 @@ export default function BrandLogo({
   return (
     <Link
       href="/"
-      className={`flex items-center gap-1 md:gap-1.5 lg:gap-2 shrink-0 min-w-0 ${className}`}
+      className={
+        isHeader
+          ? `flex items-center gap-1 md:gap-1.5 lg:gap-2 shrink-0 min-w-0 ${className}`
+          : `flex flex-col items-center gap-2 shrink-0 min-w-0 text-center ${className}`
+      }
       aria-label="Shikshya Path Foundation — Home"
     >
       <Image
@@ -38,14 +42,20 @@ export default function BrandLogo({
         className={
           isHeader
             ? 'h-12 w-auto min-h-[48px] sm:h-16 sm:min-h-[64px] md:h-20 md:min-h-[80px] lg:h-22 lg:min-h-[88px] max-w-[84px] sm:max-w-[96px] md:max-w-[108px] lg:max-w-[118px] object-contain object-left'
-            : 'h-20 w-auto sm:h-24 md:h-28 lg:h-32 max-w-[min(100%,400px)] object-contain object-left'
+            : 'h-24 w-auto sm:h-28 md:h-32 lg:h-36 xl:h-40 max-w-[min(100%,480px)] object-contain object-center'
         }
         sizes={
           isHeader
             ? '(max-width: 640px) 75vw, (max-width: 1024px) 320px, 340px'
-            : '(max-width: 640px) 85vw, 400px'
+            : '(max-width: 640px) 90vw, 480px'
         }
       />
+
+      {!isHeader ? (
+        <span className="text-slate-900 font-semibold text-sm italic leading-snug px-1">
+          &ldquo;{SITE_MOTTO}&rdquo;
+        </span>
+      ) : null}
 
       {showName ? (
         <span className="min-w-0 block max-w-[min(62vw,22rem)] sm:max-w-none text-center sm:text-left">
