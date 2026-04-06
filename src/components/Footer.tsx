@@ -166,7 +166,7 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Shikshya Path Foundation. All rights reserved.
           </span>
           <span className="mt-1 block">
-            Built by{' '}
+            &copy; Built by{' '}
             <a
               href="https://www.inaratech.com.np"
               target="_blank"
