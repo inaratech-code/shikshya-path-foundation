@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { validateLeadEmail, validateNepalMobileDigits } from '@/lib/applyNowValidation';
 import { appendDevLeadFallback } from '@/lib/devLeadsFallback';
 import { dbInsertLeadPublic, dbInsertLeadWithServiceRole } from '@/lib/leadsDb';
 import { isSupabaseEnvConfigured, isSupabaseServiceRoleConfigured } from '@/lib/supabaseEnv';
@@ -20,8 +21,20 @@ export async function POST(request: Request) {
   try {
     const body = (await request.json()) as Record<string, unknown>;
     const emailRaw = typeof body.email === 'string' ? body.email.trim() : '';
-    if (!emailRaw || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailRaw)) {
-      return NextResponse.json({ error: 'A valid email is required.' }, { status: 400 });
+    const emailCheck = validateLeadEmail(emailRaw);
+    if (!emailCheck.ok) {
+      return NextResponse.json({ error: emailCheck.error }, { status: 400 });
+    }
+
+    const phoneRaw = typeof body.phone === 'string' ? body.phone.trim() : '';
+    if (phoneRaw) {
+      let d = phoneRaw.replace(/\D/g, '');
+      if (d.startsWith('977') && d.length >= 13) d = d.slice(3, 13);
+      else if (d.length > 10) d = d.slice(-10);
+      const phoneCheck = validateNepalMobileDigits(d);
+      if (!phoneCheck.ok) {
+        return NextResponse.json({ error: phoneCheck.error }, { status: 400 });
+      }
     }
 
     const row = {
@@ -34,18 +47,18 @@ export async function POST(request: Request) {
 
     if (isSupabaseEnvConfigured()) {
       await dbInsertLeadPublic(row);
-      return NextResponse.json({ ok: true });
+      return new NextResponse(null, { status: 204 });
     }
 
     if (isSupabaseServiceRoleConfigured()) {
       await dbInsertLeadWithServiceRole(row);
-      return NextResponse.json({ ok: true });
+      return new NextResponse(null, { status: 204 });
     }
 
     if (process.env.NODE_ENV === 'development') {
       try {
         await appendDevLeadFallback(row);
-        return NextResponse.json({ ok: true, dev: true });
+        return new NextResponse(null, { status: 204 });
       } catch (e) {
         console.error('[api/leads/public] dev fallback write failed', e);
       }

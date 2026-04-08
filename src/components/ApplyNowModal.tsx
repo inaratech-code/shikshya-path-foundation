@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { X, Send } from 'lucide-react';
 import { useApplyNow } from '@/components/ApplyNowContext';
 import { applyDestinationSelectOptions, siteContact } from '@/data/siteContent';
+import { validateLeadEmail, validateNepalMobileDigits } from '@/lib/applyNowValidation';
 import { submitLeadPublic } from '@/lib/submitLeadClient';
+import { duration, easeOutExpo } from '@/lib/motion';
 
 const academicLevels = [
   { value: '', label: 'Select academic level' },
@@ -14,6 +17,31 @@ const academicLevels = [
   { value: 'master', label: 'Master' },
   { value: 'phd', label: 'PhD' },
 ];
+
+const preferredProgramOptions = [
+  { value: '', label: 'Select preferred program' },
+  { value: 'business', label: 'Business & Management' },
+  { value: 'it', label: 'IT & Computer Science' },
+  { value: 'engineering', label: 'Engineering' },
+  { value: 'nursing', label: 'Nursing & Health Sciences' },
+  { value: 'medicine', label: 'Medicine & Allied Health' },
+  { value: 'hospitality', label: 'Hospitality & Tourism' },
+  { value: 'education', label: 'Education' },
+  { value: 'arts', label: 'Arts, Media & Design' },
+  { value: 'law', label: 'Law' },
+  { value: 'science', label: 'Science & Research' },
+  { value: 'other', label: 'Other (mention in comments)' },
+] as const;
+
+function normalizePrefillProgram(raw: string | undefined): string {
+  if (!raw?.trim()) return '';
+  const t = raw.trim();
+  const byValue = preferredProgramOptions.find((o) => o.value === t);
+  if (byValue) return byValue.value;
+  const byLabel = preferredProgramOptions.find((o) => o.label === t);
+  if (byLabel) return byLabel.value;
+  return '';
+}
 
 function ApplyNowBody({
   intent,
@@ -35,7 +63,8 @@ function ApplyNowBody({
       phone: '',
       preferredStudyDestination: prefill?.preferredStudyDestination ?? '',
       academicLevel: prefill?.academicLevel ?? '',
-      preferredProgram: prefill?.preferredProgram ?? '',
+      preferredProgram: normalizePrefillProgram(prefill?.preferredProgram),
+      comment: '',
     }),
     [prefill]
   );
@@ -99,21 +128,36 @@ function ApplyNowBody({
       onSubmit={async (e) => {
         e.preventDefault();
         setSubmitError(null);
+        const email = form.email.trim();
+        const emailCheck = validateLeadEmail(email);
+        if (!emailCheck.ok) {
+          setSubmitError(emailCheck.error);
+          return;
+        }
+        const phoneDigits = form.phone.replace(/\D/g, '');
+        const phoneCheck = validateNepalMobileDigits(phoneDigits);
+        if (!phoneCheck.ok) {
+          setSubmitError(phoneCheck.error);
+          return;
+        }
         const destLabel =
           applyDestinationSelectOptions.find((d) => d.value === form.preferredStudyDestination)?.label ??
           form.preferredStudyDestination;
+        const programLabel =
+          preferredProgramOptions.find((o) => o.value === form.preferredProgram)?.label ?? form.preferredProgram;
         const message = [
           `Intent: ${intent === 'enroll' ? 'Enroll' : 'Apply'}`,
           form.academicLevel ? `Academic level: ${form.academicLevel}` : null,
-          form.preferredProgram ? `Preferred program: ${form.preferredProgram}` : null,
+          form.preferredProgram ? `Preferred program: ${programLabel}` : null,
+          form.comment.trim() ? `Comments:\n${form.comment.trim()}` : null,
         ]
           .filter(Boolean)
           .join('\n');
         setSubmitting(true);
         const result = await submitLeadPublic({
           full_name: form.fullName.trim(),
-          email: form.email.trim(),
-          phone: form.phone.trim(),
+          email,
+          phone: `+977 ${phoneDigits}`,
           destination: destLabel || null,
           message,
         });
@@ -141,6 +185,8 @@ function ApplyNowBody({
           <input
             required
             type="email"
+            name="email"
+            autoComplete="email"
             value={form.email}
             onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
             className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
@@ -152,14 +198,32 @@ function ApplyNowBody({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         <div>
           <label className="block text-sm font-semibold text-slate-700 mb-2">Phone Number</label>
-          <input
-            required
-            type="tel"
-            value={form.phone}
-            onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
-            className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
-            placeholder="+977 98XXXXXXXX"
-          />
+          <div className="flex rounded-xl border border-slate-200 bg-slate-50 overflow-hidden focus-within:ring-2 focus-within:ring-[var(--color-primary)] focus-within:border-transparent">
+            <span className="flex items-center px-3 text-sm font-medium text-slate-500 border-r border-slate-200 bg-slate-100/80 shrink-0">
+              +977
+            </span>
+            <input
+              required
+              type="text"
+              inputMode="numeric"
+              autoComplete="tel-national"
+              value={form.phone}
+              onChange={(e) => {
+                let digits = e.target.value.replace(/\D/g, '');
+                if (digits.length > 10) {
+                  digits = digits.startsWith('977') ? digits.slice(3, 13) : digits.slice(-10);
+                }
+                digits = digits.slice(0, 10);
+                setForm((p) => ({ ...p, phone: digits }));
+              }}
+              minLength={10}
+              maxLength={10}
+              pattern="[0-9]{10}"
+              title="Enter exactly 10 digits"
+              className="min-w-0 flex-1 px-4 py-3 bg-transparent outline-none text-slate-900 placeholder:text-slate-400"
+              placeholder="98XXXXXXXX"
+            />
+          </div>
         </div>
 
         <div>
@@ -197,24 +261,56 @@ function ApplyNowBody({
         </div>
         <div>
           <label className="block text-sm font-semibold text-slate-700 mb-2">Preferred Program</label>
-          <input
+          <select
             required
             value={form.preferredProgram}
             onChange={(e) => setForm((p) => ({ ...p, preferredProgram: e.target.value }))}
             className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
-            placeholder="e.g. Business, IT, Nursing"
-          />
+          >
+            {preferredProgramOptions.map((d) => (
+              <option key={d.value || 'placeholder'} value={d.value}>
+                {d.label}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
-      {submitError ? (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{submitError}</div>
-      ) : null}
+      <div>
+        <label className="block text-sm font-semibold text-slate-700 mb-2">Comments</label>
+        <textarea
+          value={form.comment}
+          onChange={(e) => setForm((p) => ({ ...p, comment: e.target.value }))}
+          rows={3}
+          className="w-full min-h-[4.75rem] px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent resize-y text-slate-900 placeholder:text-slate-400"
+          placeholder="Anything else we should know? Questions, timeline, or goals…"
+          maxLength={2000}
+          aria-describedby="apply-comment-hint"
+        />
+        <p id="apply-comment-hint" className="mt-1.5 text-xs text-slate-500">
+          Optional — helps us prepare before we call you back.
+        </p>
+      </div>
+
+      <AnimatePresence mode="wait">
+        {submitError ? (
+          <motion.div
+            key="err"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: duration.fast, ease: easeOutExpo }}
+            className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800"
+          >
+            {submitError}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
 
       <button
         type="submit"
         disabled={submitting}
-        className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-black px-8 py-4 rounded-xl transition-all shadow-xl shadow-[var(--color-primary)]/20 text-base sm:text-lg hover:scale-[1.02] hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none"
+        className="interactive-btn w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-black px-8 py-4 rounded-xl shadow-xl shadow-[var(--color-primary)]/20 text-base sm:text-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none disabled:hover:scale-100"
       >
         {submitting ? (
           'Sending…'
@@ -232,6 +328,8 @@ function ApplyNowBody({
 
 export default function ApplyNowModal() {
   const { state, close } = useApplyNow();
+  const reduceMotion = useReducedMotion();
+
   useEffect(() => {
     if (!state.open) return;
     const onKeyDown = (e: KeyboardEvent) => {
@@ -243,14 +341,15 @@ export default function ApplyNowModal() {
 
   useEffect(() => {
     if (!state.open) return;
-    const prev = document.body.style.overflow;
+    const prevBody = document.body.style.overflow;
+    const prevHtml = document.documentElement.style.overflow;
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = prev;
+      document.body.style.overflow = prevBody;
+      document.documentElement.style.overflow = prevHtml;
     };
   }, [state.open]);
-
-  if (!state.open) return null;
 
   const title = state.intent === 'enroll' ? 'Enroll Now' : 'Apply Now';
   const subtitle =
@@ -260,40 +359,72 @@ export default function ApplyNowModal() {
 
   const bodyKey = `${state.intent}:${JSON.stringify(state.prefill ?? {})}`;
 
+  const panelMotion = reduceMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 22, scale: 0.98 },
+        animate: { opacity: 1, y: 0, scale: 1 },
+        exit: { opacity: 0, y: 14, scale: 0.98 },
+        transition: { duration: duration.slow, ease: easeOutExpo },
+      };
+
   return (
-    <div className="fixed inset-0 z-[999]">
-      <button
-        type="button"
-        className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px]"
-        onClick={close}
-        aria-label="Close dialog"
-      />
+    <AnimatePresence>
+      {state.open ? (
+        <motion.div
+          key="apply-modal"
+          className="fixed inset-0 z-[999]"
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={reduceMotion ? undefined : { opacity: 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.22 }}
+        >
+          <button
+            type="button"
+            className="absolute inset-0 bg-slate-950/45 backdrop-blur-[3px] motion-safe:transition-opacity"
+            onClick={close}
+            aria-label="Close dialog"
+          />
 
-      <div className="absolute inset-0 flex items-end sm:items-center justify-center p-3 sm:p-6">
-        <div className="relative w-full max-w-2xl max-h-[min(100dvh,720px)] sm:max-h-[90vh] bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col">
-          <div className="p-6 sm:p-8 bg-gradient-to-br from-primary-soft via-white to-white border-b border-slate-100 shrink-0">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-900">{title}</h2>
-                <p className="text-justify text-slate-600 mt-2">{subtitle}</p>
+          {/* Outer layer ignores pointer events so the backdrop receives outside clicks; the card uses pointer-events-auto for wheel/scroll and interaction. */}
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-end sm:items-center justify-center p-3 sm:p-6">
+            <motion.div
+              className="pointer-events-auto relative flex max-h-[min(100dvh,720px)] w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-slate-200/90 bg-white shadow-2xl shadow-slate-900/15 sm:max-h-[90vh]"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="apply-now-dialog-title"
+              {...panelMotion}
+            >
+              <div className="p-6 sm:p-8 bg-gradient-to-br from-primary-soft via-white to-white border-b border-slate-100 shrink-0">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h2 id="apply-now-dialog-title" className="text-2xl sm:text-3xl font-black text-slate-900">
+                      {title}
+                    </h2>
+                    <p className="text-justify text-slate-600 mt-2">{subtitle}</p>
+                  </div>
+                  <button
+                    type="button"
+                    className="interactive-press w-10 h-10 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 transition-colors inline-flex items-center justify-center shrink-0"
+                    onClick={close}
+                    aria-label="Close"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
               </div>
-              <button
-                type="button"
-                className="w-10 h-10 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 transition inline-flex items-center justify-center shrink-0"
-                onClick={close}
-                aria-label="Close"
-              >
-                <X size={18} />
-              </button>
-            </div>
-          </div>
 
-          <div className="p-6 sm:p-8 overflow-y-auto min-h-0 flex-1">
-            <ApplyNowBody key={bodyKey} intent={state.intent} prefill={state.prefill} onDone={close} />
+              <div
+                className="min-h-0 flex-1 touch-pan-y overflow-y-auto overscroll-y-contain p-6 sm:p-8 [-webkit-overflow-scrolling:touch]"
+                tabIndex={-1}
+              >
+                <ApplyNowBody key={bodyKey} intent={state.intent} prefill={state.prefill} onDone={close} />
+              </div>
+            </motion.div>
           </div>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
   );
 }
 

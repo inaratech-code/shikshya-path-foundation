@@ -13,10 +13,13 @@ export async function submitLeadPublic(
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(input),
+    /** Hint to the browser to prioritize this request (Chromium). */
+    priority: 'high',
   });
-  const j = (await res.json().catch(() => ({}))) as { error?: string };
   if (!res.ok) {
+    const j = (await res.json().catch(() => ({}))) as { error?: string };
     return { ok: false, error: typeof j.error === 'string' ? j.error : 'Submission failed' };
   }
+  /** Success: API returns 204 No Content — skip body parse for lower latency. */
   return { ok: true };
 }

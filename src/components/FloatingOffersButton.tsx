@@ -7,7 +7,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Gift, X } from 'lucide-react';
 import type { PublishedOffer } from '@/types/offer';
 
-export default function FloatingOffersButton() {
+type Props = {
+  /** When true, render without fixed positioning (use inside a docked FAB stack). */
+  docked?: boolean;
+};
+
+export default function FloatingOffersButton({ docked = false }: Props) {
   const pathname = usePathname();
   const [offers, setOffers] = useState<PublishedOffer[]>([]);
   const [open, setOpen] = useState(false);
@@ -79,9 +84,13 @@ export default function FloatingOffersButton() {
   // Stay hidden while loading to avoid UI flicker.
   if (!loaded || count === 0) return null;
 
+  const shellClass = docked
+    ? 'relative z-[1] flex flex-col items-end gap-3'
+    : 'fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-3 sm:bottom-8 sm:right-8';
+
   return (
     <>
-      <div className="fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-3 sm:bottom-8 sm:right-8">
+      <div className={shellClass}>
         <AnimatePresence>
           {open && (
             <motion.div

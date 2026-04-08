@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Users, Gift, Images, Loader2 } from 'lucide-react';
+import { Users, Gift, Images } from 'lucide-react';
+import Skeleton from '@/components/ui/Skeleton';
 import { serviceRoleHintText } from '@/lib/adminServiceRoleHints';
 import { getClientOffersWriteToken } from '@/lib/offersWriteToken';
 import type { SupabaseServiceRoleConfigHint } from '@/lib/supabaseEnv';
@@ -68,8 +69,8 @@ export default function AdminDashboard() {
             <Users size={28} />
           </div>
           <div className="min-w-0">
-            <div className="text-xl sm:text-2xl font-black text-slate-900 tabular-nums flex items-center gap-2">
-              {loading ? <Loader2 className="animate-spin text-slate-400" size={24} /> : stats?.leadsTotal ?? '—'}
+            <div className="text-xl sm:text-2xl font-black text-slate-900 tabular-nums flex items-center gap-2 min-h-[2rem]">
+              {loading ? <Skeleton className="h-8 w-16" rounded="lg" /> : stats?.leadsTotal ?? '—'}
             </div>
             <div className="text-xs sm:text-sm font-medium text-slate-500 break-words">Total Leads</div>
             {stats && !stats.leadsConfigured ? (
@@ -85,8 +86,8 @@ export default function AdminDashboard() {
             <Gift size={28} />
           </div>
           <div className="min-w-0">
-            <div className="text-xl sm:text-2xl font-black text-slate-900 tabular-nums flex items-center gap-2">
-              {loading ? <Loader2 className="animate-spin text-slate-400" size={24} /> : stats?.offersActive ?? '—'}
+            <div className="text-xl sm:text-2xl font-black text-slate-900 tabular-nums flex items-center gap-2 min-h-[2rem]">
+              {loading ? <Skeleton className="h-8 w-12" rounded="lg" /> : stats?.offersActive ?? '—'}
             </div>
             <div className="text-xs sm:text-sm font-medium text-slate-500 break-words">Active Offers</div>
           </div>
@@ -97,8 +98,8 @@ export default function AdminDashboard() {
             <Images size={28} />
           </div>
           <div className="min-w-0">
-            <div className="text-xl sm:text-2xl font-black text-slate-900 tabular-nums flex items-center gap-2">
-              {loading ? <Loader2 className="animate-spin text-slate-400" size={24} /> : stats?.galleryActive ?? '—'}
+            <div className="text-xl sm:text-2xl font-black text-slate-900 tabular-nums flex items-center gap-2 min-h-[2rem]">
+              {loading ? <Skeleton className="h-8 w-12" rounded="lg" /> : stats?.galleryActive ?? '—'}
             </div>
             <div className="text-xs sm:text-sm font-medium text-slate-500 break-words">Gallery photos (live)</div>
           </div>
@@ -111,7 +112,7 @@ export default function AdminDashboard() {
           <h2 className="text-xl font-bold text-slate-900 mb-6">Recent Leads</h2>
           <div className="overflow-x-auto -mx-1">
             <table className="w-full min-w-[400px] text-left border-collapse">
-              <thead>
+              <thead className="sticky top-0 z-10 bg-white shadow-[0_1px_0_0_rgb(226_232_240)]">
                 <tr className="border-b border-slate-200 text-sm text-slate-500">
                   <th className="pb-3 font-semibold">Name</th>
                   <th className="pb-3 font-semibold">Email</th>
@@ -121,12 +122,22 @@ export default function AdminDashboard() {
               </thead>
               <tbody className="text-sm text-slate-700">
                 {loading ? (
-                  <tr>
-                    <td colSpan={4} className="py-12 text-center text-slate-500">
-                      <Loader2 className="inline-block animate-spin mr-2" size={20} />
-                      Loading…
-                    </td>
-                  </tr>
+                  Array.from({ length: 5 }).map((_, i) => (
+                    <tr key={i} className="border-b border-slate-100">
+                      <td className="py-3 pr-2">
+                        <Skeleton className="h-4 w-28" rounded="md" />
+                      </td>
+                      <td className="py-3 pr-2">
+                        <Skeleton className="h-4 w-40 max-w-full" rounded="md" />
+                      </td>
+                      <td className="py-3 pr-2">
+                        <Skeleton className="h-4 w-24" rounded="md" />
+                      </td>
+                      <td className="py-3">
+                        <Skeleton className="h-4 w-24" rounded="md" />
+                      </td>
+                    </tr>
+                  ))
                 ) : stats && !stats.leadsConfigured ? (
                   <tr>
                     <td colSpan={4} className="py-12 text-center text-slate-500 text-sm">
@@ -141,7 +152,10 @@ export default function AdminDashboard() {
                   </tr>
                 ) : (
                   stats?.recentLeads.map((row) => (
-                    <tr key={row.id} className="border-b border-slate-100 last:border-0">
+                    <tr
+                      key={row.id}
+                      className="border-b border-slate-100 last:border-0 transition-colors hover:bg-slate-50/90"
+                    >
                       <td className="py-3 pr-2 font-semibold text-slate-900">{row.name}</td>
                       <td className="py-3 pr-2 text-slate-600 break-all">{row.email}</td>
                       <td className="py-3 pr-2 text-slate-600">{row.destination}</td>
@@ -159,13 +173,13 @@ export default function AdminDashboard() {
           <div className="space-y-3">
             <Link
               href="/admin/offers"
-              className="block w-full text-left bg-primary-soft hover:bg-primary/10 text-primary-dark font-semibold py-3 px-4 rounded-xl transition-colors border border-primary/20 text-sm"
+              className="interactive-btn block w-full text-left bg-primary-soft hover:bg-primary/10 text-primary-dark font-semibold py-3 px-4 rounded-xl border border-primary/20 text-sm"
             >
               + Create Offer
             </Link>
             <Link
               href="/admin/gallery"
-              className="block w-full text-left bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold py-3 px-4 rounded-xl transition-colors border border-slate-200 text-sm"
+              className="interactive-btn block w-full text-left bg-slate-50 hover:bg-slate-100 text-slate-700 font-semibold py-3 px-4 rounded-xl border border-slate-200 text-sm"
             >
               + Manage Gallery
             </Link>

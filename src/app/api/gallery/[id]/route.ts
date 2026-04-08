@@ -24,8 +24,8 @@ export async function PATCH(request: Request, ctx: Ctx) {
 
     if (supabaseServiceConfigured()) {
       const updated = await dbUpdateGalleryActive(id, body.active);
-      if (!updated) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-      return NextResponse.json(updated);
+      if (updated) return NextResponse.json(updated);
+      // Row not in DB — may exist only in gallery.json (POST falls back when table is missing).
     }
 
     const items = await readAllGallery();
@@ -48,11 +48,13 @@ export async function DELETE(request: Request, ctx: Ctx) {
   try {
     if (supabaseServiceConfigured()) {
       const existing = await dbGetGalleryItemById(id);
-      if (!existing) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-      const ok = await dbDeleteGalleryItem(id);
-      if (!ok) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-      await deleteGalleryAssetForUrl(existing.imageUrl);
-      return NextResponse.json({ ok: true });
+      if (existing) {
+        const ok = await dbDeleteGalleryItem(id);
+        if (!ok) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+        await deleteGalleryAssetForUrl(existing.imageUrl);
+        return NextResponse.json({ ok: true });
+      }
+      // Not in DB — try gallery.json (same as PATCH fallback).
     }
 
     const items = await readAllGallery();

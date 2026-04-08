@@ -29,30 +29,35 @@ export default function BrandLogo({
       className={
         isHeader
           ? `flex items-center gap-1 md:gap-1.5 lg:gap-2 shrink-0 min-w-0 ${className}`
-          : `flex flex-col items-center gap-2 shrink-0 min-w-0 text-center ${className}`
+          : `flex w-full max-w-[min(100%,480px)] shrink-0 flex-col items-center gap-2 text-center lg:max-w-none lg:items-start lg:text-left ${className}`
       }
       aria-label="Shikshya Path Foundation — Home"
     >
-      <Image
-        src={src}
-        alt="Shikshya Path Foundation Logo"
-        width={512}
-        height={512}
-        priority
-        className={
-          isHeader
-            ? 'h-12 w-auto min-h-[48px] sm:h-16 sm:min-h-[64px] md:h-20 md:min-h-[80px] lg:h-22 lg:min-h-[88px] max-w-[84px] sm:max-w-[96px] md:max-w-[108px] lg:max-w-[118px] object-contain object-left'
-            : 'h-24 w-auto sm:h-28 md:h-32 lg:h-36 xl:h-40 max-w-[min(100%,480px)] object-contain object-center'
-        }
-        sizes={
-          isHeader
-            ? '(max-width: 640px) 75vw, (max-width: 1024px) 320px, 340px'
-            : '(max-width: 640px) 90vw, 480px'
-        }
-      />
+      {isHeader ? (
+        <Image
+          src={src}
+          alt="Shikshya Path Foundation Logo"
+          width={512}
+          height={512}
+          priority
+          className="h-12 w-auto min-h-[48px] sm:h-16 sm:min-h-[64px] md:h-20 md:min-h-[80px] lg:h-22 lg:min-h-[88px] max-w-[84px] sm:max-w-[96px] md:max-w-[108px] lg:max-w-[118px] object-contain object-left"
+          sizes="(max-width: 640px) 75vw, (max-width: 1024px) 320px, 340px"
+        />
+      ) : (
+        <div className="relative mx-auto h-28 w-full max-w-[280px] shrink-0 sm:h-32 lg:mx-0 lg:h-36 lg:max-w-[min(100%,360px)] xl:h-40">
+          <Image
+            src={src}
+            alt="Shikshya Path Foundation Logo"
+            fill
+            priority
+            className="object-contain object-center lg:object-left"
+            sizes="(max-width: 1024px) 280px, 360px"
+          />
+        </div>
+      )}
 
       {!isHeader ? (
-        <span className="text-slate-900 font-semibold text-sm italic leading-snug px-1">
+        <span className="max-w-[min(100%,20rem)] text-slate-900 font-semibold text-sm italic leading-snug lg:max-w-none">
           &ldquo;{SITE_MOTTO}&rdquo;
         </span>
       ) : null}

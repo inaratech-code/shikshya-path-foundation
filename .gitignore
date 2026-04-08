@@ -13,9 +13,9 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
+# next.js (no leading slash — ignore .next at repo root and nested)
+.next/
+out/
 
 # production
 /build

@@ -10,8 +10,8 @@ export const SITE_MOTTO = 'Your Dream Our Guidance';
  */
 export const MAIN_SITE_LOGO_PATH = '/images/SPF_Cropped-removebg-preview.png' as const;
 
-/** Full mark — footer only; header and SEO use `MAIN_SITE_LOGO_PATH`. */
-export const FOOTER_LOGO_PATH = '/images/SPK-removebg-preview.png' as const;
+/** Footer uses the same mark as the header so it always renders reliably (SPK asset was not visible in some builds). */
+export const FOOTER_LOGO_PATH = MAIN_SITE_LOGO_PATH;
 
 /**
  * Admin sidebar mark (same asset as main logo for a consistent brand mark).
@@ -126,7 +126,8 @@ const H = {
   nz: 'https://images.unsplash.com/photo-1469528849692-9bcd8c38e792?auto=format&fit=crop&w=1920&q=85',
   ca: 'https://images.unsplash.com/photo-1517935706615-2717063c2215?auto=format&fit=crop&w=1920&q=85',
   us: 'https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=1920&q=85',
-  eu: 'https://images.unsplash.com/photo-1467261338127-7a468c63a068?auto=format&fit=crop&w=1920&q=85',
+  /** Europe — second Pexels asset so PhotoCover fallback ≠ primary (PX.eu) */
+  eu: 'https://images.pexels.com/photos/2906827/pexels-photo-2906827.jpeg?auto=compress&cs=srgb&w=1920',
   jp: 'https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1920&q=85',
   kr: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=1920&q=85',
 } as const;
@@ -138,8 +139,8 @@ const PX = {
   nz: 'https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=srgb&w=1920',
   ca: 'https://images.pexels.com/photos/2449452/pexels-photo-2449452.jpeg?auto=compress&cs=srgb&w=1920',
   us: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=1920&q=85',
-  /** Pexels 161901 was unreliable; use Unsplash (same as H.eu) + Pexels UK as card fallback */
-  eu: 'https://images.unsplash.com/photo-1467261338127-7a468c63a068?auto=format&fit=crop&w=1920&q=85',
+  /** Europe — Pexels (same host as other destinations); H.eu is a different shot for fallback */
+  eu: 'https://images.pexels.com/photos/338515/pexels-photo-338515.jpeg?auto=compress&cs=srgb&w=1920',
   jp: 'https://images.pexels.com/photos/4144222/pexels-photo-4144222.jpeg?auto=compress&cs=srgb&w=1920',
   kr: 'https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=srgb&w=1920',
 } as const;
@@ -324,7 +325,7 @@ export const studyDestinations: StudyDestinationBlock[] = [
     flagImgAccordion: 'https://flagcdn.com/w320/eu.png',
     flagImgTile: 'https://flagcdn.com/w320/eu.png',
     bgImg: PX.eu,
-    bgImgAlt: PX.uk,
+    bgImgAlt: H.eu,
     heroForPage: PX.eu,
     destinationValue: 'europe',
     seoSummary:
@@ -422,6 +423,11 @@ export function getStudyDestinationHero(slug: string): string {
   const n = normalizeStudySlug(slug);
   const d = studyDestinations.find((x) => x.slug === n);
   return d?.heroForPage ?? 'https://images.pexels.com/photos/5212695/pexels-photo-5212695.jpeg?auto=compress&cs=srgb&w=1920';
+}
+
+/** Main Study Destinations page with accordion open for this slug */
+export function studyDestinationAccordionHref(slug: string): string {
+  return `/destinations?country=${encodeURIComponent(slug)}#study-abroad-destinations`;
 }
 
 export function normalizeStudySlug(raw: string): string {

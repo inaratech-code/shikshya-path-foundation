@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useState } from 'react';
 import { Plus, Trash2, Loader2, Upload } from 'lucide-react';
 import { prepareGalleryImageForUpload } from '@/lib/galleryClientCompress';
 import { getClientOffersWriteToken } from '@/lib/offersWriteToken';
@@ -28,7 +28,7 @@ export default function GalleryManagementPage() {
   const [active, setActive] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const galleryFileInputId = useId();
 
   const load = useCallback(async () => {
     setError(null);
@@ -94,15 +94,18 @@ export default function GalleryManagementPage() {
   async function toggleActive(g: GalleryItem) {
     setError(null);
     try {
-      const res = await fetch(`/api/gallery/${g.id}`, {
+      const res = await fetch(`/api/gallery/${encodeURIComponent(g.id)}`, {
         method: 'PATCH',
         headers: authHeadersJson(),
         body: JSON.stringify({ active: !g.active }),
       });
-      if (!res.ok) throw new Error('Update failed');
+      if (!res.ok) {
+        const j = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(j.error || 'Update failed');
+      }
       await load();
-    } catch {
-      setError('Could not update photo');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not update photo');
     }
   }
 
@@ -111,11 +114,17 @@ export default function GalleryManagementPage() {
     setError(null);
     setDeletingId(id);
     try {
-      const res = await fetch(`/api/gallery/${id}`, { method: 'DELETE', headers: authHeadersJson() });
-      if (!res.ok) throw new Error('Delete failed');
+      const res = await fetch(`/api/gallery/${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+        headers: authHeadersBearerOnly(),
+      });
+      if (!res.ok) {
+        const j = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(j.error || 'Delete failed');
+      }
       await load();
-    } catch {
-      setError('Could not delete photo');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Could not delete photo');
     } finally {
       setDeletingId(null);
     }
@@ -137,7 +146,14 @@ export default function GalleryManagementPage() {
         body: fd,
       });
       const j = (await res.json().catch(() => ({}))) as { url?: string; error?: string };
-      if (!res.ok) throw new Error(j.error || 'Upload failed');
+      if (!res.ok) {
+        throw new Error(
+          j.error ||
+            (res.status === 401
+              ? 'Unauthorized — set NEXT_PUBLIC_OFFERS_WRITE_SECRET to match OFFERS_WRITE_SECRET (non-empty).'
+              : 'Upload failed')
+        );
+      }
       if (!j.url) throw new Error('No URL returned');
       setImageUrl(j.url);
     } catch (err) {
@@ -198,7 +214,7 @@ export default function GalleryManagementPage() {
             <span className="block text-sm font-semibold text-slate-700 mb-1">Image</span>
             <div className="flex flex-col sm:flex-row gap-3 sm:items-start">
               <input
-                ref={fileInputRef}
+                id={galleryFileInputId}
                 type="file"
                 accept="image/*"
                 className="sr-only"
@@ -207,15 +223,15 @@ export default function GalleryManagementPage() {
                 disabled={uploading}
               />
               <div className="flex flex-wrap gap-2 items-center">
-                <button
-                  type="button"
-                  disabled={uploading}
-                  onClick={() => fileInputRef.current?.click()}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-100 disabled:opacity-60"
+                <label
+                  htmlFor={galleryFileInputId}
+                  className={`inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-100 ${
+                    uploading ? 'cursor-wait opacity-60 pointer-events-none' : 'cursor-pointer'
+                  }`}
                 >
                   {uploading ? <Loader2 className="animate-spin" size={18} /> : <Upload size={18} />}
                   {uploading ? 'Uploading…' : 'Upload image'}
-                </button>
+                </label>
                 {imageUrl.trim() !== '' && (
                   <button
                     type="button"
@@ -231,9 +247,13 @@ export default function GalleryManagementPage() {
               <div className="flex-1 min-w-0 w-full">
                 <label className="block text-xs font-medium text-slate-500 mb-1">Or paste image URL</label>
                 <input
+                  type="text"
+                  name="galleryImageUrl"
+                  autoComplete="off"
+                  inputMode="url"
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
-                  className="w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
+                  className="relative z-0 w-full rounded-xl border border-slate-200 px-4 py-3 text-slate-900 focus:border-[var(--color-primary)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30"
                   placeholder="https://… or upload above"
                 />
               </div>
@@ -280,7 +300,7 @@ export default function GalleryManagementPage() {
           {items.map((g) => (
             <div
               key={g.id}
-              className={`rounded-2xl border overflow-hidden flex flex-col ${
+              className={`interactive-lift rounded-2xl border overflow-hidden flex flex-col ${
                 g.active ? 'border-primary/20 bg-white shadow-md' : 'border-slate-200 bg-slate-50 opacity-80'
               }`}
             >

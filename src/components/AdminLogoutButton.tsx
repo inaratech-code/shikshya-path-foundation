@@ -4,20 +4,24 @@ import { useRouter } from 'next/navigation';
 import { LogOut } from 'lucide-react';
 import { clearAdminSession } from '@/lib/adminAuth';
 
-export default function AdminLogoutButton() {
+export default function AdminLogoutButton({ collapsed }: { collapsed?: boolean }) {
   const router = useRouter();
 
   return (
     <button
       type="button"
-      className="flex items-center gap-3 px-4 py-2 text-red-400 hover:text-red-300 transition-colors w-full text-left mt-2"
+      className={`flex items-center gap-3 px-4 py-2 text-red-400 hover:text-red-300 transition-colors text-left mt-2 rounded-xl hover:bg-slate-800/50 active:scale-[0.98] ${
+        collapsed ? 'justify-center w-full' : 'w-full'
+      }`}
+      title={collapsed ? 'Logout' : undefined}
       onClick={() => {
         clearAdminSession();
         router.push('/login');
         router.refresh();
       }}
     >
-      <LogOut size={18} /> Logout
+      <LogOut size={18} aria-hidden />
+      {!collapsed ? <span>Logout</span> : null}
     </button>
   );
 }

@@ -1,7 +1,9 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { Eye, Trash2, Loader2, X, Mail, Phone, MapPin, Calendar, FileText } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Eye, Trash2, X, Mail, Phone, MapPin, Calendar, FileText } from 'lucide-react';
+import Skeleton from '@/components/ui/Skeleton';
 import { serviceRoleHintText } from '@/lib/adminServiceRoleHints';
 import { getClientOffersWriteToken } from '@/lib/offersWriteToken';
 import type { SupabaseServiceRoleConfigHint } from '@/lib/supabaseEnv';
@@ -141,18 +143,28 @@ function LeadDetailModal({
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-3 sm:p-6">
+    <motion.div
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-3 sm:p-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.22 }}
+    >
       <button
         type="button"
-        className="absolute inset-0 bg-slate-900/50 backdrop-blur-[2px]"
+        className="absolute inset-0 bg-slate-900/50 backdrop-blur-md"
         onClick={onClose}
         aria-label="Close"
       />
-      <div
-        className="relative w-full max-w-2xl max-h-[min(92vh,40rem)] overflow-y-auto rounded-2xl bg-white shadow-2xl border border-slate-200"
+      <motion.div
+        className="relative w-full max-w-2xl max-h-[min(92vh,40rem)] overflow-y-auto rounded-2xl bg-white shadow-2xl border border-slate-200/90"
         role="dialog"
         aria-modal="true"
         aria-labelledby="lead-detail-title"
+        initial={{ opacity: 0, y: 16, scale: 0.98 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 12, scale: 0.98 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="sticky top-0 flex items-center justify-between gap-3 border-b border-slate-100 bg-white px-5 py-4 z-10">
           <h2 id="lead-detail-title" className="text-lg font-black text-slate-900 truncate pr-2">
@@ -221,8 +233,8 @@ function LeadDetailModal({
             <LeadFormDetails message={lead.message} />
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -336,9 +348,14 @@ export default function LeadsPage() {
 
       <div className="space-y-5">
         {loading ? (
-          <div className="rounded-2xl border border-slate-200 bg-white py-20 text-center text-slate-500">
-            <Loader2 className="inline-block animate-spin mr-2" size={22} />
-            Loading leads…
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 space-y-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="space-y-3">
+                <Skeleton className="h-8 w-48 max-w-full" rounded="lg" />
+                <Skeleton className="h-4 w-full" rounded="md" />
+                <Skeleton className="h-32 w-full" rounded="xl" />
+              </div>
+            ))}
           </div>
         ) : leads.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-200 bg-white py-16 px-6 text-center text-slate-500">
@@ -348,9 +365,13 @@ export default function LeadsPage() {
           </div>
         ) : (
           leads.map((lead) => (
-            <article
+            <motion.article
               key={lead.id}
-              className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden"
+              layout={false}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              className="interactive-lift rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden"
             >
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 p-5 sm:p-6 border-b border-slate-100 bg-slate-50/80">
                 <div className="min-w-0">
@@ -421,12 +442,16 @@ export default function LeadsPage() {
                   <LeadFormDetails message={lead.message} />
                 </div>
               </div>
-            </article>
+            </motion.article>
           ))
         )}
       </div>
 
-      {detailLead ? <LeadDetailModal lead={detailLead} onClose={() => setDetailLead(null)} /> : null}
+      <AnimatePresence mode="wait">
+        {detailLead ? (
+          <LeadDetailModal key={detailLead.id} lead={detailLead} onClose={() => setDetailLead(null)} />
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }

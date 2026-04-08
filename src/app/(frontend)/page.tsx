@@ -15,10 +15,9 @@ import {
 } from 'lucide-react';
 import GalleryHomePreview from '@/components/GalleryHomePreview';
 import HeroBannerLayers from '@/components/HeroBannerLayers';
+import HomePopularUniversitiesSection from '@/components/HomePopularUniversitiesSection';
 import SectionHeading from '@/components/SectionHeading';
-import UniversityCategoryCard from '@/components/UniversityCategoryCard';
 import { heroBannerForSeed } from '@/data/heroBanners';
-import { universityCategoryTiles } from '@/data/universityCategories';
 import { servicesCopy } from '@/data/siteContent';
 import { useApplyNow } from '@/components/ApplyNowContext';
 
@@ -193,7 +192,6 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6 mb-8 sm:mb-10">
             <SectionHeading
               align="left"
-              eyebrow="Study Abroad"
               title="Choose your destination"
               description="Tap a country to explore requirements, costs, intakes, and how we help you apply—right from one page."
             />
@@ -379,43 +377,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* UNIVERSITIES SECTION */}
-      <section className="py-16 md:py-20 bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 sm:gap-6">
-            <SectionHeading
-              align="left"
-              eyebrow="Universities"
-              title="Explore popular categories"
-              description="Browse curated lists by country—great starting points for shortlisting."
-            />
-            <Link
-              href="/universities"
-              className="inline-flex items-center justify-center sm:justify-end gap-2 text-[var(--color-primary)] font-bold hover:gap-3 transition-all w-full sm:w-auto shrink-0"
-            >
-              View universities <ArrowRight size={18} />
-            </Link>
-          </div>
-
-          <div className="mt-10 grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
-            {universityCategoryTiles.map((u) => (
-              <Link
-                key={u.title}
-                href="/universities"
-                className="group block h-full min-h-[148px] sm:min-h-[168px] hover:-translate-y-1 transition-transform"
-              >
-                <UniversityCategoryCard
-                  title={u.title}
-                  flagImg={u.flagImg}
-                  bgImage={u.bgImg}
-                  bgImageAlt={u.bgImgAlt}
-                  className="shadow-sm group-hover:shadow-xl"
-                />
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomePopularUniversitiesSection />
 
       <GalleryHomePreview />
 
