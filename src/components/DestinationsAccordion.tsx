@@ -151,34 +151,36 @@ export default function DestinationsAccordion() {
                 <p>{c.bodyParagraphs[1]}</p>
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
-                <h3 className="font-black text-slate-900 mb-4 sm:mb-5 text-lg">Quick Facts</h3>
-                <dl className="space-y-3 sm:space-y-4 text-sm sm:text-base">
-                  <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 border-b border-slate-200/70 pb-3">
-                    <dt className="text-slate-500 font-semibold shrink-0">Intake</dt>
-                    <dd className="text-slate-900 font-medium sm:text-right">{c.quickFacts.intake}</dd>
-                  </div>
-                  <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 border-b border-slate-200/70 pb-3">
-                    <dt className="text-slate-500 font-semibold shrink-0">PSW (post-study work)</dt>
-                    <dd className="text-slate-900 font-medium sm:text-right">{c.quickFacts.postStudyWork}</dd>
-                  </div>
-                  <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                    <dt className="text-slate-500 font-semibold shrink-0">Scholarship</dt>
-                    <dd className="text-slate-900 font-medium sm:text-right">{c.quickFacts.scholarship}</dd>
-                  </div>
-                </dl>
-              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 items-start">
+                <div className="w-full sm:max-w-sm sm:justify-self-start bg-slate-50 border border-slate-200 rounded-2xl p-6 sm:p-8">
+                  <h3 className="font-black text-slate-900 mb-3">Key requirements</h3>
+                  <ul className="space-y-2 text-slate-700 text-sm">
+                    {c.requirements.map((r) => (
+                      <li key={r} className="flex gap-2">
+                        <span className="text-[var(--color-primary)] font-black">•</span>
+                        <span>{r}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                <h3 className="font-black text-slate-900 mb-3">Key requirements</h3>
-                <ul className="space-y-2 text-slate-700 text-sm">
-                  {c.requirements.map((r) => (
-                    <li key={r} className="flex gap-2">
-                      <span className="text-[var(--color-primary)] font-black">•</span>
-                      <span>{r}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="w-full sm:max-w-sm sm:justify-self-end rounded-2xl border border-slate-200 bg-slate-50 p-6 sm:p-8">
+                  <h3 className="font-black text-slate-900 mb-4 sm:mb-5 text-lg">Quick Facts</h3>
+                  <dl className="space-y-3 sm:space-y-4 text-sm sm:text-base">
+                    <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 border-b border-slate-200/70 pb-3">
+                      <dt className="text-slate-500 font-semibold shrink-0">Intake</dt>
+                      <dd className="text-slate-900 font-medium sm:text-right">{c.quickFacts.intake}</dd>
+                    </div>
+                    <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6 border-b border-slate-200/70 pb-3">
+                      <dt className="text-slate-500 font-semibold shrink-0">PSW (post-study work)</dt>
+                      <dd className="text-slate-900 font-medium sm:text-right">{c.quickFacts.postStudyWork}</dd>
+                    </div>
+                    <div className="flex flex-col gap-0.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+                      <dt className="text-slate-500 font-semibold shrink-0">Scholarship</dt>
+                      <dd className="text-slate-900 font-medium sm:text-right">{c.quickFacts.scholarship}</dd>
+                    </div>
+                  </dl>
+                </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-3">
