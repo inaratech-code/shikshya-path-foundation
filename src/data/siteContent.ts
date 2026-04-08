@@ -111,6 +111,12 @@ export type StudyDestinationBlock = {
   requirements: string[];
   intakeInfo: string;
   cost: string;
+  /** Intake, PSW, scholarships — shown as Quick Facts on the destinations page */
+  quickFacts: {
+    intake: string;
+    postStudyWork: string;
+    scholarship: string;
+  };
 };
 
 /** Fallback when Pexels primary fails (university cards use this chain) */
@@ -167,6 +173,11 @@ export const studyDestinations: StudyDestinationBlock[] = [
     intakeInfo:
       'Major intakes include February (main), July (major), and November at select institutions. Plan tests and applications early to secure your CoE.',
     cost: 'Annual tuition often ranges from approximately AUD 20,000 to AUD 45,000 depending on course and institution. We help you compare options and scholarships.',
+    quickFacts: {
+      intake: 'Feb, July, Nov',
+      postStudyWork: 'Up to 3 years',
+      scholarship: 'Available',
+    },
   },
   {
     slug: 'uk',
@@ -196,6 +207,11 @@ export const studyDestinations: StudyDestinationBlock[] = [
     intakeInfo:
       'Common intakes include September (main), January, and May for select programs. Deadlines vary by university.',
     cost: 'Tuition often falls between approximately GBP 12,000 and GBP 25,000 per year depending on course and location.',
+    quickFacts: {
+      intake: 'Sep/Oct, Jan/Feb, April/May',
+      postStudyWork: 'Up to 3 years',
+      scholarship: 'Available',
+    },
   },
   {
     slug: 'new-zealand',
@@ -225,6 +241,11 @@ export const studyDestinations: StudyDestinationBlock[] = [
     intakeInfo:
       'Popular intakes include February and July, with limited November options at some institutions.',
     cost: 'Annual tuition often ranges from approximately NZD 20,000 to NZD 40,000 depending on program and city.',
+    quickFacts: {
+      intake: 'Feb, July',
+      postStudyWork: 'Up to 3 years',
+      scholarship: 'Available',
+    },
   },
   {
     slug: 'canada',
@@ -254,6 +275,11 @@ export const studyDestinations: StudyDestinationBlock[] = [
     intakeInfo:
       'Major intakes often include September, January, and May depending on the program and college or university.',
     cost: 'Tuition commonly ranges from approximately CAD 15,000 to CAD 35,000 per year before living expenses.',
+    quickFacts: {
+      intake: 'Sep, Jan, May',
+      postStudyWork: 'Up to 3 years',
+      scholarship: 'Available',
+    },
   },
   {
     slug: 'usa',
@@ -283,6 +309,11 @@ export const studyDestinations: StudyDestinationBlock[] = [
     intakeInfo:
       'Common entry points include Fall (August–September), Spring (January), and Summer terms depending on the program.',
     cost: 'Annual tuition often ranges from approximately USD 20,000 to USD 50,000 depending on institution and field of study.',
+    quickFacts: {
+      intake: 'Aug/Sep, Jan, May/June',
+      postStudyWork: 'Up to 3 years',
+      scholarship: 'Available',
+    },
   },
   {
     slug: 'europe',
@@ -312,6 +343,11 @@ export const studyDestinations: StudyDestinationBlock[] = [
     intakeInfo:
       'Intakes vary by country and university—Fall and Spring are common; confirm deadlines on your offer letter.',
     cost: 'Tuition often ranges from approximately EUR 8,000 to EUR 30,000 per year depending on destination and program.',
+    quickFacts: {
+      intake: 'Sep/Oct, Jan/Feb',
+      postStudyWork: 'Up to 2 years',
+      scholarship: 'Available',
+    },
   },
   {
     slug: 'japan',
@@ -341,6 +377,11 @@ export const studyDestinations: StudyDestinationBlock[] = [
     intakeInfo:
       'April and September/October intakes are common; confirm with your chosen university.',
     cost: 'Annual tuition often falls between approximately JPY 535,000 and JPY 1,200,000 depending on program and institution.',
+    quickFacts: {
+      intake: 'April, Oct, July, Jan',
+      postStudyWork: 'Up to 2 years',
+      scholarship: 'Available',
+    },
   },
   {
     slug: 'korea',
@@ -369,6 +410,11 @@ export const studyDestinations: StudyDestinationBlock[] = [
     intakeInfo:
       'March and September intakes are widely used; check your university calendar.',
     cost: 'Annual tuition often ranges from approximately KRW 5,000,000 to KRW 15,000,000 depending on university and field.',
+    quickFacts: {
+      intake: 'March, Sep',
+      postStudyWork: 'Up to 3 years',
+      scholarship: 'Available',
+    },
   },
 ];
 
