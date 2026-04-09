@@ -27,6 +27,17 @@ export async function GET(request: Request) {
       }
       return NextResponse.json(await readAllOffers());
     }
+
+    // Public read: prefer service role when available (server-side),
+    // so the website can show offers even if anon RLS blocks select.
+    if (supabaseServiceConfigured()) {
+      const all = await dbGetAllOffers();
+      const active = all
+        .filter((o) => o.active)
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      return NextResponse.json(active);
+    }
+
     if (supabaseAnonConfigured()) {
       try {
         return NextResponse.json(await dbGetPublicOffers());
