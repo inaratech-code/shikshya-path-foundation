@@ -166,7 +166,7 @@ export default function FloatingOffersButton({ docked = false }: Props) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[85] bg-slate-900/25 backdrop-blur-[2px] sm:hidden"
+            className="fixed inset-0 z-[85] bg-slate-900/40 sm:hidden"
             aria-label="Close overlay"
             onClick={() => setOpen(false)}
           />
