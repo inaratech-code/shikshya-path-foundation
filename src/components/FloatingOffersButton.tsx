@@ -84,8 +84,9 @@ export default function FloatingOffersButton({ docked = false }: Props) {
   // Stay hidden while loading to avoid UI flicker.
   if (!loaded || count === 0) return null;
 
+  // Docked shell must stay above the mobile scrim (z-[85]) or taps hit the overlay instead of the panel/link.
   const shellClass = docked
-    ? 'relative z-[1] flex flex-col items-end gap-3'
+    ? 'relative z-[90] flex flex-col items-end gap-3'
     : 'fixed bottom-5 right-5 z-[90] flex flex-col items-end gap-3 sm:bottom-8 sm:right-8';
 
   return (
