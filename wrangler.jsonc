@@ -18,10 +18,8 @@
 			"binding": "WORKER_SELF_REFERENCE",
 			"service": "shikshya-path-foundation"
 		}
-	],
-	"images": {
-		// Enable image optimization
-		// see https://opennext.js.org/cloudflare/howtos/image
-		"binding": "IMAGES"
-	}
+	]
+	// Optional: add Cloudflare Images binding for next/image optimization (paid / dashboard setup).
+	// See https://opennext.js.org/cloudflare/howtos/image — then set next.config.mjs images.unoptimized
+	// appropriately (e.g. VERCEL=1 on Vercel only, or enable optimizer for CF).
 }
