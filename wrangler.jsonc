@@ -18,7 +18,22 @@
 			"binding": "WORKER_SELF_REFERENCE",
 			"service": "shikshya-path-foundation"
 		}
-	]
+	],
+	"observability": {
+		"enabled": false,
+		"head_sampling_rate": 1,
+		"logs": {
+			"enabled": true,
+			"head_sampling_rate": 1,
+			"persist": true,
+			"invocation_logs": true
+		},
+		"traces": {
+			"enabled": false,
+			"persist": true,
+			"head_sampling_rate": 1
+		}
+	}
 	// Optional: add Cloudflare Images binding for next/image optimization (paid / dashboard setup).
 	// See https://opennext.js.org/cloudflare/howtos/image — then set next.config.mjs images.unoptimized
 	// appropriately (e.g. VERCEL=1 on Vercel only, or enable optimizer for CF).
