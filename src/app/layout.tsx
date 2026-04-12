@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Lexend, Outfit } from 'next/font/google';
 import './globals.css';
 import { getMainSiteLogoAbsoluteUrl, MAIN_SITE_LOGO_PATH } from '@/data/siteContent';
+import { getSiteUrlOrigin } from '@/lib/siteUrl';
 
 /** Lexend: readability-first (designed for longer reading — student-friendly). Outfit: energetic display for titles. */
 const lexend = Lexend({
@@ -18,7 +19,7 @@ const outfit = Outfit({
   weight: ['500', '600', '700', '800', '900'],
 });
 
-const siteOrigin = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://shikshyapath.edu.np';
+const siteOrigin = getSiteUrlOrigin();
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),

@@ -2,6 +2,8 @@
  * Central copy for Shikshya Path — contact, destinations, services, SEO helpers.
  */
 
+import { getSiteUrlOrigin } from '@/lib/siteUrl';
+
 export const SITE_MOTTO = 'Your Dream Our Guidance';
 
 /**
@@ -25,7 +27,7 @@ export const SITE_LOGO_PATH = MAIN_SITE_LOGO_PATH;
 export const SITE_FAVICON_PATH = MAIN_SITE_LOGO_PATH;
 
 function siteOriginBase(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://shikshyapath.edu.np').replace(/\/$/, '');
+  return getSiteUrlOrigin().replace(/\/$/, '');
 }
 
 export function getMainSiteLogoAbsoluteUrl(): string {
