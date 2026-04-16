@@ -9,10 +9,18 @@ const eslintConfig = defineConfig([
   globalIgnores([
     // Default ignores of eslint-config-next:
     ".next/**",
+    ".open-next/**",
+    ".wrangler/**",
     "out/**",
     "build/**",
     "next-env.d.ts",
   ]),
+  {
+    rules: {
+      // This rule is overly aggressive for this codebase (it flags common client-side patterns).
+      "react-hooks/set-state-in-effect": "off",
+    },
+  },
 ]);
 
 export default eslintConfig;

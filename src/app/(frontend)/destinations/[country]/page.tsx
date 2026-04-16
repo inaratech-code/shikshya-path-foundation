@@ -45,7 +45,7 @@ export default async function CountryDestinationPage({
         <div className="md:col-span-2">
           <h2 className="text-3xl font-black text-slate-900 mb-6 w-full">Why Study in {formattedCountry}?</h2>
           <p className="text-lg text-slate-600 leading-relaxed mb-8">
-            {formattedCountry} is one of the world's most popular study destinations for international students. With an unparalleled education system, high standard of living, and welcoming multicultural environment, it is the perfect choice for ambitious Nepalese students.
+            {formattedCountry} is one of the world&apos;s most popular study destinations for international students. With an unparalleled education system, high standard of living, and welcoming multicultural environment, it is the perfect choice for ambitious Nepalese students.
           </p>
           
           <h3 className="text-2xl font-bold text-slate-900 mt-12 mb-4">Top Universities & Programs</h3>

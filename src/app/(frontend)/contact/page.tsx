@@ -1,45 +1,11 @@
 'use client';
 
-import { useState } from 'react';
 import InnerPageHero from '@/components/InnerPageHero';
-import { Send } from 'lucide-react';
-import { siteContact, applyDestinationSelectOptions, SITE_MOTTO } from '@/data/siteContent';
-import { submitLeadPublic } from '@/lib/submitLeadClient';
+import LeadForm from '@/components/LeadForm';
+import { siteContact, SITE_MOTTO } from '@/data/siteContent';
 
 export default function ContactPage() {
   const mapQuery = encodeURIComponent('Ramshah Path Putalisadak Kathmandu Nepal');
-
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [destination, setDestination] = useState('');
-  const [message, setMessage] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setError(null);
-    const full = [firstName.trim(), lastName.trim()].filter(Boolean).join(' ');
-    const destLabel =
-      applyDestinationSelectOptions.find((d) => d.value === destination)?.label ?? destination.trim();
-    setSubmitting(true);
-    const result = await submitLeadPublic({
-      full_name: full || null,
-      email: email.trim(),
-      phone: phone.trim() || null,
-      destination: destLabel || null,
-      message: message.trim() || null,
-    });
-    setSubmitting(false);
-    if (!result.ok) {
-      setError(result.error);
-      return;
-    }
-    setDone(true);
-  }
 
   return (
     <main>
@@ -56,107 +22,7 @@ export default function ContactPage() {
             Fill out the form below with your details and study preferences. Our counselors will get back to you as soon as possible.
           </p>
 
-          {done ? (
-            <div className="rounded-2xl bg-accent-soft border border-accent-soft-border p-6">
-              <div className="text-[var(--color-accent-foreground)] font-bold text-lg">Thank you</div>
-              <p className="text-[var(--color-accent-foreground)]/90 mt-2">
-                We’ve received your message and will get back to you soon.
-              </p>
-            </div>
-          ) : (
-            <form id="contact-form" className="space-y-6 scroll-mt-28" onSubmit={handleSubmit}>
-              {error ? (
-                <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</div>
-              ) : null}
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">First Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
-                    placeholder="First name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Last Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
-                    placeholder="Last name"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Email Address</label>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
-                  placeholder={siteContact.email}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Phone / WhatsApp</label>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
-                  placeholder={siteContact.mobile}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Preferred Study Destination</label>
-                <select
-                  required
-                  value={destination}
-                  onChange={(e) => setDestination(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
-                >
-                  {applyDestinationSelectOptions.map((o) => (
-                    <option key={o.label + o.value} value={o.value}>
-                      {o.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-slate-700 mb-2">Message or Questions</label>
-                <textarea
-                  rows={4}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 transition-all outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent invalid:border-red-300 invalid:ring-2 invalid:ring-red-200"
-                  placeholder="Tell us about your educational background and goals..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={submitting}
-                className="w-full flex items-center justify-center gap-2 bg-[var(--color-primary)] text-white font-black px-8 py-4 rounded-xl transition-all shadow-xl shadow-[var(--color-primary)]/20 text-base sm:text-lg hover:scale-[1.02] hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none"
-              >
-                {submitting ? 'Sending…' : (
-                  <>
-                    Submit Request <Send size={20} />
-                  </>
-                )}
-              </button>
-            </form>
-          )}
+          <LeadForm />
         </div>
 
         <div>
