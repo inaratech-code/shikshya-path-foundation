@@ -1,31 +1,43 @@
-import nodemailer from "npm:nodemailer";
-
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: Deno.env.get("GMAIL_USER"),
-    pass: Deno.env.get("GMAIL_PASS"),
-  },
-});
+import { SmtpClient } from "https://deno.land/x/smtp@v0.7.0/mod.ts";
 
 Deno.serve(async (req) => {
   const { full_name, email, phone, destination, message, status } = await req.json();
 
   try {
-    await transporter.sendMail({
-      from: Deno.env.get("GMAIL_USER"),
+    const user = Deno.env.get("GMAIL_USER")?.trim();
+    const pass = Deno.env.get("GMAIL_PASS")?.trim();
+    if (!user || !pass) {
+      return new Response(JSON.stringify({ error: "Missing GMAIL_USER or GMAIL_PASS" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const client = new SmtpClient();
+    await client.connectTLS({
+      hostname: "smtp.gmail.com",
+      port: 465,
+      username: user,
+      password: pass,
+    });
+
+    await client.send({
+      from: user,
       to: "shikshyapathofficial@gmail.com",
       subject: "📥 New Lead Received",
       html: `
         <h2>New Lead Submission</h2>
-        <p><b>Full Name:</b> ${full_name}</p>
-        <p><b>Email:</b> ${email}</p>
-        <p><b>Phone:</b> ${phone}</p>
-        <p><b>Destination:</b> ${destination}</p>
-        <p><b>Message:</b> ${message}</p>
+        <p><b>Full Name:</b> ${full_name ?? ""}</p>
+        <p><b>Email:</b> ${email ?? ""}</p>
+        <p><b>Phone:</b> ${phone ?? ""}</p>
+        <p><b>Destination:</b> ${destination ?? ""}</p>
+        <p><b>Message:</b> ${message ?? ""}</p>
         <p><b>Status:</b> ${status || "New"}</p>
       `,
+      content: "New lead submission",
     });
+
+    await client.close();
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { "Content-Type": "application/json" },
