@@ -18,7 +18,23 @@ Deno.serve(async (req) => {
     });
   }
 
-  const { full_name, email, phone, destination, message, status } = await req.json();
+  let body: Record<string, unknown> = {};
+  try {
+    body = (await req.json()) as Record<string, unknown>;
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "Invalid JSON body";
+    return new Response(JSON.stringify({ error: `Invalid JSON body: ${msg}` }), {
+      status: 400,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  const full_name = body["full_name"];
+  const email = body["email"];
+  const phone = body["phone"];
+  const destination = body["destination"];
+  const message = body["message"];
+  const status = body["status"];
 
   try {
     const user = Deno.env.get("GMAIL_USER")?.trim();
@@ -44,12 +60,12 @@ Deno.serve(async (req) => {
       subject: "📥 New Lead Received",
       html: `
         <h2>New Lead Submission</h2>
-        <p><b>Full Name:</b> ${full_name ?? ""}</p>
-        <p><b>Email:</b> ${email ?? ""}</p>
-        <p><b>Phone:</b> ${phone ?? ""}</p>
-        <p><b>Destination:</b> ${destination ?? ""}</p>
-        <p><b>Message:</b> ${message ?? ""}</p>
-        <p><b>Status:</b> ${status || "New"}</p>
+        <p><b>Full Name:</b> ${typeof full_name === "string" ? full_name : ""}</p>
+        <p><b>Email:</b> ${typeof email === "string" ? email : ""}</p>
+        <p><b>Phone:</b> ${typeof phone === "string" ? phone : ""}</p>
+        <p><b>Destination:</b> ${typeof destination === "string" ? destination : ""}</p>
+        <p><b>Message:</b> ${typeof message === "string" ? message : ""}</p>
+        <p><b>Status:</b> ${typeof status === "string" && status ? status : "New"}</p>
       `,
       content: "New lead submission",
     });
@@ -61,6 +77,7 @@ Deno.serve(async (req) => {
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Failed to send email";
+    console.error("[send-admin-email] error", err);
     return new Response(JSON.stringify({ error: message }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
