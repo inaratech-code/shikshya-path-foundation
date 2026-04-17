@@ -11,25 +11,6 @@ declare const Deno: {
   serve(handler: (req: Request) => Response | Promise<Response>): void;
 };
 
-declare module "https://deno.land/x/smtp@v0.7.0/mod.ts" {
-  export class SmtpClient {
-    connectTLS(options: {
-      hostname: string;
-      port: number;
-      username?: string;
-      password?: string;
-    }): Promise<void>;
-    send(options: {
-      from: string;
-      to: string;
-      subject: string;
-      content?: string;
-      html?: string;
-    }): Promise<void>;
-    close(): Promise<void>;
-  }
-}
-
 declare module "npm:nodemailer" {
   type MailOptions = {
     from?: string | null;

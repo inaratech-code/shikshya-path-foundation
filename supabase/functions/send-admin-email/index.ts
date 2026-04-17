@@ -1,6 +1,4 @@
-/// <reference path="../deno.d.ts" />
-
-import { SmtpClient } from "https://deno.land/x/smtp@v0.7.0/mod.ts";
+import nodemailer from "npm:nodemailer";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -48,15 +46,12 @@ Deno.serve(async (req) => {
       });
     }
 
-    const client = new SmtpClient();
-    await client.connectTLS({
-      hostname: "smtp.gmail.com",
-      port: 465,
-      username: user,
-      password: pass,
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: { user, pass },
     });
 
-    await client.send({
+    await transporter.sendMail({
       from: user,
       to: "shikshyapathofficial@gmail.com",
       subject: "📥 New Lead Received",
@@ -69,10 +64,8 @@ Deno.serve(async (req) => {
         <p><b>Message:</b> ${typeof message === "string" ? message : ""}</p>
         <p><b>Status:</b> ${typeof status === "string" && status ? status : "New"}</p>
       `,
-      content: "New lead submission",
+      text: "New lead submission",
     });
-
-    await client.close();
 
     return new Response(JSON.stringify({ success: true }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
