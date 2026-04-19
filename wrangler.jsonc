@@ -35,6 +35,5 @@
 		}
 	}
 	// Optional: add Cloudflare Images binding for next/image optimization (paid / dashboard setup).
-	// See https://opennext.js.org/cloudflare/howtos/image — then set next.config.mjs images.unoptimized
-	// appropriately (e.g. VERCEL=1 on Vercel only, or enable optimizer for CF).
+	// See https://opennext.js.org/cloudflare/howtos/image — then set images.unoptimized to false in next.config.mjs.
 }

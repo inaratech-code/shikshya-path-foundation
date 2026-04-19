@@ -9,9 +9,9 @@ const nextConfig = {
     return [{ source: "/favicon.ico", destination: "/icon.jpeg" }];
   },
   images: {
-    // Vercel sets VERCEL=1 and supports the default optimizer. On Cloudflare Workers, optimization
-    // requires Cloudflare Images + an IMAGES binding; without them, next/image often 500s at runtime.
-    unoptimized: process.env.VERCEL !== "1",
+    // OpenNext on Cloudflare Workers: use unoptimized remote images unless you add a Cloudflare Images
+    // binding and follow https://opennext.js.org/cloudflare/howtos/image
+    unoptimized: true,
     qualities: [75, 85, 88, 90],
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },

@@ -70,6 +70,8 @@
   html {
     /* Lenis handles wheel smoothing — avoid double-smoothing */
     scroll-behavior: auto;
+    /* Hash links and in-page jumps land below the fixed header */
+    scroll-padding-top: var(--header-height);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -83,6 +85,7 @@
   body {
     @apply text-[var(--color-text-main)] bg-white antialiased overflow-x-hidden text-justify;
     hyphens: auto;
+    text-rendering: optimizeLegibility;
   }
 
   /* Display headings should not use full justification (body text inherits text-justify). */

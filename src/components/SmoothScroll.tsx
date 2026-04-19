@@ -10,7 +10,8 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
     const lenis = new Lenis({
       autoRaf: true,
-      duration: 0.95,
+      duration: 1.05,
+      lerp: 0.085,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
@@ -18,8 +19,8 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       wheelMultiplier: 1,
       touchMultiplier: 1.35,
       syncTouch: true,
-      syncTouchLerp: 0.085,
-      touchInertiaExponent: 1.75,
+      syncTouchLerp: 0.09,
+      touchInertiaExponent: 1.72,
     });
 
     return () => {

@@ -31,7 +31,7 @@ export default function NavigationProgress() {
       aria-hidden
     >
       <div
-        className={`h-full origin-left bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-brand-accent)] transition-transform duration-500 ease-out ${
+        className={`h-full origin-left bg-gradient-to-r from-[var(--color-primary)] via-[var(--color-primary-light)] to-[var(--color-brand-accent)] transition-transform duration-700 [transition-timing-function:var(--ease-premium)] ${
           active ? 'scale-x-100' : 'scale-x-0'
         }`}
       />

@@ -20,4 +20,10 @@ Paths: `MAIN_SITE_LOGO_PATH` and `NAVBAR_LOGO_PATH` in `src/data/siteContent.ts`
 
 ## Deploy
 
-See the [Next.js deployment docs](https://nextjs.org/docs/app/building-your-application/deploying) for hosting options.
+Production uses **Cloudflare Workers** via [OpenNext](https://opennext.js.org/cloudflare/get-started):
+
+```bash
+npm run deploy
+```
+
+Wrangler config: `wrangler.jsonc`. To remove an old **Vercel** project, delete it in the [Vercel dashboard](https://vercel.com/dashboard) (Settings → Danger Zone); this repo no longer depends on Vercel.

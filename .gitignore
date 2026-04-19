@@ -41,8 +41,11 @@ yarn-error.log*
 .env*
 !.env.example
 
-# vercel
+# legacy Vercel CLI project link (optional)
 .vercel
+
+# Supabase CLI local cache
+supabase/.temp/
 
 # typescript
 *.tsbuildinfo

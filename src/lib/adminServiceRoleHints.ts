@@ -4,9 +4,9 @@ import type { SupabaseServiceRoleConfigHint } from '@/lib/supabaseEnv';
 export function serviceRoleHintText(h: SupabaseServiceRoleConfigHint): string {
   switch (h) {
     case 'missing-url':
-      return 'Set NEXT_PUBLIC_SUPABASE_URL in env (project root .env.local or Vercel).';
+      return 'Set NEXT_PUBLIC_SUPABASE_URL in env (project root .env.local or your host dashboard).';
     case 'missing-service-key':
-      return 'Server does not see SUPABASE_SERVICE_ROLE_KEY: stop the dev server (Ctrl+C), start npm run dev again. On Vercel, add the variable and redeploy.';
+      return 'Server does not see SUPABASE_SERVICE_ROLE_KEY: stop the dev server (Ctrl+C), start npm run dev again. In production, add the variable and redeploy.';
     case 'invalid-url':
       return 'NEXT_PUBLIC_SUPABASE_URL must start with https://';
     case 'placeholder-url':
