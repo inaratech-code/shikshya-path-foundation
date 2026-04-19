@@ -1,4 +1,36 @@
+/// <reference path="../deno.d.ts" />
 import nodemailer from "npm:nodemailer";
+
+function isPlainObject(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null && !Array.isArray(v);
+}
+
+/** DB webhooks / pg_net often POST `{ record: { ...row } }`; client invoke sends flat fields. */
+function extractLeadPayload(body: Record<string, unknown>): Record<string, unknown> {
+  const record = body["record"];
+  if (isPlainObject(record)) return record;
+  const newRow = body["new"];
+  if (isPlainObject(newRow)) return newRow;
+  const payload = body["payload"];
+  if (isPlainObject(payload)) {
+    const inner = payload["record"];
+    if (isPlainObject(inner)) return inner;
+  }
+  return body;
+}
+
+function str(v: unknown): string {
+  return typeof v === "string" ? v : v == null ? "" : String(v);
+}
+
+function escapeHtml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -29,12 +61,13 @@ Deno.serve(async (req) => {
     });
   }
 
-  const full_name = body["full_name"];
-  const email = body["email"];
-  const phone = body["phone"];
-  const destination = body["destination"];
-  const message = body["message"];
-  const status = body["status"];
+  const p = extractLeadPayload(body);
+  const full_name = escapeHtml(str(p["full_name"]));
+  const email = escapeHtml(str(p["email"]));
+  const phone = escapeHtml(str(p["phone"]));
+  const destination = escapeHtml(str(p["destination"]));
+  const message = escapeHtml(str(p["message"]));
+  const status = escapeHtml(str(p["status"]) || "New");
 
   try {
     const user = Deno.env.get("GMAIL_USER")?.trim();
@@ -57,12 +90,12 @@ Deno.serve(async (req) => {
       subject: "📥 New Lead Received",
       html: `
         <h2>New Lead Submission</h2>
-        <p><b>Full Name:</b> ${typeof full_name === "string" ? full_name : ""}</p>
-        <p><b>Email:</b> ${typeof email === "string" ? email : ""}</p>
-        <p><b>Phone:</b> ${typeof phone === "string" ? phone : ""}</p>
-        <p><b>Destination:</b> ${typeof destination === "string" ? destination : ""}</p>
-        <p><b>Message:</b> ${typeof message === "string" ? message : ""}</p>
-        <p><b>Status:</b> ${typeof status === "string" && status ? status : "New"}</p>
+        <p><b>Full Name:</b> ${full_name}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Phone:</b> ${phone}</p>
+        <p><b>Destination:</b> ${destination}</p>
+        <p><b>Message:</b> ${message}</p>
+        <p><b>Status:</b> ${status}</p>
       `,
       text: "New lead submission",
     });
