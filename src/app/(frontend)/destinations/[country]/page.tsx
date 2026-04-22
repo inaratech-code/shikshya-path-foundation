@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import InnerPageHero from '@/components/InnerPageHero';
 import { getDestinationHeroImage } from '@/data/universityCategories';
 import { normalizeStudySlug, studyDestinations } from '@/data/siteContent';
@@ -13,11 +14,15 @@ export default async function CountryDestinationPage({
 
   const normalizedSlug = normalizeStudySlug(countryName);
   const destination = studyDestinations.find((d) => d.slug === normalizedSlug);
+
+  if (!destination) {
+    notFound();
+  }
   
   // Format string properly (e.g., 'united-states' -> 'United States')
-  const formattedCountry = countryName
-    .replace(/-/g, ' ')
-    .replace(/\b\w/g, (char) => char.toUpperCase());
+  const formattedCountry =
+    destination.accordionTitle.replace(/^Study in /, '') ||
+    countryName.replace(/-/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
 
   const heroImage = getDestinationHeroImage(countryName);
 
