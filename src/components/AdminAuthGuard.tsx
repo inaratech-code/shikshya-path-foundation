@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ADMIN_SESSION_STORAGE_KEY } from '@/lib/adminAuth';
+import { createClient } from '@/lib/supabase/client';
 
 export default function AdminAuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -10,13 +10,27 @@ export default function AdminAuthGuard({ children }: { children: React.ReactNode
   const [allowed, setAllowed] = useState(false);
 
   useEffect(() => {
-    const ok = localStorage.getItem(ADMIN_SESSION_STORAGE_KEY) === '1';
-    if (!ok) {
-      router.replace('/login');
-      return;
-    }
-    setAllowed(true);
-    setReady(true);
+    let cancelled = false;
+    (async () => {
+      try {
+        const supabase = createClient();
+        const { data } = await supabase.auth.getUser();
+        const ok = Boolean(data.user);
+        if (!ok) {
+          router.replace('/login');
+          return;
+        }
+        if (!cancelled) {
+          setAllowed(true);
+          setReady(true);
+        }
+      } catch {
+        router.replace('/login');
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
   }, [router]);
 
   if (!ready || !allowed) {

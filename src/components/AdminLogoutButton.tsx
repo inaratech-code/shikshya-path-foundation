@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { LogOut } from 'lucide-react';
-import { clearAdminSession } from '@/lib/adminAuth';
+import { createClient } from '@/lib/supabase/client';
 
 export default function AdminLogoutButton({ collapsed }: { collapsed?: boolean }) {
   const router = useRouter();
@@ -14,8 +14,9 @@ export default function AdminLogoutButton({ collapsed }: { collapsed?: boolean }
         collapsed ? 'justify-center w-full' : 'w-full'
       }`}
       title={collapsed ? 'Logout' : undefined}
-      onClick={() => {
-        clearAdminSession();
+      onClick={async () => {
+        const supabase = createClient();
+        await supabase.auth.signOut();
         router.push('/login');
         router.refresh();
       }}

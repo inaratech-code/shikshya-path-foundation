@@ -3,10 +3,6 @@
  */
 export const ADMIN_SESSION_STORAGE_KEY = 'spf_admin_auth_v1';
 
-/** Demo sign-in (shown on the login page for testing). */
-export const DEMO_ADMIN_ID = 'admin';
-export const DEMO_ADMIN_PASSWORD = 'shikshya2026';
-
 export function saveAdminSession(): void {
   if (typeof window === 'undefined') return;
   localStorage.setItem(ADMIN_SESSION_STORAGE_KEY, '1');
@@ -23,5 +19,5 @@ export function hasAdminSession(): boolean {
 }
 
 export function demoCredentialsMatch(id: string, password: string): boolean {
-  return id.trim() === DEMO_ADMIN_ID && password === DEMO_ADMIN_PASSWORD;
+  return id.trim().length > 0 && password.length > 0;
 }

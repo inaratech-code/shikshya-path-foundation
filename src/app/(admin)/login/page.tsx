@@ -5,37 +5,43 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { LogIn, AlertCircle } from 'lucide-react';
 import { MAIN_SITE_LOGO_PATH } from '@/data/siteContent';
-import {
-  DEMO_ADMIN_ID,
-  DEMO_ADMIN_PASSWORD,
-  demoCredentialsMatch,
-  hasAdminSession,
-  saveAdminSession,
-} from '@/lib/adminAuth';
+import { createClient } from '@/lib/supabase/client';
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [id, setId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
-    if (hasAdminSession()) {
-      router.replace('/admin');
-    }
+    // Middleware will redirect if already logged in; keep this as a client fallback.
+    (async () => {
+      try {
+        const supabase = createClient();
+        const { data } = await supabase.auth.getUser();
+        if (data.user) router.replace('/admin');
+      } catch {
+        // ignore
+      }
+    })();
   }, [router]);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError('');
+    setError(null);
     setSubmitting(true);
-    if (demoCredentialsMatch(id, password)) {
-      saveAdminSession();
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+      if (error) throw error;
       router.push('/admin');
       router.refresh();
-    } else {
-      setError('Invalid admin ID or password.');
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Invalid email or password.');
       setSubmitting(false);
     }
   }
@@ -61,19 +67,7 @@ export default function AdminLoginPage() {
         </div>
 
         <form className="p-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-xl bg-slate-50 border border-slate-200 px-4 py-3 text-sm text-slate-600">
-            <p className="font-semibold text-slate-800 mb-1">Demo credentials</p>
-            <p>
-              <span className="text-slate-500">ID:</span>{' '}
-              <code className="text-slate-900 font-mono text-[13px]">{DEMO_ADMIN_ID}</code>
-            </p>
-            <p className="mt-1">
-              <span className="text-slate-500">Password:</span>{' '}
-              <code className="text-slate-900 font-mono text-[13px]">{DEMO_ADMIN_PASSWORD}</code>
-            </p>
-          </div>
-
-          {error && (
+          {error ? (
             <div
               className="flex items-start gap-2 rounded-xl bg-red-50 border border-red-100 px-4 py-3 text-sm text-red-800"
               role="alert"
@@ -81,21 +75,21 @@ export default function AdminLoginPage() {
               <AlertCircle className="shrink-0 mt-0.5" size={18} />
               <span>{error}</span>
             </div>
-          )}
+          ) : null}
 
           <div>
-            <label htmlFor="admin-id" className="block text-sm font-semibold text-slate-700 mb-2">
-              Admin ID
+            <label htmlFor="admin-email" className="block text-sm font-semibold text-slate-700 mb-2">
+              Email
             </label>
             <input
-              id="admin-id"
-              name="adminId"
-              type="text"
+              id="admin-email"
+              name="email"
+              type="email"
               autoComplete="username"
-              value={id}
-              onChange={(e) => setId(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-slate-50"
-              placeholder="Enter admin ID"
+              placeholder="Enter admin email"
               required
             />
           </div>
