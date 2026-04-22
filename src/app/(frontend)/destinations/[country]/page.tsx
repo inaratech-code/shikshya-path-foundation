@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import InnerPageHero from '@/components/InnerPageHero';
 import { getDestinationHeroImage } from '@/data/universityCategories';
+import { normalizeStudySlug, studyDestinations } from '@/data/siteContent';
 
 export default async function CountryDestinationPage({
   params,
@@ -9,6 +10,9 @@ export default async function CountryDestinationPage({
 }) {
   const resolvedParams = await params;
   const countryName = resolvedParams.country;
+
+  const normalizedSlug = normalizeStudySlug(countryName);
+  const destination = studyDestinations.find((d) => d.slug === normalizedSlug);
   
   // Format string properly (e.g., 'united-states' -> 'United States')
   const formattedCountry = countryName
@@ -59,15 +63,15 @@ export default async function CountryDestinationPage({
           <ul className="space-y-4 text-slate-700 font-medium">
              <li className="flex justify-between border-b border-slate-200 pb-2">
                <span className="text-slate-500">Intakes</span>
-               <span>Feb, July, Nov</span>
+               <span>{destination?.quickFacts.intake ?? 'Feb, July, Nov'}</span>
              </li>
              <li className="flex justify-between border-b border-slate-200 pb-2">
                <span className="text-slate-500">Post-Study Work</span>
-               <span>Up to 4 Years</span>
+               <span>{destination?.quickFacts.postStudyWork ?? 'Up to 3 years'}</span>
              </li>
              <li className="flex justify-between pb-2">
-               <span className="text-slate-500">Scholorships</span>
-               <span>Available</span>
+               <span className="text-slate-500">Scholarships</span>
+               <span>{destination?.quickFacts.scholarship ?? 'Available'}</span>
              </li>
           </ul>
           
