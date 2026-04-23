@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Lock, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Lock, CheckCircle2, AlertCircle, Eye, EyeOff } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 function isStrongEnough(pw: string): boolean {
@@ -15,6 +15,9 @@ export default function AdminSettingsPage() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [nextPassword, setNextPassword] = useState('');
   const [confirmNextPassword, setConfirmNextPassword] = useState('');
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [showNextPassword, setShowNextPassword] = useState(false);
+  const [showConfirmNextPassword, setShowConfirmNextPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -109,15 +112,25 @@ export default function AdminSettingsPage() {
             <label className="block text-sm font-semibold text-slate-700 mb-2" htmlFor="currentPassword">
               Current password
             </label>
-            <input
-              id="currentPassword"
-              type="password"
-              autoComplete="current-password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-slate-50"
-              required
-            />
+            <div className="relative">
+              <input
+                id="currentPassword"
+                type={showCurrentPassword ? 'text' : 'password'}
+                autoComplete="current-password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                className="w-full px-4 py-3 pr-12 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-slate-50"
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowCurrentPassword((v) => !v)}
+                className="absolute inset-y-0 right-2 inline-flex items-center justify-center w-10 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                aria-label={showCurrentPassword ? 'Hide current password' : 'Show current password'}
+              >
+                {showCurrentPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -125,15 +138,25 @@ export default function AdminSettingsPage() {
               <label className="block text-sm font-semibold text-slate-700 mb-2" htmlFor="nextPassword">
                 New password
               </label>
-              <input
-                id="nextPassword"
-                type="password"
-                autoComplete="new-password"
-                value={nextPassword}
-                onChange={(e) => setNextPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-slate-50"
-                required
-              />
+              <div className="relative">
+                <input
+                  id="nextPassword"
+                  type={showNextPassword ? 'text' : 'password'}
+                  autoComplete="new-password"
+                  value={nextPassword}
+                  onChange={(e) => setNextPassword(e.target.value)}
+                  className="w-full px-4 py-3 pr-12 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-slate-50"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNextPassword((v) => !v)}
+                  className="absolute inset-y-0 right-2 inline-flex items-center justify-center w-10 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  aria-label={showNextPassword ? 'Hide new password' : 'Show new password'}
+                >
+                  {showNextPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
               <p className="mt-1 text-xs text-slate-500">Minimum 8 characters.</p>
             </div>
 
@@ -141,15 +164,25 @@ export default function AdminSettingsPage() {
               <label className="block text-sm font-semibold text-slate-700 mb-2" htmlFor="confirmNextPassword">
                 Confirm new password
               </label>
-              <input
-                id="confirmNextPassword"
-                type="password"
-                autoComplete="new-password"
-                value={confirmNextPassword}
-                onChange={(e) => setConfirmNextPassword(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-slate-50"
-                required
-              />
+              <div className="relative">
+                <input
+                  id="confirmNextPassword"
+                  type={showConfirmNextPassword ? 'text' : 'password'}
+                  autoComplete="new-password"
+                  value={confirmNextPassword}
+                  onChange={(e) => setConfirmNextPassword(e.target.value)}
+                  className="w-full px-4 py-3 pr-12 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all bg-slate-50"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmNextPassword((v) => !v)}
+                  className="absolute inset-y-0 right-2 inline-flex items-center justify-center w-10 rounded-lg text-slate-500 hover:text-slate-800 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                  aria-label={showConfirmNextPassword ? 'Hide confirm password' : 'Show confirm password'}
+                >
+                  {showConfirmNextPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </div>
           </div>
 
